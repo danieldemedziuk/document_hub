@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="document_hub_folder_tree_view" model="ir.ui.view">
+        <field name="name">HR Document Folder tree view</field>
+        <field name="model">document_hub.folder</field>
+        <field name="arch" type="xml">
+            <tree string='Folders'>
+                <field name="name" />
+                <field name="description" />
+                <field name="sequence" />
+                <field name="file_type" />
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_hub_folder_form_view" model="ir.ui.view">
+        <field name="name">HR Document Folder form view</field>
+        <field name="model">document_hub.folder</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="name" />
+                <group>
+                    <field name="description" />
+                    <field name="sequence" />
+                </group>
+                <group>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="document_hub_folder_act" model="ir.actions.act_window">
+        <field name="name">Folders</field>
+        <field name="res_model">document_hub.folder</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">
+            <p class="o_view_nocontent_smiling_face">
+                Create new folder!
+            </p>
+        </field>
+    </record>
+
+    <record id="document_hub_tag_act" model="ir.actions.act_window">
+        <field name="name">Tags</field>
+        <field name="res_model">document_hub.tag</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">
+            <p class="o_view_nocontent_smiling_face">
+                Create new tag!
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="20" groups="document_hub.group_document_hub_document_manager">
+        <menuitem name="Folders" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
+        <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
+    </menuitem>
+</odoo>
