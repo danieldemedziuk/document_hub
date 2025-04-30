@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <record id="document_hub_document_tree_view" model="ir.ui.view">
+        <field name="name">Document hub document tree view</field>
+        <field name="model">document_hub.document</field>
+        <field name="arch" type="xml">
+            <tree string='Documents'>
+                <field name="name" />
+                <field name="file_extension" />
+                <field name="file_size" />
+                <field name="file_type" />
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                <field name="tag_ids" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_hub_document_form_view" model="ir.ui.view">
+        <field name="name">HR Document Flow form view</field>
+        <field name="model">document_hub.document</field>
+        <field name="arch" type="xml">
+            <form string='Documents'>
+                <field name="name" />
+                <group>
+                    <field name="file_extension" />
+                    <field name="file_size" />
+                    <field name="file_type" />
+                </group>
+                <group>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                    <field name="tag_ids" />
+                </group>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="document_hub_document_act" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">document_hub.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">
+            <p class="o_view_nocontent_smiling_face">
+                Let's get start. Upload new document!
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Document hub" id="menu_root" web_icon="document_hub,static/description/icon.png" />
+    <menuitem name="Documents" id="menu_document_hub" parent="menu_root" sequence="10" action="document_hub_document_act"/>
+
+</odoo>

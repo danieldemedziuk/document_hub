@@ -4,7 +4,7 @@
     'name': 'Document hub',
     'version': '17.0.0.0.1',
     'author': 'Daniel Demedziuk',
-    'license': 'MIT',
+    'license': 'GPL-2',
     'sequence': 55,
     'category': 'Customizations',
     'summary': 'Advanced document management system for Odoo Community',
@@ -31,16 +31,18 @@ Key features:
 - Extensions: e-signature integration (e.g., OCA Sign)
 - Extensions: automatic import from email or network folders
 
-This module is fully open source under the MIT license.
+This module is fully open source under the GPL-2 license.
 """,
     'depends': [
-        'hr',
-        'mail_template',
+        'base', 
+        'mail',
     ],
     'data': [
+        'security/document_hub_security.xml',
         'security/ir.model.access.csv',
-        'data/config_data.xml',
-        'views/hr_document_flow_views.xml',
+        # 'data/config_data.xml',
+        'views/document_hub_views.xml',
+        # 'views/config_views.xml',
     ],
     'auto_install': False,
     'application': True,
