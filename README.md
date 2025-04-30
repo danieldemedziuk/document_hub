@@ -1,6 +1,6 @@
-# Advanced Documents
+# Document hub
 
-Advanced Documents is a powerful, open-source Document Management System (DMS) designed for **Odoo 17 Community Edition**. Inspired by the Odoo Enterprise "Documents" app, this module brings advanced document handling, organization, and automation features to the Community version.
+Document hub is a powerful, open-source Document Management System (DMS) designed for **Odoo 17 Community Edition**. Inspired by the Odoo Enterprise "Documents" app, this module brings advanced document handling, organization, and automation features to the Community version.
 
 ## Features
 
@@ -25,7 +25,7 @@ Advanced Documents is a powerful, open-source Document Management System (DMS) d
 
 1. Clone or download this repository into your Odoo addons directory.
 2. Update your Odoo apps list.
-3. Install the **Advanced Documents** module from the Apps menu.
+3. Install the **Document hub** module from the Apps menu.
 4. Configure user access rights and set up folders, tags, and workflows as needed.
 
 ## Requirements
