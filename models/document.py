@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class Document(models.Model):
     _name = 'document_hub.document'
-    _description = 'Document hub'
+    _description = 'Document hub: Document'
     _order = 'id desc'
     # _inherit = ['mail.thread', 'mail.activity']
     
