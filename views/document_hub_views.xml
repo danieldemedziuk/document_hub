@@ -1,53 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    
-    <record id="document_hub_document_tree_view" model="ir.ui.view">
-        <field name="name">Document hub document tree view</field>
-        <field name="model">document_hub.document</field>
-        <field name="arch" type="xml">
-            <tree string='Documents'>
-                <field name="name" />
-                <field name="file_extension" />
-                <field name="file_size" />
-                <field name="file_type" />
-                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
-                <field name="tag_ids" />
-            </tree>
-        </field>
-    </record>
+    <data>
 
-    <record id="document_hub_document_form_view" model="ir.ui.view">
-        <field name="name">HR Document Flow form view</field>
-        <field name="model">document_hub.document</field>
-        <field name="arch" type="xml">
-            <form string='Documents'>
-                <field name="name" />
-                <group>
-                    <field name="file_extension" />
-                    <field name="file_size" />
-                    <field name="file_type" />
-                </group>
-                <group>
-                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
-                    <field name="tag_ids" />
-                </group>
+        <record id="document_hub_document_tree_view" model="ir.ui.view">
+            <field name="name">Document hub document tree view</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
+                <tree string="Documents">
+                    <field name="name" />
+                    <field name="file_extension" optional="show" />
+                    <field name="file_size" optional="show" />
+                    <field name="file_type" optional="show" />
+                    <field name="company_id" groups="base.group_multi_company"
+                        options="{'no_create': True}" optional="show" />
+                    <field name="tag_ids" optional="hide" />
+                    <field name="attachment_name" optional="hide" />
+                    <field name="attachment_type" optional="hide" />
+                    <field name="file_description" optional="hide" />
+                    <field name="partner_id" optional="hide" />
+                    <field name="folder_id" optional="hide" />
+                </tree>
+            </field>
+        </record>
 
-            </form>
-        </field>
-    </record>
+        <record id="document_hub_document_form_view" model="ir.ui.view">
+            <field name="name">HR Document Flow form view</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="name" />
+                        <group>
+                            <field name="file_extension" />
+                            <field name="file_size" />
+                            <field name="file_type" />
+                        </group>
+                        <group>
+                            <field name="folder_id" />
+                            <field name="company_id" groups="base.group_multi_company"
+                                options="{'no_create': True}" />
+                            <field name="tag_ids" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record id="document_hub_document_act" model="ir.actions.act_window">
-        <field name="name">Documents</field>
-        <field name="res_model">document_hub.document</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help">
-            <p class="o_view_nocontent_smiling_face">
-                Let's get start. Upload new document!
-            </p>
-        </field>
-    </record>
+        <record id="document_hub_document_act" model="ir.actions.act_window">
+            <field name="name">Documents</field>
+            <field name="res_model">document_hub.document</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Let's get start. Upload new document!
+                </p>
+            </field>
+        </record>
 
+
+        <record id="document_hub_folder_tree_view" model="ir.ui.view">
+            <field name="name">Document hub folder tree view</field>
+            <field name="model">document_hub.folder</field>
+            <field name="arch" type="xml">
+                <tree string="Folders">
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="description" optional="show" />
+                    <field name="company_id" groups="base.group_multi_company"
+                        options="{'no_create': True}" optional="show" />
+                    <field name="parent_folder_id" optional="hide" />
+                    <field name="children_folder_ids" optional="hide" />
+                    <field name="document_ids" optional="hide" />
+                    <field name="parent_path" optional="hide" />
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="document_hub_folder_act" model="ir.actions.act_window">
+            <field name="name">Folders</field>
+            <field name="res_model">document_hub.folder</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Let's create new folder!
+                </p>
+            </field>
+        </record>
+
+
+
+        <record id="document_hub_tag_tree_view" model="ir.ui.view">
+            <field name="name">Document hub tag tree view</field>
+            <field name="model">document_hub.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Tags" editable="bottom">
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="document_hub_tag_act" model="ir.actions.act_window">
+            <field name="name">Tags</field>
+            <field name="res_model">document_hub.tag</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Let's create new tag!
+                </p>
+            </field>
+        </record>
+
+
+    </data>
     <menuitem name="Document hub" id="menu_root" web_icon="document_hub,static/description/icon.png" />
-    <menuitem name="Documents" id="menu_document_hub" parent="menu_root" sequence="10" action="document_hub_document_act"/>
+    <menuitem name="Documents" id="menu_document_hub_document" parent="menu_root" sequence="10" action="document_hub_document_act" />
 
+    <menuitem name="Configuration" id="menu_config" parent="menu_root" sequence="60">
+        <menuitem id="menu_document_hub_folder" name="Folders" action="document_hub_folder_act" sequence="10" />
+        <menuitem id="menu_document_hub_tag" name="Tags" action="document_hub_tag_act" sequence="12" />
+    </menuitem>
 </odoo>
