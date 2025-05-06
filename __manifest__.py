@@ -40,9 +40,8 @@ This module is fully open source under the GPL-2 license.
     'data': [
         'security/document_hub_security.xml',
         'security/ir.model.access.csv',
-        # 'data/config_data.xml',
         'views/document_hub_views.xml',
-        # 'views/config_views.xml',
+        'views/config_views.xml',
     ],
     'auto_install': False,
     'application': True,
