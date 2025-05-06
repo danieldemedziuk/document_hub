@@ -38,7 +38,8 @@ This module is fully open source under the GPL-2 license.
         'mail',
     ],
     'data': [
-        'data/folder_data.xml',
+        'data/folders_data.xml',
+        'data/tags_data.xml',
         'security/document_hub_security.xml',
         'security/ir.model.access.csv',
         'views/document_hub_views.xml',

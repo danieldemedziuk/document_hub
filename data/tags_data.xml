@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="tag_urgent" model="document_hub.tag">
+            <field name="name">Urgent</field>
+        </record>
+
+        <record id="tag_management" model="document_hub.tag">
+            <field name="name">Management</field>
+        </record>
+        
+        <record id="tag_finance" model="document_hub.tag">
+            <field name="name">Finance</field>
+        </record>
+
+    </data>
+</odoo>
