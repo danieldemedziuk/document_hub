@@ -12,6 +12,7 @@
                     <field name="description" optional="show" />
                     <field name="tag_ids" widget="many2many_tags" optional="show" />
                     <field name="partner_id" optional="hide" />
+                    <field name="owner_id" optional="show" widget="many2one_avatar_user" />
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                 </tree>
             </field>
@@ -36,10 +37,14 @@
                                 <field name="file_ids" widget="many2many_binary" colspan="2"/>
                             </group>
                             <group col='2'>
+                                <field name="owner_id" options="{'no_create': True}" widget="many2one_avatar_user" />
                                 <field name="folder_id" />
                                 <field name="partner_id" />
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                             </group>
+                        </group>
+                        <group name='description' string='Description' col="2">
+                            <field name="description" nolabel="1" colspan="2" placeholder="Enter a description of the documents so they can be more easily identified.."/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

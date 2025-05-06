@@ -17,7 +17,7 @@ class Document(models.Model):
     name = fields.Char(string='Name')
     active = fields.Boolean(string='Active', default=True)
     file_ids = fields.Many2many('ir.attachment', string='Attachments', required=True)
-    description = fields.Text(string='Description')
+    description = fields.Html(string='Description')
     tag_ids = fields.Many2many('document_hub.tag', string='Tags', copy=False)
     partner_id = fields.Many2one('res.partner', string='Contact', tracking=True)
     owner_id = fields.Many2one('res.users', string='Owner', default=lambda lm: lm.env.user.id, tracking=True)
