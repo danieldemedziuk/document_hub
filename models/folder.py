@@ -17,5 +17,9 @@ class Folder(models.Model):
     children_folder_ids = fields.One2many('document_hub.folder', 'parent_folder_id', string='Sub folder')
     document_ids = fields.One2many('document_hub.document', 'folder_id', string='Documents')
     parent_path = fields.Char(index=True, unaccent=False)
-    
+    visibility_administration = fields.Boolean(string='Administration', default=False)
+    visibility_marketing = fields.Boolean(string='Marketing', default=False)
+    visibility_accounting = fields.Boolean(string='Accounting', default=False)
+    visibility_pm = fields.Boolean(string='PM', default=False)
+    visibility_hr = fields.Boolean(string='HR', default=False)
     
