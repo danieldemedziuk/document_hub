@@ -2,32 +2,72 @@
 <odoo>
     <data noupdate="1">
 
-        <record id="folder_project" model="document_hub.folder">
-            <field name="name">Project</field>
-            <field name="description">Project folder</field>
-        </record>
-
-        <record id="folder_project_pit" model="document_hub.folder">
-            <field name="name">PIT</field>
-            <field name="description">Project folder</field>
-            <field name="parent_folder_id" ref="document_hub.folder_project"/>
-        </record>
-
-        <record id="folder_project_nda" model="document_hub.folder">
-            <field name="name">NDA</field>
-            <field name="description">NDA project folder</field>
-            <field name="parent_folder_id" ref="document_hub.folder_project"/>
-        </record>
-
-        <record id="folder_marketing" model="document_hub.folder">
-            <field name="name">Marketing</field>
-            <field name="description">Marketing folder</field>
-        </record>
-
         <record id="folder_administration" model="document_hub.folder">
             <field name="name">Administration</field>
-            <field name="description">Marketing folder</field>
+            <field name="description">Documents related to company administration, including internal policies, procedures, and official correspondence.</field>
         </record>
         
+        <record id="folder_project" model="document_hub.folder">
+            <field name="name">Project</field>
+            <field name="description">All documents concerning ongoing and completed projects, including plans, reports, and agreements.</field>
+        </record>
+        
+        <record id="folder_marketing" model="document_hub.folder">
+            <field name="name">Marketing</field>
+            <field name="description">Materials and documents related to marketing strategies, campaigns, and promotional activities.</field>
+        </record>
+        
+        <record id="folder_organization" model="document_hub.folder">
+            <field name="name">Organization</field>
+            <field name="description">Documents related to company structure, human resources, and organizational development.</field>
+        </record>
+        
+        <record id="folder_finance" model="document_hub.folder">
+            <field name="name">Finance</field>
+            <field name="description">Financial documents including invoices, budgets, accounting reports, and tax filings.</field>
+        </record>
+
+        <record id="folder_legal" model="document_hub.folder">
+            <field name="name">Legal</field>
+            <field name="description">Legal contracts, compliance documents, court cases, and regulatory correspondence.</field>
+        </record>
+
+        <record id="folder_hr" model="document_hub.folder">
+            <field name="name">Human Resources</field>
+            <field name="description">Employee records, recruitment documents, training materials, and HR policies.</field>
+        </record>
+        
+        <record id="folder_it" model="document_hub.folder">
+            <field name="name">IT</field>
+            <field name="description">Documents related to IT infrastructure, software licenses, system documentation, and support tickets.</field>
+        </record>
+
+        <record id="folder_sales" model="document_hub.folder">
+            <field name="name">Sales</field>
+            <field name="description">Sales reports, client contracts, quotations, and order documentation.</field>
+        </record>
+
+        <record id="folder_qa" model="document_hub.folder">
+            <field name="name">Quality Assurance</field>
+            <field name="description">Procedures, audits, test reports, and compliance documents related to quality management.</field>
+        </record>
+
+        <record id="folder_rnd" model="document_hub.folder">
+            <field name="name">Research &amp; Development</field>
+            <field name="description">Documentation of research projects, development plans, prototypes, and innovation reports.</field>
+        </record>
+        
+        <record id="folder_project_nda" model="document_hub.folder">
+            <field name="name">NDA</field>
+            <field name="description">Non-Disclosure Agreements and confidentiality documents related to projects.</field>
+            <field name="parent_folder_id" ref="document_hub.folder_project"/>
+        </record>
+        
+        <record id="folder_project_pit" model="document_hub.folder">
+            <field name="name">PIT</field>
+            <field name="description">Documents related to Personal Income Tax (PIT) matters and filings.</field>
+            <field name="parent_folder_id" ref="document_hub.folder_hr"/>
+        </record>
+
     </data>
 </odoo>

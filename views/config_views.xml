@@ -38,6 +38,16 @@
                             <field name="company_id" groups="base.group_multi_company"
                                 options="{'no_create': True}" />
                         </group>
+                        <group name='visibility' string='Visibility'>
+                            <div class="alert alert-info" role="alert" colspan='2'>
+                                Specify which groups should be able to view documents for this category.
+                            </div>
+                            <field name='visibility_administration'/>
+                            <field name='visibility_marketing'/>
+                            <field name='visibility_accounting'/>
+                            <field name='visibility_pm'/>
+                            <field name='visibility_hr'/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Description" name="description">
@@ -82,7 +92,7 @@
         </field>
     </record>
 
-    <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_manager"/>
+    <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_administrator"/>
     <menuitem name="General" id="menu_config_general" parent="document_hub.menu_config" sequence="1">
         <menuitem name="Folders" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
         <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />

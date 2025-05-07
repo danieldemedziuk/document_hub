@@ -12,6 +12,7 @@
                     <field name="description" optional="show" />
                     <field name="tag_ids" widget="many2many_tags" optional="show" />
                     <field name="partner_id" optional="hide" />
+                    <field name="create_date" optional="hide" />
                     <field name="owner_id" optional="show" widget="many2one_avatar_user" />
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                 </tree>
@@ -23,29 +24,41 @@
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button string='Lock' name='action_lock_document' class="btn btn-secondary" type='object' invisible="state == 'lock'"/>
+                        <button string='Unlock' name='action_open_document' class="btn btn-secondary" type='object' invisible="state == 'open'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="lock" />
+                    </header>
                     <sheet>
                         <div class="oe_title">
                             <label for="name"/>
                             <h1>
-                                <field name="name" placeholder="e.g. Project contract" />
+                                <field name="name" placeholder="e.g. Project contract" readonly="state == 'lock'"/>
                             </h1>
                         </div>
-                        <label for="tag_ids"/>
-                        <field name="tag_ids" widget="many2many_tags" />
+                        <div>
+                            <label for="privacy_doc"/>
+                            <field name="privacy_doc" readonly="state == 'lock'" groups="document_hub.group_document_hub_document_administrator"/>
+                        </div>
+                        <group>
+                            <field name="tag_ids" widget="many2many_tags" />
+                            <field name="folder_id" readonly="state == 'lock'"/>
+                        </group>
                         <group name='general' string='General' col="2">
                             <group col='2'>
-                                <field name="file_ids" widget="many2many_binary" colspan="2"/>
+                                <field name="file_ids" widget="many2many_binary" colspan="2" readonly="state == 'lock'"/>
                             </group>
                             <group col='2'>
-                                <field name="owner_id" options="{'no_create': True}" widget="many2one_avatar_user" />
-                                <field name="folder_id" />
-                                <field name="partner_id" />
-                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                                <field name="owner_id" options="{'no_create': True}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
+                                <field name="partner_id" readonly="state == 'lock'"/>
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
                             </group>
                         </group>
+
                         <group name='description' string='Description' col="2">
-                            <field name="description" nolabel="1" colspan="2" placeholder="Enter a description of the documents so they can be more easily identified.."/>
+                            <field name="description" nolabel="1" colspan="2" placeholder="Enter a description of the documents so they can be more easily identified.." readonly="state == 'lock'"/>
                         </group>
+
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
@@ -56,10 +69,15 @@
             </field>
         </record>
 
-        <record id="document_hub_document_act" model="ir.actions.act_window">
-            <field name="name">Documents</field>
+        <record id="document_hub_mail_document_act" model="ir.actions.act_window">
+            <field name="name">Mail</field>
             <field name="res_model">document_hub.document</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[('privacy_doc', '=', 'mail')]</field>
+            <field name="context">{
+                    "default_privacy_doc": 'mail',
+                }
+            </field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Let's get start. Upload new document!
@@ -67,8 +85,28 @@
             </field>
         </record>
 
+        <record id="document_hub_company_document_act" model="ir.actions.act_window">
+            <field name="name">Company documents</field>
+            <field name="res_model">document_hub.document</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('privacy_doc', '=', 'company')]</field>
+            <field name="context">{
+                "default_privacy_doc": 'company',
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Let's get start. Upload new document!
+                </p>
+            </field>
+        </record>
 
     </data>
+
     <menuitem name="Document hub" id="menu_root" web_icon="document_hub,static/description/icon.png" />
-    <menuitem name="Documents" id="menu_document_hub_document" parent="menu_root" sequence="10" action="document_hub_document_act" />
+    <menuitem name="Documents" id="menu_document_hub" parent="menu_root" sequence="10">
+        <menuitem name="Mail" id="menu_document_hub_mail_documents" sequence="10" action="document_hub_mail_document_act" />
+        <menuitem name="Company documents" id="menu_document_hub_company_documents" sequence="20" action="document_hub_company_document_act" groups="document_hub.group_document_hub_document_manager"/>
+    </menuitem>
+
 </odoo>
