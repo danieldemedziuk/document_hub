@@ -43,6 +43,9 @@
                         <group>
                             <field name="tag_ids" widget="many2many_tags" />
                             <field name="folder_id" readonly="state == 'lock'"/>
+                            <field name="rel_is_project" invisible="1"/>
+                            <field name="rel_is_parent_folder_project" invisible="1"/>
+                            <field name="project_id" readonly="state == 'lock'" invisible='not folder_id or rel_is_project != True'/>
                         </group>
                         <group name='general' string='General' col="2">
                             <group col='2'>
