@@ -72,6 +72,24 @@
             </field>
         </record>
 
+        <record id="document_hub_document_view_search" model="ir.ui.view">
+            <field name="name">document_hub_document_view.search</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <field name="description" />
+                    <field name="folder_id" />
+                    <field name="project_id" />
+                    <field name="partner_id" />
+                    <field name="tag_ids" />
+                    <group expand="0" string="Group By">
+                        <filter name="group_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="document_hub_mail_document_act" model="ir.actions.act_window">
             <field name="name">Mail</field>
             <field name="res_model">document_hub.document</field>

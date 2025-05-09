@@ -41,11 +41,14 @@ class Document(models.Model):
         res = super(Document, self.sudo()).create(vals_list)
         return res
     
-    
     def action_lock_document(self):
-        self.state = 'lock'
+        self.write({
+            'state': 'lock'
+        })
         
     def action_open_document(self):
-        self.state = 'open'
+        self.write({
+            'state': 'open'
+        })
         
         
