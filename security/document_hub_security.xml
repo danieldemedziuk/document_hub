@@ -72,7 +72,6 @@
 
 
 
-
         <record id="documents_hub_document_administration_rule" model="ir.rule">
             <field name="name">Document hub document: administration rule</field>
             <field name="model_id" ref="model_document_hub_document"/>
@@ -105,7 +104,11 @@
             <field name="name">Document hub document: pm rule</field>
             <field name="model_id" ref="model_document_hub_document"/>
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_pm'))]"/>
-            <field name="domain_force">[('rel_visibility_pm', '=' , True)]</field>
+            <field name="domain_force">[('rel_visibility_pm', '=' , True), 
+                ('project_id.privacy_visibility', '=', 'followers'),
+                '|',
+                    ('project_id.message_partner_ids', 'in', [user.partner_id.id]),
+                    ('project_id.user_id', '=', user.id)]</field>
         </record>
 
         <record id="documents_hub_document_hr_rule" model="ir.rule">

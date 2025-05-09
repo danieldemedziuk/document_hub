@@ -6,16 +6,24 @@
         <record id="folder_administration" model="document_hub.folder">
             <field name="name">Administration</field>
             <field name="description">Documents related to company administration, including internal policies, procedures, and official correspondence.</field>
+            <field name="visibility_administration">True</field>
         </record>
 
         <record id="folder_project" model="document_hub.folder">
             <field name="name">Project</field>
             <field name="description">All documents concerning ongoing and completed projects, including plans, reports, and agreements.</field>
+            <field name="is_project">True</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_purchasing_and_logistics">True</field>
+            <field name="visibility_accounting">True</field>
+            <field name="visibility_pm">True</field>
         </record>
 
         <record id="folder_marketing" model="document_hub.folder">
             <field name="name">Marketing</field>
             <field name="description">Materials and documents related to marketing strategies, campaigns, and promotional activities.</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_marketing">True</field>
         </record>
 
         <record id="folder_organization" model="document_hub.folder">
@@ -26,11 +34,13 @@
         <record id="folder_finance" model="document_hub.folder">
             <field name="name">Finance</field>
             <field name="description">Financial documents including invoices, budgets, accounting reports, and tax filings.</field>
+            <field name="visibility_accounting">True</field>
         </record>
 
         <record id="folder_hr" model="document_hub.folder">
             <field name="name">Human Resources</field>
             <field name="description">Employee records, recruitment documents, training materials, and HR policies.</field>
+            <field name="visibility_hr">True</field>
         </record>
 
         <!-- Sub-folders -->
@@ -38,96 +48,130 @@
             <field name="name">Contracts</field>
             <field name="description">Project-related contracts, agreements, and legal documents.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
+            <field name="is_project">True</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+            <field name="visibility_pm">True</field>
         </record>
 
         <record id="folder_project_annexes" model="document_hub.folder">
             <field name="name">Annexes</field>
             <field name="description">Supplementary documents and annexes attached to project files and contracts.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
+            <field name="is_project">True</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+            <field name="visibility_pm">True</field>
         </record>
 
         <record id="folder_project_protocols" model="document_hub.folder">
             <field name="name">Protocols</field>
             <field name="description">Meeting minutes, protocols, and procedural documents related to projects.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
+            <field name="is_project">True</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+            <field name="visibility_pm">True</field>
         </record>
 
         <record id="folder_project_invoices_for_projects" model="document_hub.folder">
             <field name="name">Invoices for projects</field>
             <field name="description">Invoices and billing documents associated with specific projects.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
+            <field name="is_project">True</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+            <field name="visibility_pm">True</field>
         </record>
 
         <record id="folder_project_nda" model="document_hub.folder">
             <field name="name">NDA</field>
             <field name="description">Non-Disclosure Agreements and confidentiality documents related to projects.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
+            <field name="is_project">True</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+            <field name="visibility_pm">True</field>
         </record>
 
         <record id="folder_project_other_projects" model="document_hub.folder">
             <field name="name">Other projects</field>
             <field name="description">Documents related to miscellaneous or smaller projects not categorized elsewhere.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
+            <field name="is_project">True</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_accounting">True</field>
+            <field name="visibility_pm">True</field>
         </record>
 
         <record id="folder_marketing_campaigns" model="document_hub.folder">
             <field name="name">Campaigns</field>
             <field name="description">Documentation and materials related to marketing campaigns and promotions.</field>
             <field name="parent_folder_id" ref="document_hub.folder_marketing" />
+            <field name="visibility_marketing">True</field>
         </record>
 
         <record id="folder_marketing_marketing_strategy" model="document_hub.folder">
             <field name="name">Marketing strategy</field>
             <field name="description">Strategic plans, market research, and analysis documents for marketing activities.</field>
             <field name="parent_folder_id" ref="document_hub.folder_marketing" />
+            <field name="visibility_marketing">True</field>
         </record>
 
         <record id="folder_marketing_promotional_materials" model="document_hub.folder">
             <field name="name">Promotional materials</field>
             <field name="description">Brochures, flyers, digital content, and other promotional assets.</field>
             <field name="parent_folder_id" ref="document_hub.folder_marketing" />
+            <field name="visibility_marketing">True</field>
         </record>
 
         <record id="folder_finance_invoices" model="document_hub.folder">
             <field name="name">Invoices</field>
             <field name="description">All incoming and outgoing invoices related to company finances.</field>
             <field name="parent_folder_id" ref="document_hub.folder_finance" />
+            <field name="visibility_accounting">True</field>
         </record>
 
         <record id="folder_finance_budgeting" model="document_hub.folder">
             <field name="name">Budgeting</field>
             <field name="description">Budget plans, forecasts, and financial planning documents.</field>
             <field name="parent_folder_id" ref="document_hub.folder_finance" />
+            <field name="visibility_accounting">True</field>
         </record>
 
         <record id="folder_finance_financial_reports" model="document_hub.folder">
             <field name="name">Financial reports</field>
             <field name="description">Periodic financial statements, audit reports, and performance analyses.</field>
             <field name="parent_folder_id" ref="document_hub.folder_finance" />
+            <field name="visibility_accounting">True</field>
         </record>
 
         <record id="folder_finance_banks" model="document_hub.folder">
             <field name="name">Banks</field>
             <field name="description">Bank statements, account details, and correspondence with financial institutions.</field>
             <field name="parent_folder_id" ref="document_hub.folder_finance" />
+            <field name="visibility_accounting">True</field>
         </record>
 
         <record id="folder_hr_training" model="document_hub.folder">
             <field name="name">Training</field>
             <field name="description">Training programs, materials, schedules, and employee development records.</field>
             <field name="parent_folder_id" ref="document_hub.folder_hr" />
+            <field name="visibility_hr">True</field>
         </record>
 
         <record id="folder_hr_employee_records" model="document_hub.folder">
             <field name="name">Employee records</field>
             <field name="description">Personal files, contracts, performance reviews, and employment history.</field>
             <field name="parent_folder_id" ref="document_hub.folder_hr" />
+            <field name="visibility_hr">True</field>
         </record>
 
         <record id="folder_administration_other" model="document_hub.folder">
             <field name="name">Other</field>
             <field name="description">Miscellaneous administrative documents not classified in other folders.</field>
             <field name="parent_folder_id" ref="document_hub.folder_administration" />
+            <field name="visibility_administration">True</field>
         </record>
 
 
