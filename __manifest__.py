@@ -36,6 +36,7 @@ This module is fully open source under the GPL-2 license.
     'depends': [
         'base', 
         'mail',
+        'project',
     ],
     'data': [
         'data/folders_data.xml',

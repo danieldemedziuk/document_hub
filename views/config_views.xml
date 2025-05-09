@@ -7,9 +7,9 @@
             <tree string="Folders">
                 <field name="sequence" widget="handle"/>
                 <field name="name" />
+                <field name="parent_path" optional="show" />
                 <field name="description" optional="show" />
                 <field name="parent_folder_id" optional="show" />
-                <field name="parent_path" optional="hide" />
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show" />
                 <field name="children_folder_ids" optional="hide" />
                 <field name="document_ids" optional="hide" />
@@ -33,16 +33,17 @@
                         <group>
                             <field name="parent_folder_id" domain="[('id', '!=', id)]" />
                             <field name="children_folder_ids" invisible="1" />
+                            <field name="is_project" />
                         </group>
                         <group>
-                            <field name="company_id" groups="base.group_multi_company"
-                                options="{'no_create': True}" />
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                         </group>
                         <group name='visibility' string='Visibility'>
                             <div class="alert alert-info" role="alert" colspan='2'>
                                 Specify which groups should be able to view documents for this category.
                             </div>
                             <field name='visibility_administration'/>
+                            <field name='visibility_purchasing_and_logistics'/>
                             <field name='visibility_marketing'/>
                             <field name='visibility_accounting'/>
                             <field name='visibility_pm'/>
