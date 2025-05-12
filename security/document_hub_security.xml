@@ -34,7 +34,7 @@
     </record>
 
     <record id="group_document_hub_document_hr" model="res.groups">
-        <field name="name">Humane resources</field>
+        <field name="name">Human resources</field>
         <field name="category_id" ref="module_document_hub_category" />
     </record>
 

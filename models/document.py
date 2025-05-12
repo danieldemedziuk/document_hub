@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import base64
 
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
@@ -28,6 +27,7 @@ class Document(models.Model):
     privacy_doc = fields.Selection([('company', 'Company'), ('mail', 'Mail')], string='Privacy', default='mail', copy=True)
     rel_is_project = fields.Boolean(related='folder_id.is_project')
     rel_is_parent_folder_project = fields.Boolean(related='folder_id.parent_folder_id.is_project')
+    is_admin = fields.Boolean(compute='compute_admin_group')
     
     rel_visibility_administration = fields.Boolean(related='folder_id.visibility_administration')
     rel_visibility_purchasing_and_logistics = fields.Boolean(related='folder_id.visibility_purchasing_and_logistics')
@@ -50,5 +50,12 @@ class Document(models.Model):
         self.write({
             'state': 'open'
         })
-        
-        
+    
+    @api.onchange('owner_id')
+    def compute_admin_group(self):
+        if self.env.user.has_group('document_hub.group_document_hub_document_administrator'):
+            self.is_admin = True
+        else:
+            self.is_admin = False
+            
+            

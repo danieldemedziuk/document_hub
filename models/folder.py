@@ -9,7 +9,7 @@ class Folder(models.Model):
     _description = 'Document hub: Folder'
     _rec_name = 'parent_path'
 
-    name = fields.Char(string='Name', required=True, translation=True)
+    name = fields.Char(string='Name', required=True, translate=True)
     active = fields.Boolean(string='Active', default=True)
     description = fields.Html(string='Description')
     sequence = fields.Integer('Sequence', default=10)

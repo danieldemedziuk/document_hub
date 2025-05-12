@@ -43,6 +43,7 @@ This module is fully open source under the GPL-2 license.
         'data/tags_data.xml',
         'security/document_hub_security.xml',
         'security/ir.model.access.csv',
+        'views/project_views.xml',
         'views/document_hub_views.xml',
         'views/config_views.xml',
     ],
