@@ -6,21 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-13 08:10+0000\n"
-"PO-Revision-Date: 2025-05-13 08:10+0000\n"
+"POT-Creation-Date: 2025-05-13 09:48+0000\n"
+"PO-Revision-Date: 2025-05-13 09:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: document_hub
-#. odoo-python
-#: code:addons/document_hub/models/folder.py:0
-#, python-format
-msgid "%s: %s"
-msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_accounting
@@ -62,11 +55,22 @@ msgstr "Ikona typu aktywności"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_administration
+#: model:document_hub.folder,parent_path:document_hub.folder_administration
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_administration
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_administration
 #: model:res.groups,name:document_hub.group_document_hub_document_administration
 msgid "Administration"
 msgstr "Administracja"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_administration_inbox
+msgid "Administration: Inbox"
+msgstr "Administracja: Skrzynka odbiorcza"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_administration_other
+msgid "Administration: Other"
+msgstr "Administracja: Inne"
 
 #. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_administrator
@@ -335,9 +339,30 @@ msgstr "Wprowadź opis dokumentów, aby można je było łatwiej zidentyfikować
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_finance
+#: model:document_hub.folder,parent_path:document_hub.folder_finance
 #: model:document_hub.tag,name:document_hub.tag_finance
 msgid "Finance"
 msgstr "Finanse"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_banks
+msgid "Finance: Banks"
+msgstr "Finanse: Baki"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_budgeting
+msgid "Finance: Budgeting"
+msgstr "Finanse: Budżetowanie"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_financial_reports
+msgid "Finance: Financial reports"
+msgstr "Finanse: Raporty finansowe"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_invoices
+msgid "Finance: Invoices"
+msgstr "Finanse: Faktury"
 
 #. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_finance
@@ -406,8 +431,19 @@ msgstr "Ma wiadomość"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_hr
+#: model:document_hub.folder,parent_path:document_hub.folder_hr
 msgid "Human Resources"
 msgstr "Zasoby ludzkie"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_hr_employee_records
+msgid "Human Resources: Employee records"
+msgstr "Zasoby ludzkie: Dokumentacja pracownicza"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_hr_training
+msgid "Human Resources: Training"
+msgstr "Zasoby ludzkie: Szkolenia"
 
 #. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_hr
@@ -562,6 +598,7 @@ msgstr ""
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_marketing
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing
 #: model:document_hub.tag,name:document_hub.tag_marketing
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_marketing
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_marketing
@@ -573,6 +610,21 @@ msgstr ""
 #: model:document_hub.folder,name:document_hub.folder_marketing_marketing_strategy
 msgid "Marketing strategy"
 msgstr "Strategia marketingowa"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing_campaigns
+msgid "Marketing: Campaigns"
+msgstr "Marketing: Kampanie"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing_marketing_strategy
+msgid "Marketing: Marketing strategy"
+msgstr "Marketing: Strategia marketingowa"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing_promotional_materials
+msgid "Marketing: Promotional materials"
+msgstr "Marketing: Materiały promocyjne"
 
 #. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_marketing
@@ -678,6 +730,7 @@ msgstr "Otwarte"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_organization
+#: model:document_hub.folder,parent_path:document_hub.folder_organization
 msgid "Organization"
 msgstr "Organizacja"
 
@@ -737,6 +790,7 @@ msgstr "Prywatność"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project
+#: model:document_hub.folder,parent_path:document_hub.folder_project
 #: model:document_hub.tag,name:document_hub.tag_project
 #: model:ir.model,name:document_hub.model_project_project
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__project_id
@@ -752,6 +806,36 @@ msgstr "Kierownik projektu"
 #: model_terms:document_hub.folder,description:document_hub.folder_project_contracts
 msgid "Project-related contracts, agreements, and legal documents."
 msgstr "Kontrakty, umowy i dokumenty prawne związane z projektem."
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_annexes
+msgid "Project: Annexes"
+msgstr "Projekt: Aneksy"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_contracts
+msgid "Project: Contracts"
+msgstr "Projekt: Kontrakty"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_invoices_for_projects
+msgid "Project: Invoices for projects"
+msgstr "Projekt: Faktury na projekty"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_nda
+msgid "Project: NDA"
+msgstr "Projekt: NDA"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_other_projects
+msgid "Project: Other projects"
+msgstr "Projekt: Inne projekty"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_protocols
+msgid "Project: Protocols"
+msgstr "Projekt: Protokoły"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_marketing_promotional_materials
