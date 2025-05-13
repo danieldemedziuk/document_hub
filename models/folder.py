@@ -11,7 +11,7 @@ class Folder(models.Model):
 
     name = fields.Char(string='Name', required=True, translate=True)
     active = fields.Boolean(string='Active', default=True)
-    description = fields.Html(string='Description')
+    description = fields.Html(string='Description', translate=True)
     sequence = fields.Integer('Sequence', default=10)
     company_id = fields.Many2one('res.company', string='Company', default=lambda lm: lm.env.company)
     parent_folder_id = fields.Many2one('document_hub.folder', string='Parent folder', ondelete='cascade')
@@ -31,7 +31,7 @@ class Folder(models.Model):
     def _compute_parent_path(self):
         for rec in self:
             if rec.parent_folder_id:
-                rec.parent_path = f"{rec.parent_folder_id.name}: {rec.name}"
+                rec.parent_path = _("%s: %s" % (rec.parent_folder_id.name, rec.name))
             else:
                 rec.parent_path = rec.name
 

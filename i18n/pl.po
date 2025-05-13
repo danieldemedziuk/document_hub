@@ -6,14 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-12 12:04+0000\n"
-"PO-Revision-Date: 2025-05-12 12:04+0000\n"
+"POT-Creation-Date: 2025-05-13 08:10+0000\n"
+"PO-Revision-Date: 2025-05-13 08:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/folder.py:0
+#, python-format
+msgid "%s: %s"
+msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_accounting
@@ -31,7 +38,7 @@ msgstr "Wymagana akcja"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__active
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__active
 msgid "Active"
-msgstr "Aktywne"
+msgstr "Aktywny"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_ids
@@ -41,7 +48,7 @@ msgstr "Aktywności"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Dekoracja wyjątku aktywności"
+msgstr "Wyjątek aktywności – dekoracja"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_state
@@ -67,6 +74,21 @@ msgid "Administrator"
 msgstr ""
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project
+msgid ""
+"All documents concerning ongoing and completed projects, including plans, "
+"reports, and agreements."
+msgstr ""
+"Wszystkie dokumenty dotyczące trwających i zakończonych projektów, w tym "
+"plany, raporty i umowy."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_invoices
+msgid "All incoming and outgoing invoices related to company finances."
+msgstr ""
+"Wszystkie faktury przychodzące i wychodzące związane z finansami firmy."
+
+#. module: document_hub
 #: model:ir.module.category,description:document_hub.module_document_hub_category
 msgid "Allows you to advanced manage your documents."
 msgstr "Umożliwia zaawansowane zarządzanie dokumentami."
@@ -79,7 +101,7 @@ msgstr "Aneksy"
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_approved
 msgid "Approved"
-msgstr "Zatwierdzony"
+msgstr "Zatwierdzone"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_archived
@@ -89,7 +111,7 @@ msgstr "Zarchiwizowane"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_attachment_count
 msgid "Attachment Count"
-msgstr "Ilość załączników"
+msgstr "Liczba załączników"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__file_ids
@@ -102,9 +124,28 @@ msgid "Audit"
 msgstr "Audyt"
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_banks
+msgid ""
+"Bank statements, account details, and correspondence with financial "
+"institutions."
+msgstr ""
+"Wyciągi bankowe, szczegóły kont oraz korespondencja z instytucjami "
+"finansowymi."
+
+#. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_finance_banks
 msgid "Banks"
 msgstr "Banki"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing_promotional_materials
+msgid "Brochures, flyers, digital content, and other promotional assets."
+msgstr "Broszury, ulotki, treści cyfrowe i inne materiały promocyjne."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_budgeting
+msgid "Budget plans, forecasts, and financial planning documents."
+msgstr "Plany budżetowe, prognozy i dokumenty planowania finansowego."
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_finance_budgeting
@@ -132,7 +173,7 @@ msgstr "Firma"
 #: model:ir.actions.act_window,name:document_hub.document_hub_company_document_act
 #: model:ir.ui.menu,name:document_hub.menu_document_hub_company_documents
 msgid "Company documents"
-msgstr "Dokumenty firmy"
+msgstr "Dokumenty firmowe"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_confidential
@@ -152,12 +193,12 @@ msgstr "Kontakt"
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_contract
 msgid "Contract"
-msgstr "Umowa"
+msgstr "Kontrakt"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project_contracts
 msgid "Contracts"
-msgstr "Umowy"
+msgstr "Kontrakty"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__create_uid
@@ -171,7 +212,7 @@ msgstr "Utworzone przez"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__create_date
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__create_date
 msgid "Created on"
-msgstr "Utworzone"
+msgstr "Data utworzenia"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__description
@@ -218,7 +259,14 @@ msgstr "Centrum dokumentów: Folder"
 #. module: document_hub
 #: model:ir.model,name:document_hub.model_document_hub_tag
 msgid "Document hub: Tag"
-msgstr "Centrum dokumentów: Tag"
+msgstr "Centrum dokumentów: Etykieta"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing_campaigns
+msgid ""
+"Documentation and materials related to marketing campaigns and promotions."
+msgstr ""
+"Dokumentacja i materiały dotyczące kampanii marketingowych i promocji."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__document_ids
@@ -229,6 +277,38 @@ msgid "Documents"
 msgstr "Dokumenty"
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_administration_inbox
+msgid "Documents not classified in other folders."
+msgstr "Dokumenty niezaklasyfikowane do innych folderów."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_administration
+msgid ""
+"Documents related to company administration, including internal policies, "
+"procedures, and official correspondence."
+msgstr ""
+"Dokumenty związane z administracją firmy, w tym polityki wewnętrzne, "
+"procedury i oficjalna korespondencja."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_organization
+msgid ""
+"Documents related to company structure, human resources, and organizational "
+"development."
+msgstr ""
+"Dokumenty dotyczące struktury firmy, zasobów ludzkich i rozwoju "
+"organizacyjnego."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_other_projects
+msgid ""
+"Documents related to miscellaneous or smaller projects not categorized "
+"elsewhere."
+msgstr ""
+"Dokumenty dotyczące różnych lub mniejszych projektów, które nie zostały "
+"zaklasyfikowane gdzie indziej."
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_draft
 msgid "Draft"
 msgstr "Szkic"
@@ -236,19 +316,37 @@ msgstr "Szkic"
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_hr_employee_records
 msgid "Employee records"
-msgstr "Dokumenty pracowników"
+msgstr "Dokumentacja pracowników"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_hr
+msgid ""
+"Employee records, recruitment documents, training materials, and HR "
+"policies."
+msgstr ""
+"Akta pracownicze, dokumenty rekrutacyjne, materiały szkoleniowe i polityki "
+"HR."
 
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
 msgid ""
 "Enter a description of the documents so they can be more easily identified.."
-msgstr "Wprowadź opis dokumentów, aby można je było łatwiej zidentyfikować.."
+msgstr "Wprowadź opis dokumentów, aby można je było łatwiej zidentyfikować."
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_finance
 #: model:document_hub.tag,name:document_hub.tag_finance
 msgid "Finance"
 msgstr "Finanse"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance
+msgid ""
+"Financial documents including invoices, budgets, accounting reports, and tax"
+" filings."
+msgstr ""
+"Dokumenty finansowe, w tym faktury, budżety, raporty księgowe oraz "
+"deklaracje podatkowe."
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_finance_financial_reports
@@ -276,12 +374,12 @@ msgstr "Obserwujący"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Obserwujący (Partnerzy)"
+msgstr "Obserwujący (Kontrahenci)"
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Ikona Font Awesome, np. fa-tasks"
 
 #. module: document_hub
 #: model:ir.ui.menu,name:document_hub.menu_config_general
@@ -309,7 +407,7 @@ msgstr "Ma wiadomość"
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_hr
 msgid "Human Resources"
-msgstr "Zasoby Ludzkie"
+msgstr "Zasoby ludzkie"
 
 #. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_hr
@@ -331,23 +429,23 @@ msgstr ""
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_exception_icon
 msgid "Icon"
-msgstr "Ikona"
+msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Ikona do identyfikowania wyjątku aktywności."
+msgstr "Ikona wskazująca wyjątek w aktywności."
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Jeśli zaznaczone, nowe wiadomości wymagają uwagi."
+msgstr "Jeśli zaznaczone, nowe wiadomości wymagają Twojej uwagi."
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__message_has_error
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Jeśli zaznaczone, część wiadomości posiada błąd doręczenia."
+msgstr "Jeśli zaznaczone, niektóre wiadomości mają błąd dostarczenia."
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_administration_inbox
@@ -365,6 +463,11 @@ msgid "Invoices"
 msgstr "Faktury"
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_invoices_for_projects
+msgid "Invoices and billing documents associated with specific projects."
+msgstr "Faktury i dokumenty rozliczeniowe powiązane z konkretnymi projektami."
+
+#. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project_invoices_for_projects
 msgid "Invoices for projects"
 msgstr "Faktury dla projektów"
@@ -372,12 +475,12 @@ msgstr "Faktury dla projektów"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__is_admin
 msgid "Is Admin"
-msgstr ""
+msgstr "Jest Adminem"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_is_follower
 msgid "Is Follower"
-msgstr "Jest obserwatorem"
+msgstr "Jest Obserwujący"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_is_parent_folder_project
@@ -391,14 +494,14 @@ msgstr "Jest projektem"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__write_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__write_uid
 msgid "Last Updated by"
-msgstr "Ostatnio modyfikowane przez"
+msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__write_date
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__write_date
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__write_date
 msgid "Last Updated on"
-msgstr "Ostatnio modyfikowane"
+msgstr ""
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_legal
@@ -408,12 +511,12 @@ msgstr "Prawne"
 #. module: document_hub
 #: model_terms:ir.actions.act_window,help:document_hub.document_hub_folder_act
 msgid "Let's create new folder!"
-msgstr "Utwórz nowy folder!"
+msgstr "Utwórzmy nowy folder!"
 
 #. module: document_hub
 #: model_terms:ir.actions.act_window,help:document_hub.document_hub_tag_act
 msgid "Let's create new tag!"
-msgstr "Utwórzmy nowy tag!"
+msgstr "Utwórzmy nową etykiete!"
 
 #. module: document_hub
 #: model_terms:ir.actions.act_window,help:document_hub.document_hub_company_document_act
@@ -429,7 +532,7 @@ msgstr "Zablokuj"
 #. module: document_hub
 #: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__state__lock
 msgid "Locked"
-msgstr "Zablokowane"
+msgstr "Zablokowany"
 
 #. module: document_hub
 #: model:ir.actions.act_window,name:document_hub.document_hub_mail_document_act
@@ -441,7 +544,7 @@ msgstr "Korespondencja"
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_management
 msgid "Management"
-msgstr "Zarządzanie"
+msgstr "Zarząd"
 
 #. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_manager
@@ -472,9 +575,26 @@ msgid "Marketing strategy"
 msgstr "Strategia marketingowa"
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing
+msgid ""
+"Materials and documents related to marketing strategies, campaigns, and "
+"promotional activities."
+msgstr ""
+"Materiały i dokumenty związane ze strategiami marketingowymi, kampaniami i "
+"działaniami promocyjnymi."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_protocols
+msgid ""
+"Meeting minutes, protocols, and procedural documents related to projects."
+msgstr ""
+"Protokoły ze spotkań, protokoły i dokumenty proceduralne związane z "
+"projektami."
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_error
 msgid "Message Delivery error"
-msgstr "Błąd doręczenia wiadomości"
+msgstr "Błąd dostarczenia wiadomości"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_ids
@@ -482,9 +602,15 @@ msgid "Messages"
 msgstr "Wiadomości"
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_administration_other
+msgid ""
+"Miscellaneous administrative documents not classified in other folders."
+msgstr "Różne dokumenty administracyjne niesklasyfikowane w innych folderach."
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Mój termin aktywności"
+msgstr ""
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project_nda
@@ -501,22 +627,29 @@ msgstr "Nazwa"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr "Następne wydarzenie z kalendarza aktywności"
+msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Termin następnej aktywności"
+msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_summary
 msgid "Next Activity Summary"
-msgstr "Podsumowanie następnej aktywności"
+msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_type_id
 msgid "Next Activity Type"
-msgstr "Typ następnej aktywności"
+msgstr ""
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_nda
+msgid ""
+"Non-Disclosure Agreements and confidentiality documents related to projects."
+msgstr ""
+"Umowy o zachowaniu poufności i dokumenty poufności związane z projektami."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_needaction_counter
@@ -531,12 +664,12 @@ msgstr "Liczba błędów"
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Liczba wiadomości wymagająca akcji"
+msgstr "Liczba komunikatów wymagających działania"
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Liczba wiadomości z błędem doręczenia"
+msgstr "Liczba wiadomości z błędem dostarczenia"
 
 #. module: document_hub
 #: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__state__open
@@ -580,6 +713,19 @@ msgid "Parent folder"
 msgstr "Folder nadrzędny"
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_financial_reports
+msgid ""
+"Periodic financial statements, audit reports, and performance analyses."
+msgstr ""
+"Okresowe sprawozdania finansowe, raporty z audytów i analizy wydajności."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_hr_employee_records
+msgid ""
+"Personal files, contracts, performance reviews, and employment history."
+msgstr "Akta osobowe, umowy, oceny wyników i historia zatrudnienia."
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_policy
 msgid "Policy"
 msgstr "Polityka"
@@ -600,7 +746,12 @@ msgstr "Projekt"
 #. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_pm
 msgid "Project manager"
-msgstr "Inżynier projektu"
+msgstr "Kierownik projektu"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_contracts
+msgid "Project-related contracts, agreements, and legal documents."
+msgstr "Kontrakty, umowy i dokumenty prawne związane z projektem."
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_marketing_promotional_materials
@@ -637,17 +788,17 @@ msgstr "Oceny"
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_report
 msgid "Report"
-msgstr "Raport"
+msgstr "Oceny"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_user_id
 msgid "Responsible User"
-msgstr "Użytkownik odpowiedzialny"
+msgstr "Odpowiedzialny użytkownik"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "Błąd doręczenia SMS"
+msgstr ""
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_sales
@@ -665,7 +816,7 @@ msgstr "Kolejność"
 msgid ""
 "Specify which groups should be able to view documents for this category."
 msgstr ""
-"Określ, które grupy powinny mieć możliwość wyświetlania dokumentów dla tej "
+"Określ, które grupy powinny mieć możliwość przeglądania dokumentów dla tej "
 "kategorii."
 
 #. module: document_hub
@@ -687,9 +838,26 @@ msgstr ""
 "Zaplanowane: Przyszłe działania."
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing_marketing_strategy
+msgid ""
+"Strategic plans, market research, and analysis documents for marketing "
+"activities."
+msgstr ""
+"Plany strategiczne, badania rynku i dokumenty analityczne dotyczące "
+"działańmarketingowych."
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__children_folder_ids
 msgid "Sub folder"
 msgstr "Folder podrzędny"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_annexes
+msgid ""
+"Supplementary documents and annexes attached to project files and contracts."
+msgstr ""
+"Dokumenty uzupełniające i załączniki dołączone do dokumentacji projektowej i"
+" umów."
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_supplier
@@ -718,6 +886,14 @@ msgstr "Do sprawdzenia"
 #: model:document_hub.folder,name:document_hub.folder_hr_training
 msgid "Training"
 msgstr "Szkolenie"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_hr_training
+msgid ""
+"Training programs, materials, schedules, and employee development records."
+msgstr ""
+"Programy szkoleniowe, materiały, harmonogramy i dokumentacja rozwoju "
+"pracowników."
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_exception_decoration
