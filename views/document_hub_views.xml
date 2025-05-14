@@ -12,9 +12,11 @@
                     <field name="description" optional="show" />
                     <field name="tag_ids" widget="many2many_tags" optional="show" />
                     <field name="partner_id" optional="hide" />
+                    <field name="project_id" optional="hide" />
                     <field name="create_date" optional="hide" />
                     <field name="owner_id" optional="show" widget="many2one_avatar_user" />
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                    <field name="is_admin" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -37,23 +39,24 @@
                             </h1>
                         </div>
                         <div>
-                            <label for="privacy_doc"/>
-                            <field name="privacy_doc" readonly="state == 'lock'" groups="document_hub.group_document_hub_document_administrator"/>
+                            <field name="is_admin" invisible="1"/>
+                            <label for="privacy_doc" invisible="is_admin != True"/>
+                            <field name="privacy_doc" readonly="state == 'lock'" invisible="is_admin != True"/>
                         </div>
-                        <group>
+                        <group name="basic" col="4">
                             <field name="tag_ids" widget="many2many_tags" />
-                            <field name="folder_id" readonly="state == 'lock'"/>
+                            <field name="folder_id" readonly="state == 'lock'" options="{'no_create_edit': True, 'no_create': True,}"/>
                             <field name="rel_is_project" invisible="1"/>
                             <field name="rel_is_parent_folder_project" invisible="1"/>
-                            <field name="project_id" readonly="state == 'lock'" invisible='not folder_id or rel_is_project != True'/>
+                            <field name="project_id" readonly="state == 'lock'" invisible='not folder_id or rel_is_project != True' options="{'no_create_edit': True, 'no_create': True,}"/>
                         </group>
                         <group name='general' string='General' col="2">
                             <group col='2'>
                                 <field name="file_ids" widget="many2many_binary" colspan="2" readonly="state == 'lock'"/>
                             </group>
                             <group col='2'>
-                                <field name="owner_id" options="{'no_create': True}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
-                                <field name="partner_id" readonly="state == 'lock'"/>
+                                <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
+                                <field name="partner_id" readonly="state == 'lock'" />
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
                             </group>
                         </group>

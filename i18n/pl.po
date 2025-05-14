@@ -1,0 +1,1020 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* document_hub
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-13 09:48+0000\n"
+"PO-Revision-Date: 2025-05-13 09:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_accounting
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_accounting
+#: model:res.groups,name:document_hub.group_document_hub_document_accounting
+msgid "Accounting"
+msgstr "Księgowość"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_needaction
+msgid "Action Needed"
+msgstr "Wymagana akcja"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__active
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__active
+msgid "Active"
+msgstr "Aktywny"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_ids
+msgid "Activities"
+msgstr "Aktywności"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Wyjątek aktywności – dekoracja"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_state
+msgid "Activity State"
+msgstr "Stan aktywności"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktywności"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_administration
+#: model:document_hub.folder,parent_path:document_hub.folder_administration
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_administration
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_administration
+#: model:res.groups,name:document_hub.group_document_hub_document_administration
+msgid "Administration"
+msgstr "Administracja"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_administration_inbox
+msgid "Administration: Inbox"
+msgstr "Administracja: Skrzynka odbiorcza"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_administration_other
+msgid "Administration: Other"
+msgstr "Administracja: Inne"
+
+#. module: document_hub
+#: model:res.groups,name:document_hub.group_document_hub_document_administrator
+msgid "Administrator"
+msgstr ""
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project
+msgid ""
+"All documents concerning ongoing and completed projects, including plans, "
+"reports, and agreements."
+msgstr ""
+"Wszystkie dokumenty dotyczące trwających i zakończonych projektów, w tym "
+"plany, raporty i umowy."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_invoices
+msgid "All incoming and outgoing invoices related to company finances."
+msgstr ""
+"Wszystkie faktury przychodzące i wychodzące związane z finansami firmy."
+
+#. module: document_hub
+#: model:ir.module.category,description:document_hub.module_document_hub_category
+msgid "Allows you to advanced manage your documents."
+msgstr "Umożliwia zaawansowane zarządzanie dokumentami."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_project_annexes
+msgid "Annexes"
+msgstr "Aneksy"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_approved
+msgid "Approved"
+msgstr "Zatwierdzone"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_archived
+msgid "Archived"
+msgstr "Zarchiwizowane"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_attachment_count
+msgid "Attachment Count"
+msgstr "Liczba załączników"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__file_ids
+msgid "Attachments"
+msgstr "Załączniki"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_audit
+msgid "Audit"
+msgstr "Audyt"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_banks
+msgid ""
+"Bank statements, account details, and correspondence with financial "
+"institutions."
+msgstr ""
+"Wyciągi bankowe, szczegóły kont oraz korespondencja z instytucjami "
+"finansowymi."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_finance_banks
+msgid "Banks"
+msgstr "Banki"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing_promotional_materials
+msgid "Brochures, flyers, digital content, and other promotional assets."
+msgstr "Broszury, ulotki, treści cyfrowe i inne materiały promocyjne."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_budgeting
+msgid "Budget plans, forecasts, and financial planning documents."
+msgstr "Plany budżetowe, prognozy i dokumenty planowania finansowego."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_finance_budgeting
+msgid "Budgeting"
+msgstr "Budżetowanie"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_marketing_campaigns
+msgid "Campaigns"
+msgstr "Kampanie"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_client
+msgid "Client"
+msgstr "Klient"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__company_id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__company_id
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__privacy_doc__company
+msgid "Company"
+msgstr "Firma"
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_company_document_act
+#: model:ir.ui.menu,name:document_hub.menu_document_hub_company_documents
+msgid "Company documents"
+msgstr "Dokumenty firmowe"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_confidential
+msgid "Confidential"
+msgstr "Poufne"
+
+#. module: document_hub
+#: model:ir.ui.menu,name:document_hub.menu_config
+msgid "Configuration"
+msgstr "Konfiguracja"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__partner_id
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_contract
+msgid "Contract"
+msgstr "Kontrakt"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_project_contracts
+msgid "Contracts"
+msgstr "Kontrakty"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__create_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__create_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__create_uid
+msgid "Created by"
+msgstr "Utworzone przez"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__create_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__create_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__create_date
+msgid "Created on"
+msgstr "Data utworzenia"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__description
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__description
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view
+msgid "Description"
+msgstr "Opis"
+
+#. module: document_hub
+#: model:res.groups,name:document_hub.group_document_hub_document_director
+msgid "Director"
+msgstr "Dyrektor"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__display_name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__display_name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__display_name
+msgid "Display Name"
+msgstr "Wyświetlana nazwa"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_project_project__doc_count
+msgid "Document count"
+msgstr "Liczba załączonych dokumentów"
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_current_project_act
+#: model:ir.module.category,name:document_hub.module_document_hub_category
+#: model:ir.ui.menu,name:document_hub.menu_root
+msgid "Document hub"
+msgstr "Centrum dokumentów"
+
+#. module: document_hub
+#: model:ir.model,name:document_hub.model_document_hub_document
+msgid "Document hub: Document"
+msgstr "Centrum dokumentów: Dokument"
+
+#. module: document_hub
+#: model:ir.model,name:document_hub.model_document_hub_folder
+msgid "Document hub: Folder"
+msgstr "Centrum dokumentów: Folder"
+
+#. module: document_hub
+#: model:ir.model,name:document_hub.model_document_hub_tag
+msgid "Document hub: Tag"
+msgstr "Centrum dokumentów: Etykieta"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing_campaigns
+msgid ""
+"Documentation and materials related to marketing campaigns and promotions."
+msgstr ""
+"Dokumentacja i materiały dotyczące kampanii marketingowych i promocji."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__document_ids
+#: model:ir.ui.menu,name:document_hub.menu_document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_tree_view
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_project_form_inherit
+msgid "Documents"
+msgstr "Dokumenty"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_administration_inbox
+msgid "Documents not classified in other folders."
+msgstr "Dokumenty niezaklasyfikowane do innych folderów."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_administration
+msgid ""
+"Documents related to company administration, including internal policies, "
+"procedures, and official correspondence."
+msgstr ""
+"Dokumenty związane z administracją firmy, w tym polityki wewnętrzne, "
+"procedury i oficjalna korespondencja."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_organization
+msgid ""
+"Documents related to company structure, human resources, and organizational "
+"development."
+msgstr ""
+"Dokumenty dotyczące struktury firmy, zasobów ludzkich i rozwoju "
+"organizacyjnego."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_other_projects
+msgid ""
+"Documents related to miscellaneous or smaller projects not categorized "
+"elsewhere."
+msgstr ""
+"Dokumenty dotyczące różnych lub mniejszych projektów, które nie zostały "
+"zaklasyfikowane gdzie indziej."
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_draft
+msgid "Draft"
+msgstr "Szkic"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_hr_employee_records
+msgid "Employee records"
+msgstr "Dokumentacja pracowników"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_hr
+msgid ""
+"Employee records, recruitment documents, training materials, and HR "
+"policies."
+msgstr ""
+"Akta pracownicze, dokumenty rekrutacyjne, materiały szkoleniowe i polityki "
+"HR."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid ""
+"Enter a description of the documents so they can be more easily identified.."
+msgstr "Wprowadź opis dokumentów, aby można je było łatwiej zidentyfikować."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_finance
+#: model:document_hub.folder,parent_path:document_hub.folder_finance
+#: model:document_hub.tag,name:document_hub.tag_finance
+msgid "Finance"
+msgstr "Finanse"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_banks
+msgid "Finance: Banks"
+msgstr "Finanse: Baki"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_budgeting
+msgid "Finance: Budgeting"
+msgstr "Finanse: Budżetowanie"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_financial_reports
+msgid "Finance: Financial reports"
+msgstr "Finanse: Raporty finansowe"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_finance_invoices
+msgid "Finance: Invoices"
+msgstr "Finanse: Faktury"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance
+msgid ""
+"Financial documents including invoices, budgets, accounting reports, and tax"
+" filings."
+msgstr ""
+"Dokumenty finansowe, w tym faktury, budżety, raporty księgowe oraz "
+"deklaracje podatkowe."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_finance_financial_reports
+msgid "Financial reports"
+msgstr "Raporty finansowe"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__folder_id
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+msgid "Folder"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_folder_act
+#: model:ir.ui.menu,name:document_hub.menu_config_folder
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_tree_view
+msgid "Folders"
+msgstr "Foldery"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_follower_ids
+msgid "Followers"
+msgstr "Obserwujący"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Obserwujący (Kontrahenci)"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, np. fa-tasks"
+
+#. module: document_hub
+#: model:ir.ui.menu,name:document_hub.menu_config_general
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid "General"
+msgstr "Ogólne"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+msgid "Group By"
+msgstr "Grupuj wg"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_hr
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_hr
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_hr
+msgid "HR"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__has_message
+msgid "Has Message"
+msgstr "Ma wiadomość"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_hr
+#: model:document_hub.folder,parent_path:document_hub.folder_hr
+msgid "Human Resources"
+msgstr "Zasoby ludzkie"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_hr_employee_records
+msgid "Human Resources: Employee records"
+msgstr "Zasoby ludzkie: Dokumentacja pracownicza"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_hr_training
+msgid "Human Resources: Training"
+msgstr "Zasoby ludzkie: Szkolenia"
+
+#. module: document_hub
+#: model:res.groups,name:document_hub.group_document_hub_document_hr
+msgid "Human resources"
+msgstr "Zasoby ludzkie"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__id
+msgid "ID"
+msgstr ""
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_it
+msgid "IT"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona wskazująca wyjątek w aktywności."
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Jeśli zaznaczone, nowe wiadomości wymagają Twojej uwagi."
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__message_has_error
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Jeśli zaznaczone, niektóre wiadomości mają błąd dostarczenia."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_administration_inbox
+msgid "Inbox"
+msgstr "Skrzynka odbiorcza"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_invoice
+msgid "Invoice"
+msgstr "Faktura"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_finance_invoices
+msgid "Invoices"
+msgstr "Faktury"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_invoices_for_projects
+msgid "Invoices and billing documents associated with specific projects."
+msgstr "Faktury i dokumenty rozliczeniowe powiązane z konkretnymi projektami."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_project_invoices_for_projects
+msgid "Invoices for projects"
+msgstr "Faktury dla projektów"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__is_admin
+msgid "Is Admin"
+msgstr "Jest Adminem"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_is_follower
+msgid "Is Follower"
+msgstr "Jest Obserwujący"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_is_parent_folder_project
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_is_project
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__is_project
+msgid "Is project"
+msgstr "Jest projektem"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__write_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__write_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__write_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__write_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_legal
+msgid "Legal"
+msgstr "Prawne"
+
+#. module: document_hub
+#: model_terms:ir.actions.act_window,help:document_hub.document_hub_folder_act
+msgid "Let's create new folder!"
+msgstr "Utwórzmy nowy folder!"
+
+#. module: document_hub
+#: model_terms:ir.actions.act_window,help:document_hub.document_hub_tag_act
+msgid "Let's create new tag!"
+msgstr "Utwórzmy nową etykiete!"
+
+#. module: document_hub
+#: model_terms:ir.actions.act_window,help:document_hub.document_hub_company_document_act
+#: model_terms:ir.actions.act_window,help:document_hub.document_hub_mail_document_act
+msgid "Let's get start. Upload new document!"
+msgstr "Zaczynajmy. Prześlij nowy dokument!"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid "Lock"
+msgstr "Zablokuj"
+
+#. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__state__lock
+msgid "Locked"
+msgstr "Zablokowany"
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_mail_document_act
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__privacy_doc__mail
+#: model:ir.ui.menu,name:document_hub.menu_document_hub_mail_documents
+msgid "Mail"
+msgstr "Korespondencja"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_management
+msgid "Management"
+msgstr "Zarząd"
+
+#. module: document_hub
+#: model:res.groups,name:document_hub.group_document_hub_document_manager
+msgid "Manager"
+msgstr "Menedżer"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__rel_is_parent_folder_project
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__rel_is_project
+#: model:ir.model.fields,help:document_hub.field_document_hub_folder__is_project
+msgid "Mark this option if you are sure this folder is for projects."
+msgstr ""
+"Zaznacz tę opcję, jeśli jesteś pewien, że ten folder jest przeznaczony dla "
+"projektów."
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_marketing
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing
+#: model:document_hub.tag,name:document_hub.tag_marketing
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_marketing
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_marketing
+#: model:res.groups,name:document_hub.group_document_hub_document_marketing
+msgid "Marketing"
+msgstr ""
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_marketing_marketing_strategy
+msgid "Marketing strategy"
+msgstr "Strategia marketingowa"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing_campaigns
+msgid "Marketing: Campaigns"
+msgstr "Marketing: Kampanie"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing_marketing_strategy
+msgid "Marketing: Marketing strategy"
+msgstr "Marketing: Strategia marketingowa"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_marketing_promotional_materials
+msgid "Marketing: Promotional materials"
+msgstr "Marketing: Materiały promocyjne"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing
+msgid ""
+"Materials and documents related to marketing strategies, campaigns, and "
+"promotional activities."
+msgstr ""
+"Materiały i dokumenty związane ze strategiami marketingowymi, kampaniami i "
+"działaniami promocyjnymi."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_protocols
+msgid ""
+"Meeting minutes, protocols, and procedural documents related to projects."
+msgstr ""
+"Protokoły ze spotkań, protokoły i dokumenty proceduralne związane z "
+"projektami."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_error
+msgid "Message Delivery error"
+msgstr "Błąd dostarczenia wiadomości"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_ids
+msgid "Messages"
+msgstr "Wiadomości"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_administration_other
+msgid ""
+"Miscellaneous administrative documents not classified in other folders."
+msgstr "Różne dokumenty administracyjne niesklasyfikowane w innych folderach."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_project_nda
+msgid "NDA"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__name
+msgid "Name"
+msgstr "Nazwa"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_nda
+msgid ""
+"Non-Disclosure Agreements and confidentiality documents related to projects."
+msgstr ""
+"Umowy o zachowaniu poufności i dokumenty poufności związane z projektami."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Liczba akcji"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_error_counter
+msgid "Number of errors"
+msgstr "Liczba błędów"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Liczba komunikatów wymagających działania"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Liczba wiadomości z błędem dostarczenia"
+
+#. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__state__open
+msgid "Open"
+msgstr "Otwarte"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_organization
+#: model:document_hub.folder,parent_path:document_hub.folder_organization
+msgid "Organization"
+msgstr "Organizacja"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_administration_other
+msgid "Other"
+msgstr "Inne"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_project_other_projects
+msgid "Other projects"
+msgstr "Inne projekty"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__owner_id
+msgid "Owner"
+msgstr "Właściciel"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_pm
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_pm
+msgid "PM"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__parent_path
+msgid "Parent Path"
+msgstr "Ścieżka nadrzędna"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__parent_folder_id
+msgid "Parent folder"
+msgstr "Folder nadrzędny"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_finance_financial_reports
+msgid ""
+"Periodic financial statements, audit reports, and performance analyses."
+msgstr ""
+"Okresowe sprawozdania finansowe, raporty z audytów i analizy wydajności."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_hr_employee_records
+msgid ""
+"Personal files, contracts, performance reviews, and employment history."
+msgstr "Akta osobowe, umowy, oceny wyników i historia zatrudnienia."
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_policy
+msgid "Policy"
+msgstr "Polityka"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__privacy_doc
+msgid "Privacy"
+msgstr "Prywatność"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_project
+#: model:document_hub.folder,parent_path:document_hub.folder_project
+#: model:document_hub.tag,name:document_hub.tag_project
+#: model:ir.model,name:document_hub.model_project_project
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__project_id
+msgid "Project"
+msgstr "Projekt"
+
+#. module: document_hub
+#: model:res.groups,name:document_hub.group_document_hub_document_pm
+msgid "Project manager"
+msgstr "Kierownik projektu"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_contracts
+msgid "Project-related contracts, agreements, and legal documents."
+msgstr "Kontrakty, umowy i dokumenty prawne związane z projektem."
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_annexes
+msgid "Project: Annexes"
+msgstr "Projekt: Aneksy"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_contracts
+msgid "Project: Contracts"
+msgstr "Projekt: Kontrakty"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_invoices_for_projects
+msgid "Project: Invoices for projects"
+msgstr "Projekt: Faktury na projekty"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_nda
+msgid "Project: NDA"
+msgstr "Projekt: NDA"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_other_projects
+msgid "Project: Other projects"
+msgstr "Projekt: Inne projekty"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_project_protocols
+msgid "Project: Protocols"
+msgstr "Projekt: Protokoły"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_marketing_promotional_materials
+msgid "Promotional materials"
+msgstr "Materiały promocyjne"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_project_protocols
+msgid "Protocols"
+msgstr "Protokoły"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_purchasing_and_logistics
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_purchasing_and_logistics
+#: model:res.groups,name:document_hub.group_document_hub_document_purchasing_and_logistics
+msgid "Purchasing and logistics"
+msgstr "Zakupy i logistyka"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_qa
+msgid "QA"
+msgstr ""
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_rnd
+msgid "R&D"
+msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rating_ids
+msgid "Ratings"
+msgstr "Oceny"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_report
+msgid "Report"
+msgstr "Oceny"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_user_id
+msgid "Responsible User"
+msgstr "Odpowiedzialny użytkownik"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_sales
+msgid "Sales"
+msgstr "Sprzedaż"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__sequence
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__sequence
+msgid "Sequence"
+msgstr "Kolejność"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view
+msgid ""
+"Specify which groups should be able to view documents for this category."
+msgstr ""
+"Określ, które grupy powinny mieć możliwość przeglądania dokumentów dla tej "
+"kategorii."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__state
+msgid "State"
+msgstr "Stan"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Status na podstawie aktywności\n"
+"Zaległe: Termin już minął\n"
+"Dzisiaj: Data aktywności to dzisiaj\n"
+"Zaplanowane: Przyszłe działania."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_marketing_marketing_strategy
+msgid ""
+"Strategic plans, market research, and analysis documents for marketing "
+"activities."
+msgstr ""
+"Plany strategiczne, badania rynku i dokumenty analityczne dotyczące "
+"działańmarketingowych."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__children_folder_ids
+msgid "Sub folder"
+msgstr "Folder podrzędny"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_project_annexes
+msgid ""
+"Supplementary documents and annexes attached to project files and contracts."
+msgstr ""
+"Dokumenty uzupełniające i załączniki dołączone do dokumentacji projektowej i"
+" umów."
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_supplier
+msgid "Supplier"
+msgstr "Dostawca"
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_tag_act
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__tag_ids
+#: model:ir.ui.menu,name:document_hub.menu_config_tag
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_tag_tree_view
+msgid "Tags"
+msgstr "Tagi"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_tax
+msgid "Tax"
+msgstr "Podatek"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_to_review
+msgid "To Review"
+msgstr "Do sprawdzenia"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_hr_training
+msgid "Training"
+msgstr "Szkolenie"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_hr_training
+msgid ""
+"Training programs, materials, schedules, and employee development records."
+msgstr ""
+"Programy szkoleniowe, materiały, harmonogramy i dokumentacja rozwoju "
+"pracowników."
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ zarejestrowanej aktywności wyjątku."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid "Unlock"
+msgstr "Odblokuj"
+
+#. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_urgent
+msgid "Urgent"
+msgstr "Pilne"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view
+msgid "Visibility"
+msgstr "Widoczność"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__website_message_ids
+msgid "Website Messages"
+msgstr "Wiadomości strony internetowej"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__website_message_ids
+msgid "Website communication history"
+msgstr "Historia komunikacji na stronie internetowej"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view
+msgid "e.g. Marketing"
+msgstr "np. Marketing"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid "e.g. Project contract"
+msgstr "np. Umowa projektowa"
