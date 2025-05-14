@@ -20,7 +20,8 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button string='Documents' class="oe_stat_button" name="%(document_hub_current_project_act)d" type="action" icon="fa-book">
+                    <button string='Documents' class="oe_stat_button" name="%(document_hub_current_project_act)d" type="action" icon="fa-book" 
+                    groups="document_hub.group_document_hub_document_pm,document_hub.group_document_hub_document_administration,document_hub.group_document_hub_document_accounting,document_hub.group_document_hub_document_purchasing_and_logistics">
                         <field string="Documents" name="doc_count" widget="statinfo"/>
                     </button>
                 </xpath>
