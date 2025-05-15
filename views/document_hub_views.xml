@@ -16,7 +16,7 @@
                     <field name="create_date" optional="hide" />
                     <field name="owner_id" optional="show" widget="many2one_avatar_user" />
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
-                    <field name="is_admin" invisible="1"/>
+                    <field name="is_admin" column_invisible="1"/>
                 </tree>
             </field>
         </record>
