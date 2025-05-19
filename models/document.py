@@ -13,7 +13,8 @@ class Document(models.Model):
     _order = 'id desc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     
-    name = fields.Char(string='Name', required=True, tracking=True)
+    name = fields.Char(string='Name', default=lambda self: _('New'), copy=False, readonly=True, tracking=True)
+    topic = fields.Char(string='Topic', required=True, tracking=True)
     active = fields.Boolean(string='Active', default=True, tracking=True)
     file_ids = fields.Many2many('ir.attachment', string='Attachments', required=True)
     description = fields.Html(string='Description', tracking=True)
@@ -38,6 +39,10 @@ class Document(models.Model):
     
     @api.model_create_multi
     def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', _('New')) == _('New'):
+                vals['name'] = (self.env['ir.sequence'].next_by_code('document_hub.document'))
+
         res = super(Document, self.sudo()).create(vals_list)
         return res
     
