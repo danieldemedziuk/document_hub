@@ -39,6 +39,7 @@ This module is fully open source under the GPL-2 license.
         'project',
     ],
     'data': [
+        'data/document_sequence.xml',
         'data/folders_data.xml',
         'data/tags_data.xml',
         'security/document_hub_security.xml',

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-13 09:48+0000\n"
-"PO-Revision-Date: 2025-05-13 09:48+0000\n"
+"POT-Creation-Date: 2025-05-19 08:23+0000\n"
+"PO-Revision-Date: 2025-05-19 08:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -347,7 +347,7 @@ msgstr "Finanse"
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_finance_banks
 msgid "Finance: Banks"
-msgstr "Finanse: Banki"
+msgstr "Finanse: Baki"
 
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_finance_budgeting
@@ -414,6 +414,7 @@ msgstr "Ogólne"
 
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_view_search
 msgid "Group By"
 msgstr "Grupuj wg"
 
@@ -677,6 +678,15 @@ msgid "Name"
 msgstr "Nazwa"
 
 #. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#: code:addons/document_hub/models/document.py:0
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "New"
+msgstr "Nowy"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
 msgstr ""
@@ -762,6 +772,7 @@ msgstr "Ścieżka nadrzędna"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__parent_folder_id
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_view_search
 msgid "Parent folder"
 msgstr "Folder nadrzędny"
 
@@ -965,6 +976,11 @@ msgstr "Podatek"
 #: model:document_hub.tag,name:document_hub.tag_to_review
 msgid "To Review"
 msgstr "Do sprawdzenia"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__topic
+msgid "Topic"
+msgstr "Temat"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_hr_training
