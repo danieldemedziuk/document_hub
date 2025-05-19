@@ -347,7 +347,7 @@ msgstr "Finanse"
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_finance_banks
 msgid "Finance: Banks"
-msgstr "Finanse: Baki"
+msgstr "Finanse: Banki"
 
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_finance_budgeting
