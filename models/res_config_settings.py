@@ -6,39 +6,29 @@ from odoo import fields, models, api
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    imap_host = fields.Char(string='SMTP Host')
-    imap_port = fields.Integer(string='SMTP Port', default=465)
-
-    imap_user = fields.Char(string='SMTP User')
-    imap_password = fields.Char(string='SMTP Password')
-    imap_sender = fields.Char(string='SMTP Sender')
-
-    imap_folder = fields.Many2one('document_hub.folder', default=lambda self: self.ref(''))
-    active = fields.Boolean(default=True)
+    imap_active = fields.Boolean(default=False)
+    imap_host = fields.Char(string='Host')
+    imap_port = fields.Integer(string='Port', default=465)
+    imap_user = fields.Char(string='User')
+    imap_password = fields.Char(string='Password')
+    imap_folder = fields.Many2one('document_hub.folder', string="Folder", default=lambda lm: lm.env.ref('document_hub.folder_administration_inbox'))
     
     def set_values(self):
         res = super(ResConfigSettings, self).set_values()
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_mj_host', self.smtp_mj_host)
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_mj_port', self.smtp_mj_port)
-
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_mj_user', self.smtp_mj_user)
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_mj_pwd', self.smtp_mj_pwd)
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_mj_sender', self.smtp_mj_sender)
-
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_recruitment_user', self.smtp_recruitment_user)
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_recruitment_pwd', self.smtp_recruitment_pwd)
-        self.env['ir.config_parameter'].set_param('mj_settings.smtp_recruitment_sender', self.smtp_recruitment_sender)
-
-        self.env['ir.config_parameter'].set_param('mj_settings.erp_server', self.erp_server)
-        self.env['ir.config_parameter'].set_param('mj_settings.erp_db', self.erp_db)
-        self.env['ir.config_parameter'].set_param('mj_settings.erp_user', self.erp_user)
-        self.env['ir.config_parameter'].set_param('mj_settings.erp_pwd', self.erp_pwd)
-
-        self.env['ir.config_parameter'].set_param('mj_settings.prod_serv_host', self.prod_serv_host)
-        self.env['ir.config_parameter'].set_param('mj_settings.prod_serv_port', self.prod_serv_port)
-        self.env['ir.config_parameter'].set_param('mj_settings.prod_serv_db', self.prod_serv_db)
-        self.env['ir.config_parameter'].set_param('mj_settings.prod_serv_user', self.prod_serv_user)
-        self.env['ir.config_parameter'].set_param('mj_settings.prod_serv_pwd', self.prod_serv_pwd)
+        self.env['ir.config_parameter'].set_param('document_hub.active', self.imap_active)
+        
+        if not self.imap_active:
+            self.env['ir.config_parameter'].set_param('document_hub.imap_host', False)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_port', 0)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_user', False)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_password', False)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_folder', False)
+        else:  
+            self.env['ir.config_parameter'].set_param('document_hub.imap_host', self.imap_host)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_port', self.imap_port)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_user', self.imap_user)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_password', self.imap_password)
+            self.env['ir.config_parameter'].set_param('document_hub.imap_folder', self.imap_folder.id if self.imap_folder else '')
 
         return res
 
@@ -46,50 +36,26 @@ class ResConfigSettings(models.TransientModel):
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
         ICPSudo = self.env['ir.config_parameter'].sudo()
-        smtp_host = ICPSudo.get_param('mj_settings.smtp_mj_host', False)
-        smtp_port = ICPSudo.get_param('mj_settings.smtp_mj_port', default=0)
+        
+        imap_active = ICPSudo.get_param('document_hub.active', False)
+        imap_host = ICPSudo.get_param('document_hub.imap_host', False)
+        imap_port = ICPSudo.get_param('document_hub.imap_port', default=0)
+        imap_user = ICPSudo.get_param('document_hub.imap_user', False)
+        imap_password = ICPSudo.get_param('document_hub.imap_password', False)
+        imap_folder_id_raw  = ICPSudo.get_param('document_hub.imap_folder', False)
 
-        smtp_usr = ICPSudo.get_param('mj_settings.smtp_mj_user', False)
-        smtp_pwd = ICPSudo.get_param('mj_settings.smtp_mj_pwd', False)
-        smtp_sender = ICPSudo.get_param('mj_settings.smtp_mj_sender', False)
-
-        smtp_rec_usr = ICPSudo.get_param('mj_settings.smtp_recruitment_user', False)
-        smtp_rec_pwd = ICPSudo.get_param('mj_settings.smtp_recruitment_pwd', False)
-        smtp_rec_sender = ICPSudo.get_param('mj_settings.smtp_recruitment_sender', False)
-
-        erp_server = ICPSudo.get_param('mj_settings.erp_server', False)
-        erp_db = ICPSudo.get_param('mj_settings.erp_db', False)
-        erp_user = ICPSudo.get_param('mj_settings.erp_user', False)
-        erp_pwd = ICPSudo.get_param('mj_settings.erp_pwd', False)
-
-        prod_serv_host = ICPSudo.get_param('mj_settings.prod_serv_host', False)
-        prod_serv_port = ICPSudo.get_param('mj_settings.prod_serv_port', False)
-        prod_serv_db = ICPSudo.get_param('mj_settings.prod_serv_db', False)
-        prod_serv_user = ICPSudo.get_param('mj_settings.prod_serv_user', False)
-        prod_serv_pwd = ICPSudo.get_param('mj_settings.prod_serv_pwd', False)
-
+        try:
+            imap_folder_id = int(imap_folder_id_raw)
+        except (ValueError, TypeError):
+            imap_folder_id = False
+        
         res.update(
-            smtp_mj_host=smtp_host,
-            smtp_mj_port=int(smtp_port),
-            smtp_mj_user=smtp_usr,
-            smtp_mj_pwd=smtp_pwd,
-            smtp_mj_sender=smtp_sender,
-
-            smtp_recruitment_user=smtp_rec_usr,
-            smtp_recruitment_pwd=smtp_rec_pwd,
-            smtp_recruitment_sender=smtp_rec_sender,
-
-            erp_server=erp_server,
-            erp_db=erp_db,
-            erp_user=erp_user,
-            erp_pwd=erp_pwd,
-
-            prod_serv_host=prod_serv_host,
-            prod_serv_port=prod_serv_port,
-            prod_serv_db=prod_serv_db,
-            prod_serv_user=prod_serv_user,
-            prod_serv_pwd=prod_serv_pwd,
+            imap_active=bool(imap_active),
+            imap_host=imap_host,
+            imap_port=int(imap_port) if imap_port else 0,
+            imap_user=imap_user,
+            imap_password=imap_password,
+            imap_folder=self.env['document_hub.folder'].browse(imap_folder_id) if imap_folder_id else False,
         )
 
         return res
-
