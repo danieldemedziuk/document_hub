@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="Documents">
                     <field name="name" />
+                    <field name="topic" optional="show" />
                     <field name="folder_id" optional="show" />
                     <field name="description" optional="show" />
                     <field name="tag_ids" widget="many2many_tags" optional="show" />
@@ -15,8 +16,8 @@
                     <field name="project_id" optional="hide" />
                     <field name="create_date" optional="hide" />
                     <field name="owner_id" optional="show" widget="many2one_avatar_user" />
-                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
-                    <field name="is_admin" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="hide" />
+                    <field name="is_admin" column_invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -33,14 +34,17 @@
                     </header>
                     <sheet>
                         <div class="oe_title">
-                            <label for="name"/>
                             <h1>
-                                <field name="name" placeholder="e.g. Project contract" readonly="state == 'lock'"/>
+                                <field name="name"/>
                             </h1>
+                            <label for="topic"/>
+                            <h2>
+                                <field name="topic" placeholder="e.g. Project contract" readonly="state == 'lock'"/>
+                            </h2>
                         </div>
                         <div>
                             <field name="is_admin" invisible="1"/>
-                            <label for="privacy_doc" invisible="is_admin != True"/>
+                            <label for="privacy_doc" class="oe_edit_only" invisible="is_admin != True"/>
                             <field name="privacy_doc" readonly="state == 'lock'" invisible="is_admin != True"/>
                         </div>
                         <group name="basic" col="4">
@@ -86,8 +90,8 @@
                     <field name="project_id" />
                     <field name="partner_id" />
                     <field name="tag_ids" />
-                    <group expand="0" string="Group By">
-                        <filter name="group_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
+                    <group expand="1" string="Group By">
+                        <filter name="group_by_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
                     </group>
                 </search>
             </field>
@@ -99,7 +103,7 @@
             <field name="view_mode">tree,form</field>
             <field name="domain">[('privacy_doc', '=', 'mail')]</field>
             <field name="context">{
-                    "default_privacy_doc": 'mail',
+                    "default_privacy_doc": "mail",
                 }
             </field>
             <field name="help" type="html">
