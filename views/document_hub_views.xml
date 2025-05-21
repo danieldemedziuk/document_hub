@@ -60,7 +60,7 @@
                             </group>
                             <group col='2'>
                                 <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
-                                <field name="partner_id" readonly="state == 'lock'" />
+                                <field name="partner_id" widget="res_partner_many2one" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}" readonly="state == 'lock'" />
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
                             </group>
                         </group>
