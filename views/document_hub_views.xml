@@ -6,7 +6,7 @@
             <field name="name">Document hub document tree view</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
-                <tree string="Documents">
+                <tree string="Documents" default_group_by="folder_id" expand="1">
                     <field name="name" />
                     <field name="topic" optional="show" />
                     <field name="folder_id" optional="show" />
@@ -90,7 +90,7 @@
                     <field name="project_id" />
                     <field name="partner_id" />
                     <field name="tag_ids" />
-                    <group expand="0" string="Group By">
+                    <group expand="1" string="Group By">
                         <filter name="group_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
                     </group>
                 </search>
