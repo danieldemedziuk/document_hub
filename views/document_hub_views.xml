@@ -6,7 +6,7 @@
             <field name="name">Document hub document tree view</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
-                <tree string="Documents" default_group_by="folder_id" expand="1">
+                <tree string="Documents">
                     <field name="name" />
                     <field name="topic" optional="show" />
                     <field name="folder_id" optional="show" />
@@ -91,7 +91,7 @@
                     <field name="partner_id" />
                     <field name="tag_ids" />
                     <group expand="1" string="Group By">
-                        <filter name="group_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
+                        <filter name="group_by_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
                     </group>
                 </search>
             </field>
@@ -103,7 +103,7 @@
             <field name="view_mode">tree,form</field>
             <field name="domain">[('privacy_doc', '=', 'mail')]</field>
             <field name="context">{
-                    "default_privacy_doc": 'mail',
+                    "default_privacy_doc": "mail",
                 }
             </field>
             <field name="help" type="html">
