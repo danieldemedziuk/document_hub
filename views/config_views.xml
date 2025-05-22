@@ -111,7 +111,7 @@
         </field>
     </record>
 
-    <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_administrator"/>
+    <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_manager"/>
     <menuitem name="General" id="menu_config_general" parent="document_hub.menu_config" sequence="10">
         <menuitem name="Folders" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
         <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
