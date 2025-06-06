@@ -63,4 +63,3 @@ class Document(models.Model):
         else:
             self.is_admin = False
             
-            

@@ -37,6 +37,7 @@ This module is fully open source under the GPL-2 license.
         'base', 
         'mail',
         'project',
+        'sale_offer',
     ],
     'data': [
         'data/document_sequence.xml',
