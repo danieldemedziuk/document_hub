@@ -20,7 +20,7 @@ class Document(models.Model):
     description = fields.Html(string='Description', tracking=True)
     tag_ids = fields.Many2many('document_hub.tag', string='Tags', copy=False, tracking=True)
     partner_id = fields.Many2one('res.partner', string='Contact', tracking=True)
-    project_id = fields.Many2one('project.project', string='Project', tracking=True)
+    project_id = fields.Many2one('project.project', string='Project', domain="[('active', 'in', (True, False))]", tracking=True)
     owner_id = fields.Many2one('res.users', string='Owner', default=lambda lm: lm.env.user.id, tracking=True)
     folder_id = fields.Many2one('document_hub.folder', string='Folder', ondelete='restrict', tracking=True, required=True, index=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda lm: lm.env.company)
