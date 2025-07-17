@@ -25,6 +25,7 @@ class Folder(models.Model):
     visibility_accounting = fields.Boolean(string='Accounting', default=False)
     visibility_pm = fields.Boolean(string='PM', default=False)
     visibility_hr = fields.Boolean(string='HR', default=False)
+    visibility_salesman = fields.Boolean(string='Sales', default=False)
     is_project = fields.Boolean(string="Is project", default=False, help='Mark this option if you are sure this folder is for projects.')
 
     @api.depends('parent_folder_id', 'name')

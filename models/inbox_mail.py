@@ -19,6 +19,7 @@ class InboxMail(models.Model):
             base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             if base_url and 'localhost' in base_url:
                 return
+            
             ICPSudo = self.env['ir.config_parameter'].sudo()
             imap_active = ICPSudo.get_param('document_hub.active', default='False') == 'True'
             if not imap_active:
