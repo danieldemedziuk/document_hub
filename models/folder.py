@@ -26,6 +26,8 @@ class Folder(models.Model):
     visibility_pm = fields.Boolean(string='PM', default=False)
     visibility_hr = fields.Boolean(string='HR', default=False)
     visibility_salesman = fields.Boolean(string='Sales', default=False)
+    visibility_everyone = fields.Boolean(string='Everyone', default=False)
+    
     is_project = fields.Boolean(string="Is project", default=False, help='Mark this option if you are sure this folder is for projects.')
 
     @api.depends('parent_folder_id', 'name')
@@ -39,3 +41,13 @@ class Folder(models.Model):
             else:
                 rec.parent_path = name
 
+    @api.onchange('visibility_everyone')
+    def _change_settings_everyone(self):
+        if self.visibility_everyone:
+            self.visibility_administration = False
+            self.visibility_purchasing_and_logistics = False
+            self.visibility_marketing = False
+            self.visibility_accounting = False
+            self.visibility_pm = False
+            self.visibility_hr = False
+            self.visibility_salesman = False

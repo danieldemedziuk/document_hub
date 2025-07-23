@@ -49,6 +49,7 @@
                             <field name='visibility_pm'/>
                             <field name='visibility_hr'/>
                             <field name='visibility_salesman'/>
+                            <field name='visibility_everyone'/>
                         </group>
                     </group>
                     <notebook>

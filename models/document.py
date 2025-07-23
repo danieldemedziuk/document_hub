@@ -37,6 +37,7 @@ class Document(models.Model):
     rel_visibility_pm = fields.Boolean(related='folder_id.visibility_pm',)
     rel_visibility_hr = fields.Boolean(related='folder_id.visibility_hr',)
     rel_visibility_salesman = fields.Boolean(related='folder_id.visibility_salesman',)
+    rel_visibility_everyone = fields.Boolean(related='folder_id.visibility_everyone',)
     
     @api.model_create_multi
     def create(self, vals_list):

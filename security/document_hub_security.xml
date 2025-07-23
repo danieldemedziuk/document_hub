@@ -43,6 +43,11 @@
         <field name="category_id" ref="module_document_hub_category" />
     </record>
 
+    <record id="group_document_hub_document_everyone" model="res.groups">
+        <field name="name">Everyone</field>
+        <field name="category_id" ref="module_document_hub_category" />
+    </record>
+
     <record id="group_document_hub_document_director" model="res.groups">
         <field name="name">Director</field>
         <field name="category_id" ref="module_document_hub_category" />
@@ -75,20 +80,17 @@
             <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
         </record>
 
-
         <record id="documents_hub_document_administration_rule" model="ir.rule">
             <field name="name">Document hub document: administration rule</field>
             <field name="model_id" ref="model_document_hub_document" />
-            <field name="groups"
-                eval="[(4, ref('document_hub.group_document_hub_document_administration'))]" />
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_administration'))]" />
             <field name="domain_force">[('rel_visibility_administration', '=' , True)]</field>
         </record>
 
         <record id="documents_hub_document_purchasing_and_logistics_rule" model="ir.rule">
             <field name="name">Document hub document: purchasing and logistics rule</field>
             <field name="model_id" ref="model_document_hub_document" />
-            <field name="groups"
-                eval="[(4, ref('document_hub.group_document_hub_document_purchasing_and_logistics'))]" />
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_purchasing_and_logistics'))]" />
             <field name="domain_force">[('rel_visibility_purchasing_and_logistics', '=' , True)]</field>
         </record>
 
@@ -111,9 +113,15 @@
         <record id="documents_hub_document_accounting_rule" model="ir.rule">
             <field name="name">Document hub document: accounting rule</field>
             <field name="model_id" ref="model_document_hub_document" />
-            <field name="groups"
-                eval="[(4, ref('document_hub.group_document_hub_document_accounting'))]" />
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_accounting'))]" />
             <field name="domain_force">[('rel_visibility_accounting', '=' , True)]</field>
+        </record>
+
+        <record id="documents_hub_document_everyone_rule" model="ir.rule">
+            <field name="name">Document hub document: everyone rule</field>
+            <field name="model_id" ref="model_document_hub_document" />
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_everyone'))]" />
+            <field name="domain_force">[('rel_visibility_everyone', '=' , True)]</field>
         </record>
 
         <record id="documents_hub_document_pm_rule" model="ir.rule">
