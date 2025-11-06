@@ -45,6 +45,7 @@
                             <field name='visibility_administration'/>
                             <field name='visibility_purchasing_and_logistics'/>
                             <field name='visibility_marketing'/>
+                            <field name='visibility_production'/>
                             <field name='visibility_accounting'/>
                             <field name='visibility_pm'/>
                             <field name='visibility_hr'/>
