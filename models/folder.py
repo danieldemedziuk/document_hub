@@ -22,6 +22,7 @@ class Folder(models.Model):
     visibility_administration = fields.Boolean(string='Administration', default=False)
     visibility_purchasing_and_logistics = fields.Boolean(string='Purchasing and logistics', default=False)
     visibility_marketing = fields.Boolean(string='Marketing', default=False)
+    visibility_production = fields.Boolean(string='Production', default=False)
     visibility_accounting = fields.Boolean(string='Accounting', default=False)
     visibility_pm = fields.Boolean(string='PM', default=False)
     visibility_hr = fields.Boolean(string='HR', default=False)

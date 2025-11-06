@@ -33,6 +33,7 @@ class Document(models.Model):
     rel_visibility_administration = fields.Boolean(related='folder_id.visibility_administration')
     rel_visibility_purchasing_and_logistics = fields.Boolean(related='folder_id.visibility_purchasing_and_logistics')
     rel_visibility_marketing = fields.Boolean(related='folder_id.visibility_marketing')
+    rel_visibility_production = fields.Boolean(related='folder_id.visibility_production')
     rel_visibility_accounting = fields.Boolean(related='folder_id.visibility_accounting')
     rel_visibility_pm = fields.Boolean(related='folder_id.visibility_pm',)
     rel_visibility_hr = fields.Boolean(related='folder_id.visibility_hr',)
