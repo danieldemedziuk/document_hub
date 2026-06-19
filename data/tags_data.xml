@@ -98,5 +98,9 @@
             <field name="name">Supplier</field>
         </record>
         
+        <record id="tag_email" model="document_hub.tag">
+            <field name="name">From email</field>
+        </record>
+
     </data>
 </odoo>

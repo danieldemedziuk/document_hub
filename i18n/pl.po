@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 17.0-20260305\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 08:23+0000\n"
-"PO-Revision-Date: 2025-05-19 08:23+0000\n"
+"POT-Creation-Date: 2026-06-19 10:17+0000\n"
+"PO-Revision-Date: 2026-06-19 10:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,8 +30,25 @@ msgstr "Wymagana akcja"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__active
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__active
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Active"
 msgstr "Aktywny"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Active IMAP"
+msgstr "Aktywuj IMAP"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Active IMAP settings for getting attachments from email"
+msgstr "Aktywne ustawienia IMAP do pobierania załączników z wiadomości e-mail"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Active IMAP settings for getting attachments from email."
+msgstr ""
+"Aktywne ustawienia IMAP do pobierania załączników z wiadomości e-mail."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_ids
@@ -52,6 +69,13 @@ msgstr "Stan aktywności"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "Ikona typu aktywności"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "Add document"
+msgstr "Dodaj dokument"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_administration
@@ -116,6 +140,11 @@ msgstr "Zarchiwizowane"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_attachment_count
 msgid "Attachment Count"
 msgstr "Liczba załączników"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__file_names
+msgid "Attachment Names"
+msgstr "Nazwy załączników"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__file_ids
@@ -185,6 +214,11 @@ msgid "Confidential"
 msgstr "Poufne"
 
 #. module: document_hub
+#: model:ir.model,name:document_hub.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfiguracja ustawień"
+
+#. module: document_hub
 #: model:ir.ui.menu,name:document_hub.menu_config
 msgid "Configuration"
 msgstr "Konfiguracja"
@@ -227,6 +261,11 @@ msgid "Description"
 msgstr "Opis"
 
 #. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Detail settings"
+msgstr "Ustawienia szczegółów"
+
+#. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_director
 msgid "Director"
 msgstr "Dyrektor"
@@ -247,8 +286,14 @@ msgstr "Liczba załączonych dokumentów"
 #: model:ir.actions.act_window,name:document_hub.document_hub_current_project_act
 #: model:ir.module.category,name:document_hub.module_document_hub_category
 #: model:ir.ui.menu,name:document_hub.menu_root
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Document hub"
 msgstr "Centrum dokumentów"
+
+#. module: document_hub
+#: model:ir.actions.server,name:document_hub.ir_cron_check_external_mailbox_ir_actions_server
+msgid "Document hub: Check external mailbox"
+msgstr "Centrum dokumentów: Sprawdź zewnętrzną skrzynkę pocztową"
 
 #. module: document_hub
 #: model:ir.model,name:document_hub.model_document_hub_document
@@ -313,9 +358,21 @@ msgstr ""
 "zaklasyfikowane gdzie indziej."
 
 #. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases
+msgid "Documents related to purchasing activities"
+msgstr "Dokumenty powiązane z zakupami."
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_draft
 msgid "Draft"
 msgstr "Szkic"
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/inbox_mail.py:0
+#, python-format
+msgid "Email from: <b>%s</b>, Subject: <b>%s</b>"
+msgstr "Email od: <b>%s</b>, Temat: <b>%s</b>"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_hr_employee_records
@@ -338,6 +395,13 @@ msgid ""
 msgstr "Wprowadź opis dokumentów, aby można je było łatwiej zidentyfikować."
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_everyone
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_everyone
+#: model:res.groups,name:document_hub.group_document_hub_document_everyone
+msgid "Everyone"
+msgstr "Wszyscy"
+
+#. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_finance
 #: model:document_hub.folder,parent_path:document_hub.folder_finance
 #: model:document_hub.tag,name:document_hub.tag_finance
@@ -347,7 +411,7 @@ msgstr "Finanse"
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_finance_banks
 msgid "Finance: Banks"
-msgstr "Finanse: Baki"
+msgstr "Finanse: Banki"
 
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_finance_budgeting
@@ -380,7 +444,9 @@ msgstr "Raporty finansowe"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__folder_id
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_folder
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Folder"
 msgstr ""
 
@@ -407,6 +473,11 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Ikona Font Awesome, np. fa-tasks"
 
 #. module: document_hub
+#: model:document_hub.tag,name:document_hub.tag_email
+msgid "From email"
+msgstr "e-mail"
+
+#. module: document_hub
 #: model:ir.ui.menu,name:document_hub.menu_config_general
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
 msgid "General"
@@ -429,6 +500,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__has_message
 msgid "Has Message"
 msgstr "Ma wiadomość"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_host
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Host"
+msgstr ""
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_hr
@@ -459,6 +536,11 @@ msgid "ID"
 msgstr ""
 
 #. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "IMAP Host settings"
+msgstr "IMAP Ustawienia host"
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_it
 msgid "IT"
 msgstr ""
@@ -483,6 +565,11 @@ msgstr "Jeśli zaznaczone, nowe wiadomości wymagają Twojej uwagi."
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Jeśli zaznaczone, niektóre wiadomości mają błąd dostarczenia."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_active
+msgid "Imap Active"
+msgstr "Aktywny Imap"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_administration_inbox
@@ -667,6 +754,7 @@ msgstr ""
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project_nda
+#: model:document_hub.folder,name:document_hub.folder_purchases_nda
 msgid "NDA"
 msgstr ""
 
@@ -685,6 +773,11 @@ msgstr "Nazwa"
 #, python-format
 msgid "New"
 msgstr "Nowy"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__file_names
+msgid "Newline-separated names of the attached files."
+msgstr "Nazwy załączników separowane znakiem nowej linii."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_calendar_event_id
@@ -707,11 +800,26 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "No documents yet."
+msgstr "Brak dokumentów."
+
+#. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_project_nda
 msgid ""
 "Non-Disclosure Agreements and confidentiality documents related to projects."
 msgstr ""
 "Umowy o zachowaniu poufności i dokumenty poufności związane z projektami."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases_nda
+msgid ""
+"Non-Disclosure Agreements and confidentiality documents related to "
+"purchasing activities."
+msgstr ""
+"Umowy NDA powiązane z zakupami."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_needaction_counter
@@ -777,6 +885,12 @@ msgid "Parent folder"
 msgstr "Folder nadrzędny"
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_password
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Password"
+msgstr "Hasło"
+
+#. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_finance_financial_reports
 msgid ""
 "Periodic financial statements, audit reports, and performance analyses."
@@ -795,9 +909,20 @@ msgid "Policy"
 msgstr "Polityka"
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_port
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Port"
+msgstr ""
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__privacy_doc
 msgid "Privacy"
 msgstr "Prywatność"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_purchases_procedures
+msgid "Procedures"
+msgstr "Procedury"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project
@@ -836,7 +961,7 @@ msgstr "Projekt: Faktury na projekty"
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_project_nda
 msgid "Project: NDA"
-msgstr "Projekt: NDA"
+msgstr "Sprzedaż: NDA"
 
 #. module: document_hub
 #: model:document_hub.folder,parent_path:document_hub.folder_project_other_projects
@@ -857,6 +982,27 @@ msgstr "Materiały promocyjne"
 #: model:document_hub.folder,name:document_hub.folder_project_protocols
 msgid "Protocols"
 msgstr "Protokoły"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_purchases
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases
+msgid "Purchases"
+msgstr "Zakupy"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases_nda
+msgid "Purchases: NDA"
+msgstr "Zakupy: NDA"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases_procedures
+msgid "Purchases: Procedures"
+msgstr "Zakupy: Procedury"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases_regulations
+msgid "Purchases: Regulations"
+msgstr "Zakupy: Zarządzenia"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_purchasing_and_logistics
@@ -881,6 +1027,26 @@ msgid "Ratings"
 msgstr "Oceny"
 
 #. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_purchases_regulations
+msgid "Regulations"
+msgstr "Zarządzenia"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases_regulations
+msgid ""
+"Regulatory documents, compliance guidelines, and legal requirements for "
+"purchasing activities."
+msgstr ""
+"Zarządzenia powiązane z zakupami."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.xml:0
+#, python-format
+msgid "Remove"
+msgstr "Usuń"
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_report
 msgid "Report"
 msgstr "Oceny"
@@ -896,9 +1062,31 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: document_hub
+#: model:ir.model,name:document_hub.model_sale_offer
+msgid "Sale offer"
+msgstr "Oferta sprzedaży"
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_sales
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_salesman
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_salesman
+#: model:res.groups,name:document_hub.group_document_hub_document_salesman
 msgid "Sales"
 msgstr "Sprzedaż"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "Search documents"
+msgstr "Szukaj dokumentów"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "Select documents"
+msgstr "Wybierz dokumenty"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__sequence
@@ -907,12 +1095,31 @@ msgid "Sequence"
 msgstr "Kolejność"
 
 #. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Set a default folder."
+msgstr "Ustaw domyślny folder."
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_settings_action
+#: model:ir.ui.menu,name:document_hub.menu_config_settings
+msgid "Settings"
+msgstr "Ustawienia"
+
+#. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view
 msgid ""
 "Specify which groups should be able to view documents for this category."
 msgstr ""
 "Określ, które grupy powinny mieć możliwość przeglądania dokumentów dla tej "
 "kategorii."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases_procedures
+msgid ""
+"Standard operating procedures, workflow documents, and process guidelines "
+"for purchasing activities."
+msgstr ""
+"Procedury powiązane z zakupami."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__state
@@ -973,6 +1180,15 @@ msgid "Tax"
 msgstr "Podatek"
 
 #. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid ""
+"This is the section for determining the primary user who will be sending "
+"most emails for internal purposes"
+msgstr ""
+"Jest to sekcja służąca do określenia głównego użytkownika, który będzie "
+"wysyłał większość wiadomości e-mail do celów wewnętrznych"
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_to_review
 msgid "To Review"
 msgstr "Do sprawdzenia"
@@ -1009,6 +1225,32 @@ msgstr "Odblokuj"
 #: model:document_hub.tag,name:document_hub.tag_urgent
 msgid "Urgent"
 msgstr "Pilne"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Use bot name of your mail ex. bot@mjgroup.biz"
+msgstr "Użyj nazwy bota swojej poczty, np. bot@mjgroup.biz"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Use password for your bot user mail."
+msgstr "Użyj hasła do poczty użytkownika bota."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Use the hostname for your mail."
+msgstr "Użyj nazwy hosta dla swojej poczty."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "Use the port of your mail host."
+msgstr "Użyj portu dla swojej poczty."
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_user
+#: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
+msgid "User"
+msgstr "Użytkownik"
 
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view
