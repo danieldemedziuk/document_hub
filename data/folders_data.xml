@@ -43,6 +43,13 @@
             <field name="visibility_hr">True</field>
         </record>
 
+        <record id="folder_purchases" model="document_hub.folder">
+            <field name="name">Purchases</field>
+            <field name="description">Documents related to purchasing activities</field>
+            <field name="visibility_administration">True</field>
+            <field name="visibility_purchasing_and_logistics">True</field>
+        </record>
+
         <!-- Sub-folders -->
         <record id="folder_project_contracts" model="document_hub.folder">
             <field name="name">Contracts</field>
@@ -181,5 +188,29 @@
             <field name="visibility_administration">True</field>
         </record>
 
+        <record id="folder_purchases_nda" model="document_hub.folder">
+            <field name="name">NDA</field>
+            <field name="description">Non-Disclosure Agreements and confidentiality documents related to purchasing activities.</field>
+            <field name="parent_folder_id" ref="document_hub.folder_purchases" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_purchasing_and_logistics">True</field>
+        </record>
+
+        <record id="folder_purchases_regulations" model="document_hub.folder">
+            <field name="name">Regulations</field>
+            <field name="description">Regulatory documents, compliance guidelines, and legal requirements for purchasing activities.</field>
+            <field name="parent_folder_id" ref="document_hub.folder_purchases" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_purchasing_and_logistics">True</field>
+        </record>
+
+        <record id="folder_purchases_procedures" model="document_hub.folder">
+            <field name="name">Procedures</field>
+            <field name="description">Standard operating procedures, workflow documents, and process guidelines for purchasing activities.</field>
+            <field name="parent_folder_id" ref="document_hub.folder_purchases" />
+            <field name="visibility_administration">True</field>
+            <field name="visibility_purchasing_and_logistics">True</field>
+        </record>
+        
     </data>
 </odoo>
