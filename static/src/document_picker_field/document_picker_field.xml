@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="document_hub.DocumentPickerField">
+        <div class="o_document_picker d-flex flex-column gap-2">
+            <div t-if="!records.length" class="text-muted fst-italic">
+                <t t-esc="props.emptyLabel"/>
+            </div>
+            <div t-foreach="records" t-as="rec" t-key="rec.id"
+                 class="o_document_picker_card position-relative d-flex align-items-center border rounded p-2 pt-1 pe-4">
+                <div class="flex-grow-1" style="cursor: pointer; min-width: 0;"
+                     t-on-click="() => this.editRecord(rec)">
+                    <div>
+                        <span class="fw-bold">
+                            <i class="fa fa-file-text-o me-2"/>
+                            <t t-esc="rec.data.display_name"/>
+                        </span>
+                        <span t-if="rec.data.topic" class="text-muted ms-2">
+                            <t t-esc="rec.data.topic"/>
+                        </span>
+                    </div>
+                    <div t-if="props.showFilenames and rec.data.file_names" style="color: #7c8289c2; margin-top: 4px; font-size: 12px;">
+                        <div t-foreach="rec.data.file_names.split('\n')" t-as="fname" t-key="fname_index"
+                             class="text-truncate">
+                            <t t-esc="fname"/>
+                        </div>
+                    </div>
+                </div>
+                <button t-if="!props.readonly" type="button"
+                        class="btn btn-link text-danger p-0 position-absolute top-0 end-0 m-1"
+                        style="transform: translate(-2px, -3px);"
+                        title="Remove" t-on-click="() => this.removeRecord(rec)">
+                    <i class="fa fa-times"/>
+                </button>
+            </div>
+            <div t-if="!props.readonly" class="d-flex gap-4">
+                <button t-if="props.canCreate" type="button" class="btn btn-link p-0"
+                        t-on-click="() => this.addRecord()">
+                    <i class="fa fa-plus me-1"/> <t t-esc="props.addLabel"/>
+                </button>
+                <button t-if="props.canSearch" type="button" class="btn btn-link p-0" style="color: #17a2b8" 
+                        t-on-click="() => this.searchRecords()">
+                    <i class="fa fa-search me-1"/> <t t-esc="props.searchLabel"/>
+                </button>
+            </div>
+        </div>
+    </t>
+
+</templates>

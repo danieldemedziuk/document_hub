@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 17.0-20260305\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 10:12+0000\n"
-"PO-Revision-Date: 2025-07-23 10:12+0000\n"
+"POT-Creation-Date: 2026-06-19 10:17+0000\n"
+"PO-Revision-Date: 2026-06-19 10:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -69,6 +69,13 @@ msgstr "Stan aktywności"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "Ikona typu aktywności"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "Add document"
+msgstr "Dodaj dokument"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_administration
@@ -133,6 +140,11 @@ msgstr "Zarchiwizowane"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_attachment_count
 msgid "Attachment Count"
 msgstr "Liczba załączników"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__file_names
+msgid "Attachment Names"
+msgstr "Nazwy załączników"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__file_ids
@@ -204,7 +216,7 @@ msgstr "Poufne"
 #. module: document_hub
 #: model:ir.model,name:document_hub.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ustawienia konfiguracji"
+msgstr "Konfiguracja ustawień"
 
 #. module: document_hub
 #: model:ir.ui.menu,name:document_hub.menu_config
@@ -344,6 +356,11 @@ msgid ""
 msgstr ""
 "Dokumenty dotyczące różnych lub mniejszych projektów, które nie zostały "
 "zaklasyfikowane gdzie indziej."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases
+msgid "Documents related to purchasing activities"
+msgstr "Dokumenty powiązane z zakupami."
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_draft
@@ -737,6 +754,7 @@ msgstr ""
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project_nda
+#: model:document_hub.folder,name:document_hub.folder_purchases_nda
 msgid "NDA"
 msgstr ""
 
@@ -755,6 +773,11 @@ msgstr "Nazwa"
 #, python-format
 msgid "New"
 msgstr "Nowy"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__file_names
+msgid "Newline-separated names of the attached files."
+msgstr "Nazwy załączników separowane znakiem nowej linii."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_calendar_event_id
@@ -777,11 +800,26 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "No documents yet."
+msgstr "Brak dokumentów."
+
+#. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_project_nda
 msgid ""
 "Non-Disclosure Agreements and confidentiality documents related to projects."
 msgstr ""
 "Umowy o zachowaniu poufności i dokumenty poufności związane z projektami."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases_nda
+msgid ""
+"Non-Disclosure Agreements and confidentiality documents related to "
+"purchasing activities."
+msgstr ""
+"Umowy NDA powiązane z zakupami."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_needaction_counter
@@ -882,6 +920,11 @@ msgid "Privacy"
 msgstr "Prywatność"
 
 #. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_purchases_procedures
+msgid "Procedures"
+msgstr "Procedury"
+
+#. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project
 #: model:document_hub.folder,parent_path:document_hub.folder_project
 #: model:document_hub.tag,name:document_hub.tag_project
@@ -941,6 +984,27 @@ msgid "Protocols"
 msgstr "Protokoły"
 
 #. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_purchases
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases
+msgid "Purchases"
+msgstr "Zakupy"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases_nda
+msgid "Purchases: NDA"
+msgstr "Zakupy: NDA"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases_procedures
+msgid "Purchases: Procedures"
+msgstr "Zakupy: Procedury"
+
+#. module: document_hub
+#: model:document_hub.folder,parent_path:document_hub.folder_purchases_regulations
+msgid "Purchases: Regulations"
+msgstr "Zakupy: Zarządzenia"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_purchasing_and_logistics
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_purchasing_and_logistics
 #: model:res.groups,name:document_hub.group_document_hub_document_purchasing_and_logistics
@@ -961,6 +1025,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rating_ids
 msgid "Ratings"
 msgstr "Oceny"
+
+#. module: document_hub
+#: model:document_hub.folder,name:document_hub.folder_purchases_regulations
+msgid "Regulations"
+msgstr "Zarządzenia"
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases_regulations
+msgid ""
+"Regulatory documents, compliance guidelines, and legal requirements for "
+"purchasing activities."
+msgstr ""
+"Zarządzenia powiązane z zakupami."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.xml:0
+#, python-format
+msgid "Remove"
+msgstr "Usuń"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_report
@@ -991,6 +1075,20 @@ msgid "Sales"
 msgstr "Sprzedaż"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "Search documents"
+msgstr "Szukaj dokumentów"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#, python-format
+msgid "Select documents"
+msgstr "Wybierz dokumenty"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__sequence
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__sequence
 msgid "Sequence"
@@ -1014,6 +1112,14 @@ msgid ""
 msgstr ""
 "Określ, które grupy powinny mieć możliwość przeglądania dokumentów dla tej "
 "kategorii."
+
+#. module: document_hub
+#: model_terms:document_hub.folder,description:document_hub.folder_purchases_procedures
+msgid ""
+"Standard operating procedures, workflow documents, and process guidelines "
+"for purchasing activities."
+msgstr ""
+"Procedury powiązane z zakupami."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__state
