@@ -17,6 +17,8 @@ class Document(models.Model):
     topic = fields.Char(string='Topic', required=True, tracking=True)
     active = fields.Boolean(string='Active', default=True, tracking=True)
     file_ids = fields.Many2many('ir.attachment', string='Attachments', required=True)
+    file_names = fields.Char(string='Attachment Names', compute='_compute_file_names',
+                             help='Newline-separated names of the attached files.')
     description = fields.Html(string='Description', tracking=True)
     tag_ids = fields.Many2many('document_hub.tag', string='Tags', copy=False, tracking=True)
     partner_id = fields.Many2one('res.partner', string='Contact', tracking=True)
@@ -39,6 +41,11 @@ class Document(models.Model):
     rel_visibility_salesman = fields.Boolean(related='folder_id.visibility_salesman',)
     rel_visibility_everyone = fields.Boolean(related='folder_id.visibility_everyone',)
     
+    @api.depends('file_ids', 'file_ids.name')
+    def _compute_file_names(self):
+        for document in self:
+            document.file_names = '\n'.join(document.file_ids.mapped('name'))
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
