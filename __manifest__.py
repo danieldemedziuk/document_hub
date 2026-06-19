@@ -51,6 +51,11 @@ This module is fully open source under the GPL-2 license.
         'views/config_views.xml',
         'views/res_config_settings_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'document_hub/static/src/**/*',
+        ],
+    },
     'auto_install': False,
     'application': True,
     'installable': True,
