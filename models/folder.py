@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 
 class Folder(models.Model):
     _name = 'document_hub.folder'
     _description = 'Document hub: Folder'
     _rec_name = 'parent_path'
+    _parent_name = 'parent_folder_id'
 
     name = fields.Char(string='Name', required=True, translate=True)
     active = fields.Boolean(string='Active', default=True)
@@ -41,6 +42,20 @@ class Folder(models.Model):
                 rec.parent_path = F"{parent_folder}: {name}"
             else:
                 rec.parent_path = name
+
+    def unlink(self):
+        for folder in self:
+            if folder.document_ids:
+                raise UserError(_(
+                    'You cannot delete folder "%s" while it still contains documents. '
+                    'Move or delete them first.'
+                ) % folder.name)
+            if folder.children_folder_ids:
+                raise UserError(_(
+                    'You cannot delete folder "%s" while it still contains subfolders. '
+                    'Delete them first.'
+                ) % folder.name)
+        return super().unlink()
 
     @api.onchange('visibility_everyone')
     def _change_settings_everyone(self):

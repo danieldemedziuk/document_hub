@@ -22,14 +22,36 @@
             </field>
         </record>
 
+        <record id="document_hub_document_kanban_view" model="ir.ui.view">
+            <field name="name">document_hub.document.kanban.view</field>
+            <field name="model">document_hub.document</field>
+            <field name="arch" type="xml">
+                <!-- js_class="document_hub_kanban" replaces the rendering below entirely
+                     (see static/src/document_explorer/): folder tree, breadcrumb, subfolder
+                     tiles and document tiles are all rendered by DocumentHubKanbanRenderer,
+                     which fetches its own data instead of using this arch/list. The minimal
+                     kanban-box template below only exists because the standard KanbanView
+                     machinery (ArchParser, Controller, sample-data empty Model) still runs
+                     in the background and requires a valid arch to parse. -->
+                <kanban js_class="document_hub_kanban" quick_create="false" group_create="false" create="false">
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div><field name="name"/></div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
         <record id="document_hub_document_form_view" model="ir.ui.view">
             <field name="name">Document hub document form view</field>
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string='Lock' name='action_lock_document' class="btn btn-secondary" type='object' invisible="state == 'lock'"/>
-                        <button string='Unlock' name='action_open_document' class="btn btn-secondary" type='object' invisible="state == 'open'"/>
+                        <button string='Lock' name='action_lock_document' class="btn btn-secondary" type='object' invisible="state == 'lock'" groups="document_hub.group_document_hub_document_director"/>
+                        <button string='Unlock' name='action_open_document' class="btn btn-secondary" type='object' invisible="state == 'open'" groups="document_hub.group_document_hub_document_director"/>
                         <field name="state" widget="statusbar" statusbar_visible="lock" />
                     </header>
                     <sheet>
@@ -84,6 +106,7 @@
             <field name="model">document_hub.document</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="topic" />
                     <field name="name" />
                     <field name="description" />
                     <field name="folder_id" />
@@ -100,7 +123,7 @@
         <record id="document_hub_mail_document_act" model="ir.actions.act_window">
             <field name="name">Mail</field>
             <field name="res_model">document_hub.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="domain">[('privacy_doc', '=', 'mail')]</field>
             <field name="context">{
                     "default_privacy_doc": "mail",
@@ -116,7 +139,7 @@
         <record id="document_hub_company_document_act" model="ir.actions.act_window">
             <field name="name">Company documents</field>
             <field name="res_model">document_hub.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="domain">[('privacy_doc', '=', 'company')]</field>
             <field name="context">{
                 "default_privacy_doc": 'company',

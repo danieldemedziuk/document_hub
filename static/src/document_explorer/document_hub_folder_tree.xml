@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="document_hub.FolderTreeNode">
+        <div class="o_document_hub_tree_node">
+            <div class="o_document_hub_tree_row d-flex align-items-center"
+                 t-attf-class="{{ isSelected ? 'o_document_hub_tree_row_selected' : '' }}"
+                 t-on-click="() => this.props.onSelect(props.folder.id)"
+                 t-on-dragover.prevent.stop=""
+                 t-on-drop="onDrop">
+                <span t-if="children.length" class="o_document_hub_tree_caret" t-on-click="toggleExpand">
+                    <i t-attf-class="fa {{ state.expanded ? 'fa-caret-down' : 'fa-caret-right' }}"/>
+                </span>
+                <span t-else="" class="o_document_hub_tree_caret_placeholder"/>
+                <i class="fa fa-folder-o o_document_hub_tree_icon"/>
+                <input t-if="isRenaming" type="text" t-att-value="props.folder.name"
+                       class="o_document_hub_rename_input o_document_hub_tree_rename_input" t-on-click.stop=""
+                       t-on-keydown="props.onRenameKeydown" t-on-blur="(ev) => this.props.onRenameCommit(ev, props.folder)"/>
+                <span t-else="" class="o_document_hub_tree_label text-truncate" t-esc="props.folder.name"/>
+                <span class="o_document_hub_tree_menu" t-on-click.stop="">
+                    <Dropdown togglerClass="'btn btn-sm o_document_hub_tile_menu_btn'">
+                        <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
+                        <DropdownItem onSelected="() => this.props.onDownload(props.folder)"><t t-esc="downloadLabel"/></DropdownItem>
+                        <DropdownItem onSelected="() => this.props.onRenameStart(props.folder)"><t t-esc="renameLabel"/></DropdownItem>
+                        <DropdownItem t-if="props.canCreateFolders" onSelected="() => this.props.onCreateSubfolder(props.folder)"><t t-esc="newFolderLabel"/></DropdownItem>
+                    </Dropdown>
+                </span>
+            </div>
+            <div t-if="children.length and state.expanded" class="o_document_hub_tree_children">
+                <DocumentHubFolderTreeNode t-foreach="children" t-as="child" t-key="child.id"
+                    folder="child" childrenByParent="props.childrenByParent"
+                    selectedFolderId="props.selectedFolderId" renamingId="props.renamingId"
+                    canCreateFolders="props.canCreateFolders"
+                    onSelect="props.onSelect" onRenameStart="props.onRenameStart"
+                    onRenameKeydown="props.onRenameKeydown" onRenameCommit="props.onRenameCommit"
+                    onDownload="props.onDownload" onCreateSubfolder="props.onCreateSubfolder"
+                    onDropDocuments="props.onDropDocuments"/>
+            </div>
+        </div>
+    </t>
+
+</templates>
