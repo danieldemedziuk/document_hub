@@ -16,6 +16,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "%s selected"
+msgstr "Wybrano: %s"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_accounting
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_accounting
 #: model:res.groups,name:document_hub.group_document_hub_document_accounting
@@ -191,9 +198,35 @@ msgid "Campaigns"
 msgstr "Kampanie"
 
 #. module: document_hub
+#: model:res.groups,name:document_hub.group_document_hub_folder_creator
+msgid "Can create folders"
+msgstr "Może tworzyć foldery"
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_client
 msgid "Client"
 msgstr "Klient"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_picker_dialog.esm.js:0
+#, python-format
+msgid "Cancel"
+msgstr "Anuluj"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Cancel selection"
+msgstr "Anuluj zaznaczenie"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
+#, python-format
+msgid "Close"
+msgstr "Zamknij"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__company_id
@@ -239,6 +272,23 @@ msgid "Contracts"
 msgstr "Kontrakty"
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__cover_attachment_id
+msgid "Cover file"
+msgstr "Plik okładki"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__cover_mimetype
+msgid "Cover file type"
+msgstr "Typ pliku okładki"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Create blank document"
+msgstr "Utwórz pusty dokument"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__create_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__create_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__create_uid
@@ -253,6 +303,34 @@ msgid "Created on"
 msgstr "Data utworzenia"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Delete"
+msgstr "Usuń"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Delete document"
+msgstr "Usuń dokument"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Delete folder"
+msgstr "Usuń folder"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Delete permanently"
+msgstr "Usuń trwale"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__description
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__description
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
@@ -261,9 +339,23 @@ msgid "Description"
 msgstr "Opis"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Deselect all"
+msgstr "Odznacz wszystkie"
+
+#. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Detail settings"
 msgstr "Ustawienia szczegółów"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Details"
+msgstr "Szczegóły"
 
 #. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_director
@@ -276,6 +368,11 @@ msgstr "Dyrektor"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__display_name
 msgid "Display Name"
 msgstr "Wyświetlana nazwa"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__document_id
+msgid "Document"
+msgstr "Dokument"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_project_project__doc_count
@@ -363,9 +460,23 @@ msgid "Documents related to purchasing activities"
 msgstr "Dokumenty powiązane z zakupami."
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
+#, python-format
+msgid "Download"
+msgstr "Pobierz"
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_draft
 msgid "Draft"
 msgstr "Szkic"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Duplicate"
+msgstr "Duplikuj"
 
 #. module: document_hub
 #. odoo-python
@@ -400,6 +511,11 @@ msgstr "Wprowadź opis dokumentów, aby można je było łatwiej zidentyfikować
 #: model:res.groups,name:document_hub.group_document_hub_document_everyone
 msgid "Everyone"
 msgstr "Wszyscy"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__attachment_id
+msgid "File"
+msgstr "Plik"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_finance
@@ -614,6 +730,23 @@ msgid "Is project"
 msgstr "Jest projektem"
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__keywords
+msgid "Keywords"
+msgstr "Słowa kluczowe"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_tag__keywords
+msgid ""
+"Comma-separated keywords. When a new document is created without an "
+"explicit tag, its topic/filename is matched (case-insensitively) against "
+"these keywords to apply this tag automatically."
+msgstr ""
+"Słowa kluczowe oddzielone przecinkami. Gdy nowy dokument jest tworzony "
+"bez jawnie wybranego tagu, jego temat/nazwa pliku jest porównywana (bez "
+"rozróżniania wielkości liter) z tymi słowami kluczowymi, aby automatycznie "
+"zastosować ten tag."
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__write_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__write_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__write_uid
@@ -650,6 +783,9 @@ msgstr "Zaczynajmy. Prześlij nowy dokument!"
 
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
 msgid "Lock"
 msgstr "Zablokuj"
 
@@ -674,6 +810,27 @@ msgstr "Zarząd"
 #: model:res.groups,name:document_hub.group_document_hub_document_manager
 msgid "Manager"
 msgstr "Menedżer"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_picker_dialog.esm.js:0
+#, python-format
+msgid "Move"
+msgstr "Przenieś"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_picker_dialog.esm.js:0
+#, python-format
+msgid "Move to folder"
+msgstr "Przenieś do folderu"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Move to folder…"
+msgstr "Przenieś do folderu…"
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__rel_is_parent_folder_project
@@ -775,6 +932,28 @@ msgid "New"
 msgstr "Nowy"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Upload file"
+msgstr "Prześlij plik"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "New document"
+msgstr "Nowy dokument"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "New folder"
+msgstr "Nowy folder"
+
+#. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__file_names
 msgid "Newline-separated names of the attached files."
 msgstr "Nazwy załączników separowane znakiem nowej linii."
@@ -805,6 +984,20 @@ msgstr ""
 #, python-format
 msgid "No documents yet."
 msgstr "Brak dokumentów."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
+#, python-format
+msgid "No earlier versions yet."
+msgstr "Brak wcześniejszych wersji."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_picker_dialog.esm.js:0
+#, python-format
+msgid "No folders available."
+msgstr "Brak dostępnych folderów."
 
 #. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_project_nda
@@ -1047,6 +1240,14 @@ msgid "Remove"
 msgstr "Usuń"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Rename"
+msgstr "Zmień nazwę"
+
+#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_report
 msgid "Report"
 msgstr "Oceny"
@@ -1055,6 +1256,13 @@ msgstr "Oceny"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_user_id
 msgid "Responsible User"
 msgstr "Odpowiedzialny użytkownik"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Restore"
+msgstr "Przywróć"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_sms_error
@@ -1080,6 +1288,13 @@ msgstr "Sprzedaż"
 #, python-format
 msgid "Search documents"
 msgstr "Szukaj dokumentów"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Select all"
+msgstr "Zaznacz wszystkie"
 
 #. module: document_hub
 #. odoo-javascript
@@ -1180,6 +1395,13 @@ msgid "Tax"
 msgstr "Podatek"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "This folder is empty."
+msgstr "Ten folder jest pusty."
+
+#. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid ""
 "This is the section for determining the primary user who will be sending "
@@ -1212,14 +1434,45 @@ msgstr ""
 "pracowników."
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Trash"
+msgstr "Kosz"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Trash is empty."
+msgstr "Kosz jest pusty."
+
+#. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Typ zarejestrowanej aktywności wyjątku."
 
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
 msgid "Unlock"
 msgstr "Odblokuj"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Upload failed."
+msgstr "Przesyłanie nie powiodło się."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Upload new version"
+msgstr "Prześlij nową wersję"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_urgent
@@ -1253,6 +1506,18 @@ msgid "User"
 msgstr "Użytkownik"
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__version_number
+msgid "Version"
+msgstr "Wersja"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
+#, python-format
+msgid "Version history"
+msgstr "Historia wersji"
+
+#. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view
 msgid "Visibility"
 msgstr "Widoczność"
@@ -1266,6 +1531,49 @@ msgstr "Wiadomości strony internetowej"
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__website_message_ids
 msgid "Website communication history"
 msgstr "Historia komunikacji na stronie internetowej"
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "You cannot delete a locked document. Unlock it first."
+msgstr "Nie możesz usunąć zablokowanego dokumentu. Najpierw go odblokuj."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/folder.py:0
+#, python-format
+msgid ""
+"You cannot delete folder \"%s\" while it still contains documents. Move "
+"or delete them first."
+msgstr ""
+"Nie możesz usunąć folderu \"%s\", ponieważ wciąż zawiera dokumenty. "
+"Najpierw je przenieś lub usuń."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/folder.py:0
+#, python-format
+msgid ""
+"You cannot delete folder \"%s\" while it still contains subfolders. "
+"Delete them first."
+msgstr ""
+"Nie możesz usunąć folderu \"%s\", ponieważ wciąż zawiera podfoldery. "
+"Najpierw je usuń."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "You cannot modify a locked document. Unlock it first."
+msgstr "Nie możesz modyfikować zablokowanego dokumentu. Najpierw go odblokuj."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "You do not have permission to lock, unlock or duplicate documents."
+msgstr "Nie masz uprawnień do blokowania, odblokowywania ani duplikowania dokumentów."
 
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_form_view

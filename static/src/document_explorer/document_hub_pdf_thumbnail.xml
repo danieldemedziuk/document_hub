@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="document_hub.PdfThumbnail">
+        <img t-if="state.dataUrl" t-att-src="state.dataUrl" alt="PDF thumbnail"/>
+        <i t-else="" class="fa fa-file-pdf-o fa-3x text-danger"/>
+    </t>
+
+</templates>
