@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="document_hub.DocumentHubKanbanRenderer">
+        <div class="o_document_hub_explorer d-flex h-100">
+            <div class="o_document_hub_tree_sidebar flex-shrink-0 overflow-auto">
+                <div class="o_document_hub_trash_row d-flex align-items-center"
+                     t-attf-class="{{ state.isTrashView ? 'o_document_hub_trash_selected' : '' }}"
+                     t-on-click="selectTrash">
+                    <i class="fa fa-trash-o me-1"/>
+                    <span t-esc="trashLabel"/>
+                </div>
+                <DocumentHubFolderTreeNode t-foreach="rootFolders" t-as="folder" t-key="folder.id"
+                    folder="folder" childrenByParent="childrenByParent"
+                    selectedFolderId="state.selectedFolderId" renamingId="renamingFolderId"
+                    canCreateFolders="state.canCreateFolders"
+                    onSelect.bind="selectFolder" onRenameStart.bind="startRenameFolder"
+                    onRenameKeydown.bind="onRenameKeydown" onRenameCommit.bind="commitRenameFolder"
+                    onDownload.bind="downloadFolder" onCreateSubfolder.bind="createSubfolder"
+                    onDropDocuments.bind="moveDocumentsToFolderById"/>
+            </div>
+            <div class="o_document_hub_main flex-grow-1 overflow-auto"
+                 t-attf-class="{{ state.isDraggingOver ? 'o_document_hub_dragover' : '' }}"
+                 t-on-dragover.prevent="onDragOver" t-on-dragleave="onDragLeave" t-on-drop.prevent="onDrop">
+
+                <input type="file" multiple="multiple" t-ref="fileInput" class="d-none" t-on-change="onFileInputChange"/>
+                <input type="file" t-ref="versionFileInput" class="d-none" t-on-change="onVersionFileInputChange"/>
+
+                <div t-if="state.selectedFolderId" class="o_document_hub_breadcrumb d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <t t-foreach="breadcrumbFolders" t-as="crumb" t-key="crumb.id">
+                            <span class="o_document_hub_breadcrumb_item"
+                                  t-attf-class="{{ crumb_last ? 'o_document_hub_breadcrumb_current' : '' }}"
+                                  t-on-click="() => this.selectFolder(crumb.id)"
+                                  t-esc="crumb.name"/>
+                            <span t-if="!crumb_last" class="o_document_hub_breadcrumb_sep">/</span>
+                        </t>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button t-if="state.documents.length" type="button" class="btn btn-link btn-sm p-0" t-on-click="toggleSelectAll">
+                            <t t-esc="allSelected ? deselectAllLabel : selectAllLabel"/>
+                        </button>
+                        <button type="button" class="btn btn-link btn-sm p-0" t-on-click="createBlankDocument">
+                            <t t-esc="newDocumentBlankLabel"/>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" t-on-click="pickFiles">
+                            <i class="fa fa-upload me-1"/><t t-esc="uploadFileLabel"/>
+                        </button>
+                    </div>
+                </div>
+
+                <div t-if="state.isTrashView" class="o_document_hub_breadcrumb d-flex align-items-center justify-content-between">
+                    <span class="o_document_hub_breadcrumb_current" t-esc="trashLabel"/>
+                    <button t-if="state.documents.length" type="button" class="btn btn-link btn-sm p-0" t-on-click="toggleSelectAll">
+                        <t t-esc="allSelected ? deselectAllLabel : selectAllLabel"/>
+                    </button>
+                </div>
+
+                <div t-if="state.selectedIds.size" class="o_document_hub_bulkbar d-flex align-items-center justify-content-between">
+                    <span t-esc="selectionCountLabel"/>
+                    <div class="d-flex align-items-center gap-2">
+                        <t t-if="state.isTrashView">
+                            <button type="button" class="btn btn-link btn-sm p-0" t-on-click="bulkRestore">
+                                <t t-esc="restoreLabel"/>
+                            </button>
+                            <button type="button" class="btn btn-link btn-sm p-0 text-danger" t-on-click="bulkDeletePermanently">
+                                <t t-esc="deletePermanentlyLabel"/>
+                            </button>
+                        </t>
+                        <t t-else="">
+                            <button type="button" class="btn btn-link btn-sm p-0" t-on-click="bulkMove">
+                                <t t-esc="moveToFolderLabel"/>
+                            </button>
+                            <button t-if="state.canManageDocuments" type="button" class="btn btn-link btn-sm p-0" t-on-click="bulkDuplicate">
+                                <t t-esc="duplicateLabel"/>
+                            </button>
+                            <button type="button" class="btn btn-link btn-sm p-0 text-danger" t-on-click="bulkDelete">
+                                <t t-esc="deleteLabel"/>
+                            </button>
+                        </t>
+                        <button type="button" class="btn btn-sm btn-secondary" t-on-click="clearSelection">
+                            <t t-esc="cancelSelectionLabel"/>
+                        </button>
+                    </div>
+                </div>
+
+                <div t-if="subfolders.length" class="o_document_hub_subfolders">
+                    <div t-foreach="subfolders" t-as="folder" t-key="folder.id"
+                         class="o_document_hub_folder_card"
+                         t-attf-class="{{ state.dragOverFolderId === folder.id ? 'o_document_hub_folder_card_dragover' : '' }}"
+                         t-on-click="() => this.selectFolder(folder.id)"
+                         t-on-dragover="onSubfolderDragOver"
+                         t-on-dragenter="(ev) => this.onSubfolderDragEnter(ev, folder)"
+                         t-on-dragleave="(ev) => this.onSubfolderDragLeave(ev, folder)"
+                         t-on-drop="(ev) => this.onSubfolderDrop(ev, folder)">
+                        <i class="fa fa-folder o_document_hub_folder_icon"/>
+                        <input t-if="isRenaming('folder', folder.id)" type="text" t-att-value="folder.name"
+                               class="o_document_hub_rename_input" t-on-click.stop=""
+                               t-on-keydown="onRenameKeydown" t-on-blur="(ev) => this.commitRename(ev, 'folder', folder.id)"/>
+                        <div t-else="" class="o_document_hub_folder_name text-truncate" t-esc="folder.name"/>
+                        <span class="o_document_hub_tile_menu" t-on-click.stop="">
+                            <Dropdown togglerClass="'btn btn-sm o_document_hub_tile_menu_btn'">
+                                <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
+                                <DropdownItem onSelected="() => this.startRenameFolder(folder)"><t t-esc="renameLabel"/></DropdownItem>
+                                <DropdownItem t-if="state.canCreateFolders" onSelected="() => this.duplicateFolder(folder)"><t t-esc="duplicateLabel"/></DropdownItem>
+                                <DropdownItem onSelected="() => this.deleteFolder(folder)" class="'text-danger'"><t t-esc="deleteLabel"/></DropdownItem>
+                            </Dropdown>
+                        </span>
+                    </div>
+                </div>
+
+                <div t-if="(state.selectedFolderId or state.isTrashView) and !state.documents.length and !subfolders.length"
+                     class="o_document_hub_empty text-muted text-center p-4" t-esc="emptyStateLabel"/>
+
+                <div t-if="state.documents.length" class="o_document_hub_kanban">
+                    <div t-foreach="state.documents" t-as="doc" t-key="doc.id"
+                         class="o_document_hub_kanban_card"
+                         t-attf-class="{{ isSelected(doc.id) ? 'o_document_hub_kanban_card_selected' : '' }}"
+                         t-on-click="(ev) => this.onTileClick(ev, doc)"
+                         t-att-draggable="!state.isTrashView"
+                         t-on-dragstart="(ev) => this.onDocumentDragStart(ev, doc)"
+                         t-on-dragend="onDocumentDragEnd">
+                        <input type="checkbox" class="o_document_hub_kanban_select"
+                               t-att-checked="isSelected(doc.id)"
+                               t-on-click.stop="() => this.toggleSelect(doc.id)"/>
+                        <div class="o_document_hub_kanban_thumbnail">
+                            <img t-if="doc.cover_mimetype and doc.cover_mimetype.startsWith('image/')"
+                                 t-attf-src="/web/image/#{doc.cover_attachment_id[0]}/128x128"
+                                 alt="Thumbnail"/>
+                            <DocumentHubPdfThumbnail t-elif="doc.cover_mimetype and doc.cover_mimetype.includes('pdf')"
+                               attachmentId="doc.cover_attachment_id[0]"/>
+                            <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('word') or doc.cover_mimetype.includes('opendocument.text'))"
+                               class="fa fa-file-word-o fa-3x text-primary"/>
+                            <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('sheet') or doc.cover_mimetype.includes('excel'))"
+                               class="fa fa-file-excel-o fa-3x text-success"/>
+                            <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('presentation') or doc.cover_mimetype.includes('powerpoint'))"
+                               class="fa fa-file-powerpoint-o fa-3x text-warning"/>
+                            <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('zip') or doc.cover_mimetype.includes('compressed'))"
+                               class="fa fa-file-archive-o fa-3x text-muted"/>
+                            <i t-else="" class="fa fa-file-o fa-3x text-muted"/>
+                            <i t-if="doc.state == 'lock'" class="fa fa-lock o_document_hub_kanban_lock" title="Locked"/>
+                        </div>
+                        <input t-if="isRenaming('document', doc.id)" type="text" t-att-value="doc.topic"
+                               class="o_document_hub_rename_input" t-on-click.stop=""
+                               t-on-keydown="onRenameKeydown" t-on-blur="(ev) => this.commitRename(ev, 'document', doc.id)"/>
+                        <div t-else="" class="o_document_hub_kanban_title text-truncate" t-esc="doc.topic"/>
+                        <div t-if="state.isTrashView and doc.folder_id" class="o_document_hub_kanban_subtitle text-muted text-truncate" t-esc="doc.folder_id[1]"/>
+                        <div class="o_document_hub_kanban_footer">
+                            <span t-foreach="tagNames(doc.tag_ids)" t-as="tagName" t-key="tagName"
+                                  class="badge rounded-pill text-bg-secondary o_document_hub_kanban_tag" t-esc="tagName"/>
+                            <img t-if="doc.owner_id" class="o_document_hub_kanban_avatar rounded-circle"
+                                 t-attf-src="/web/image/res.users/#{doc.owner_id[0]}/avatar_128"
+                                 t-att-title="doc.owner_id[1]" alt="Owner"/>
+                        </div>
+                        <span class="o_document_hub_tile_menu" t-on-click.stop="">
+                            <Dropdown togglerClass="'btn btn-sm o_document_hub_tile_menu_btn'">
+                                <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
+                                <t t-if="state.isTrashView">
+                                    <DropdownItem onSelected="() => this.restoreDocument(doc)"><t t-esc="restoreLabel"/></DropdownItem>
+                                    <DropdownItem onSelected="() => this.deleteDocumentPermanently(doc)" class="'text-danger'"><t t-esc="deletePermanentlyLabel"/></DropdownItem>
+                                </t>
+                                <t t-else="">
+                                    <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.startRenameDocument(doc)"><t t-esc="renameLabel"/></DropdownItem>
+                                    <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.uploadNewVersion(doc)"><t t-esc="uploadNewVersionLabel"/></DropdownItem>
+                                    <DropdownItem onSelected="() => this.openVersionHistory(doc)"><t t-esc="versionHistoryLabel"/></DropdownItem>
+                                    <DropdownItem t-if="state.canManageDocuments" onSelected="() => this.duplicateDocument(doc)"><t t-esc="duplicateLabel"/></DropdownItem>
+                                    <DropdownItem t-if="state.canManageDocuments" onSelected="() => this.toggleLock(doc)">
+                                        <t t-esc="doc.state == 'lock' ? unlockLabel : lockLabel"/>
+                                    </DropdownItem>
+                                    <DropdownItem onSelected="() => this.openDocumentDetails(doc.id)"><t t-esc="detailsLabel"/></DropdownItem>
+                                    <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.deleteDocument(doc)" class="'text-danger'"><t t-esc="deleteLabel"/></DropdownItem>
+                                </t>
+                            </Dropdown>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -13,7 +13,7 @@
             </field>
         </record>
 
-        <record id='document_hub_project_form_inherit' model='ir.ui.view'>
+        <!-- <record id='document_hub_project_form_inherit' model='ir.ui.view'>
             <field name="name">document_hub.project.form.inherit</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
@@ -27,7 +27,7 @@
                 </xpath>
 
             </field>
-        </record>
+        </record> -->
         
     </data>
 </odoo>

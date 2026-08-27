@@ -1,0 +1,240 @@
+.o_document_hub_explorer {
+    min-height: 0;
+}
+
+// --- Sidebar tree ---------------------------------------------------------
+
+.o_document_hub_tree_sidebar {
+    width: 260px;
+    border-right: 1px solid var(--o-kanban-record-border, rgba(0, 0, 0, 0.08));
+    padding: 8px 4px;
+}
+
+.o_document_hub_tree_row {
+    position: relative;
+    padding: 3px 24px 3px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: var(--o-kanban-record-hover-bg, rgba(0, 0, 0, 0.04));
+
+        .o_document_hub_tree_menu {
+            opacity: 1;
+        }
+    }
+}
+
+.o_document_hub_tree_menu {
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    opacity: 0;
+}
+
+.o_document_hub_tree_rename_input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.o_document_hub_tree_row_selected {
+    background-color: var(--o-brand-primary, #714b67);
+    color: #fff;
+
+    &:hover {
+        background-color: var(--o-brand-primary, #714b67);
+    }
+}
+
+.o_document_hub_tree_caret,
+.o_document_hub_tree_caret_placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    flex-shrink: 0;
+}
+
+.o_document_hub_tree_icon {
+    margin: 0 4px;
+    color: #f2c14e;
+    flex-shrink: 0;
+}
+
+.o_document_hub_tree_children {
+    padding-left: 16px;
+}
+
+.o_document_hub_trash_row {
+    padding: 3px 4px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    .fa {
+        margin: 0 4px;
+        flex-shrink: 0;
+    }
+
+    &:hover {
+        background-color: var(--o-kanban-record-hover-bg, rgba(0, 0, 0, 0.04));
+    }
+}
+
+.o_document_hub_trash_selected {
+    background-color: var(--o-brand-primary, #714b67);
+    color: #fff;
+
+    &:hover {
+        background-color: var(--o-brand-primary, #714b67);
+    }
+}
+
+// --- Main content: breadcrumb ---------------------------------------------
+
+.o_document_hub_breadcrumb {
+    padding: 8px 16px 0;
+    font-size: 13px;
+}
+
+.o_document_hub_breadcrumb_item {
+    cursor: pointer;
+    color: var(--o-kanban-record-muted-color, #6c757d);
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.o_document_hub_breadcrumb_current {
+    color: inherit;
+    font-weight: 500;
+    cursor: default;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.o_document_hub_breadcrumb_sep {
+    margin: 0 4px;
+    color: var(--o-kanban-record-muted-color, #6c757d);
+}
+
+// --- Main content: bulk-select action bar ----------------------------------
+
+// --- Folder picker dialog (bulk move) ---------------------------------------
+
+.o_document_hub_folder_picker {
+    max-height: 360px;
+    overflow-y: auto;
+    margin: -0.5rem -1rem;
+}
+
+.o_document_hub_folder_picker_row {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 12px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--o-kanban-record-hover-bg, rgba(0, 0, 0, 0.04));
+    }
+}
+
+.o_document_hub_folder_picker_row_selected {
+    background-color: var(--o-brand-primary, #714b67);
+    color: #fff;
+
+    &:hover {
+        background-color: var(--o-brand-primary, #714b67);
+    }
+}
+
+.o_document_hub_folder_picker_icon {
+    margin-right: 8px;
+    color: #f2c14e;
+    flex-shrink: 0;
+}
+
+.o_document_hub_version_avatar {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+}
+
+.o_document_hub_bulkbar {
+    padding: 6px 16px;
+    font-size: 13px;
+    background-color: var(--o-kanban-record-hover-bg, rgba(113, 75, 103, 0.06));
+    border-bottom: 1px solid var(--o-kanban-record-border, rgba(0, 0, 0, 0.08));
+}
+
+// --- Main content: subfolder tiles -----------------------------------------
+
+.o_document_hub_subfolders {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--o-kanban-record-border, rgba(0, 0, 0, 0.08));
+}
+
+.o_document_hub_folder_card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--o-kanban-record-hover-bg, rgba(0, 0, 0, 0.04));
+        border-color: var(--o-kanban-record-border, rgba(0, 0, 0, 0.08));
+
+        .o_document_hub_tile_menu {
+            opacity: 1;
+        }
+    }
+}
+
+.o_document_hub_folder_card_dragover {
+    background-color: var(--o-kanban-record-hover-bg, rgba(113, 75, 103, 0.12));
+    border-color: var(--o-brand-primary, #714b67);
+}
+
+.o_document_hub_folder_icon {
+    font-size: 40px;
+    color: #f2c14e;
+    margin-bottom: 4px;
+}
+
+.o_document_hub_folder_name {
+    max-width: 100%;
+    font-size: 13px;
+}
+
+// --- Shared: per-tile "more options" menu, drag & drop -----------------------
+
+.o_document_hub_tile_menu {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    opacity: 0;
+}
+
+// Reused by both tile menus (o_document_hub_tile_menu) and the sidebar tree's
+// per-row menu (o_document_hub_tree_menu).
+.o_document_hub_tile_menu_btn {
+    padding: 2px 6px;
+}
+
+.o_document_hub_main.o_document_hub_dragover {
+    outline: 2px dashed var(--o-brand-primary, #714b67);
+    outline-offset: -4px;
+    background-color: var(--o-kanban-record-hover-bg, rgba(113, 75, 103, 0.06));
+}

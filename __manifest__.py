@@ -3,7 +3,7 @@
 {
     'name': 'Document hub',
     'version': '17.0.0.0.1',
-    'author': 'Daniel Demedziuk',
+    'author': 'DSquare Net',
     'license': 'GPL-2',
     'sequence': 55,
     'category': 'Customizations',
