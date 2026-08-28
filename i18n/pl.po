@@ -304,6 +304,7 @@ msgstr "Data utworzenia"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Delete"

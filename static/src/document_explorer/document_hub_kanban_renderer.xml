@@ -17,6 +17,7 @@
                     onSelect.bind="selectFolder" onRenameStart.bind="startRenameFolder"
                     onRenameKeydown.bind="onRenameKeydown" onRenameCommit.bind="commitRenameFolder"
                     onDownload.bind="downloadFolder" onCreateSubfolder.bind="createSubfolder"
+                    onDelete.bind="deleteFolder"
                     onDropDocuments.bind="moveDocumentsToFolderById"/>
             </div>
             <div class="o_document_hub_main flex-grow-1 overflow-auto"
@@ -63,7 +64,7 @@
                             <button type="button" class="btn btn-link btn-sm p-0" t-on-click="bulkRestore">
                                 <t t-esc="restoreLabel"/>
                             </button>
-                            <button type="button" class="btn btn-link btn-sm p-0 text-danger" t-on-click="bulkDeletePermanently">
+                            <button type="button" class="btn btn-link btn-sm p-0 text-danger fw-bold" t-on-click="bulkDeletePermanently">
                                 <t t-esc="deletePermanentlyLabel"/>
                             </button>
                         </t>
@@ -74,7 +75,7 @@
                             <button t-if="state.canManageDocuments" type="button" class="btn btn-link btn-sm p-0" t-on-click="bulkDuplicate">
                                 <t t-esc="duplicateLabel"/>
                             </button>
-                            <button type="button" class="btn btn-link btn-sm p-0 text-danger" t-on-click="bulkDelete">
+                            <button type="button" class="btn btn-link btn-sm p-0 text-danger fw-bold" t-on-click="bulkDelete">
                                 <t t-esc="deleteLabel"/>
                             </button>
                         </t>
@@ -103,7 +104,7 @@
                                 <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
                                 <DropdownItem onSelected="() => this.startRenameFolder(folder)"><t t-esc="renameLabel"/></DropdownItem>
                                 <DropdownItem t-if="state.canCreateFolders" onSelected="() => this.duplicateFolder(folder)"><t t-esc="duplicateLabel"/></DropdownItem>
-                                <DropdownItem onSelected="() => this.deleteFolder(folder)" class="'text-danger'"><t t-esc="deleteLabel"/></DropdownItem>
+                                <DropdownItem onSelected="() => this.deleteFolder(folder)" class="'text-danger fw-bold'"><t t-esc="deleteLabel"/></DropdownItem>
                             </Dropdown>
                         </span>
                     </div>
@@ -157,7 +158,7 @@
                                 <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
                                 <t t-if="state.isTrashView">
                                     <DropdownItem onSelected="() => this.restoreDocument(doc)"><t t-esc="restoreLabel"/></DropdownItem>
-                                    <DropdownItem onSelected="() => this.deleteDocumentPermanently(doc)" class="'text-danger'"><t t-esc="deletePermanentlyLabel"/></DropdownItem>
+                                    <DropdownItem onSelected="() => this.deleteDocumentPermanently(doc)" class="'text-danger fw-bold'"><t t-esc="deletePermanentlyLabel"/></DropdownItem>
                                 </t>
                                 <t t-else="">
                                     <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.startRenameDocument(doc)"><t t-esc="renameLabel"/></DropdownItem>
@@ -168,7 +169,7 @@
                                         <t t-esc="doc.state == 'lock' ? unlockLabel : lockLabel"/>
                                     </DropdownItem>
                                     <DropdownItem onSelected="() => this.openDocumentDetails(doc.id)"><t t-esc="detailsLabel"/></DropdownItem>
-                                    <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.deleteDocument(doc)" class="'text-danger'"><t t-esc="deleteLabel"/></DropdownItem>
+                                    <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.deleteDocument(doc)" class="'text-danger fw-bold'"><t t-esc="deleteLabel"/></DropdownItem>
                                 </t>
                             </Dropdown>
                         </span>

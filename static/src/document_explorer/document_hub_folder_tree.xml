@@ -23,6 +23,7 @@
                         <DropdownItem onSelected="() => this.props.onDownload(props.folder)"><t t-esc="downloadLabel"/></DropdownItem>
                         <DropdownItem onSelected="() => this.props.onRenameStart(props.folder)"><t t-esc="renameLabel"/></DropdownItem>
                         <DropdownItem t-if="props.canCreateFolders" onSelected="() => this.props.onCreateSubfolder(props.folder)"><t t-esc="newFolderLabel"/></DropdownItem>
+                        <DropdownItem onSelected="() => this.props.onDelete(props.folder)" class="'text-danger fw-bold'"><t t-esc="deleteLabel"/></DropdownItem>
                     </Dropdown>
                 </span>
             </div>
@@ -34,6 +35,7 @@
                     onSelect="props.onSelect" onRenameStart="props.onRenameStart"
                     onRenameKeydown="props.onRenameKeydown" onRenameCommit="props.onRenameCommit"
                     onDownload="props.onDownload" onCreateSubfolder="props.onCreateSubfolder"
+                    onDelete="props.onDelete"
                     onDropDocuments="props.onDropDocuments"/>
             </div>
         </div>
