@@ -115,9 +115,30 @@
         </field>
     </record>
 
+    <record id="document_hub_trash_log_tree_view" model="ir.ui.view">
+        <field name="name">Document hub trash log tree view</field>
+        <field name="model">document_hub.trash_log</field>
+        <field name="arch" type="xml">
+            <tree string="Trash log" create="false" edit="false" delete="false">
+                <field name="create_date" string="When"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="res_model"/>
+                <field name="res_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_hub_trash_log_act" model="ir.actions.act_window">
+        <field name="name">Trash log</field>
+        <field name="res_model">document_hub.trash_log</field>
+        <field name="view_mode">tree</field>
+    </record>
+
     <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_manager"/>
     <menuitem name="General" id="menu_config_general" parent="document_hub.menu_config" sequence="10">
         <menuitem name="Folders" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
         <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
+        <menuitem name="Trash log" id="menu_config_trash_log" action="document_hub_trash_log_act" sequence="10" groups="base.group_system" />
     </menuitem>
 </odoo>

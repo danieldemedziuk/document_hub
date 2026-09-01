@@ -3,23 +3,38 @@
 
     <t t-name="document_hub.VersionDialog">
         <Dialog title="title" size="'md'">
-            <div t-if="!state.versions.length" class="text-muted" t-esc="noVersionsLabel"/>
-            <table t-else="" class="table table-sm align-middle mb-0">
+            <table class="table table-sm align-middle mb-0">
                 <tbody>
-                    <tr t-foreach="state.versions" t-as="version" t-key="version.id">
+                    <tr t-if="state.currentFile">
+                        <td/>
+                        <td>
+                            <a t-att-href="downloadUrl(state.currentFile.id)" t-esc="state.currentFile.name"/>
+                            <span class="badge text-bg-primary ms-1" t-esc="currentVersionLabel"/>
+                        </td>
+                        <td class="text-muted" t-esc="formatSize(state.currentFile.file_size)"/>
+                        <td/>
+                    </tr>
+                    <tr t-foreach="state.versions" t-as="version" t-key="version.id" t-att-data-index="version_index">
                         <td>
                             <img t-if="version.create_uid" class="o_document_hub_version_avatar rounded-circle me-2"
                                  t-att-src="avatarUrl(version.create_uid[0])" t-att-title="version.create_uid[1]" alt=""/>
                         </td>
                         <td>
                             <a t-att-href="downloadUrl(version.attachment_id[0])" t-esc="version.attachment_id[1]"/>
+                            <div class="text-muted small" t-esc="formatVersionDate(version)"/>
                         </td>
-                        <td class="text-muted" t-esc="formatVersionDate(version)"/>
+                        <td class="text-muted">
+                            <div t-esc="formatSize(version.file_size)"/>
+                            <div class="small" t-esc="sizeDeltaLabel(version_index)"/>
+                        </td>
                         <td class="text-end">
                             <button type="button" class="btn btn-link btn-sm p-0" t-on-click="() => this.restore(version)">
                                 <t t-esc="restoreLabel"/>
                             </button>
                         </td>
+                    </tr>
+                    <tr t-if="!state.versions.length">
+                        <td colspan="4" class="text-muted" t-esc="noVersionsLabel"/>
                     </tr>
                 </tbody>
             </table>

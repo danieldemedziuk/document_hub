@@ -97,9 +97,13 @@ class Document(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        if not self.env.su and any(document.state == 'lock' for document in self):
-            raise UserError(_('You cannot delete a locked document. Unlock it first.'))
-        return super().unlink()
+        if not self.env.su:
+            if any(document.state == 'lock' for document in self):
+                raise UserError(_('You cannot delete a locked document. Unlock it first.'))
+            if not self.env.user.has_group('base.group_system'):
+                raise UserError(_('Only a system administrator can permanently delete documents from the trash.'))
+        self.env['document_hub.trash_log'].log_action(self, 'purged')
+        return super(Document, self.sudo()).unlink()
 
     def action_archive(self):
         # "Delete" in the explorer moves a document to the trash (active=False)
@@ -110,10 +114,14 @@ class Document(models.Model):
         # already-flagged gap create() works around, applied consistently.
         if not self.env.su and any(document.state == 'lock' for document in self):
             raise UserError(_('You cannot delete a locked document. Unlock it first.'))
-        return super(Document, self.sudo()).action_archive()
+        res = super(Document, self.sudo()).action_archive()
+        self.env['document_hub.trash_log'].log_action(self, 'deleted')
+        return res
 
     def action_unarchive(self):
-        return super(Document, self.sudo()).action_unarchive()
+        res = super(Document, self.sudo()).action_unarchive()
+        self.env['document_hub.trash_log'].log_action(self, 'restored')
+        return res
 
     def _check_management_permission(self):
         # Locking and duplicating are elevated actions: restricted to the
