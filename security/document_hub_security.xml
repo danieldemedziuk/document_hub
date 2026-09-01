@@ -174,11 +174,26 @@
             <field name="domain_force">[(1,'=',1)]</field>
         </record>
 
+        <!-- These 9 department rules are read-visibility filters only (that's
+             what the visibility_x fields are for) - explicitly scoped to
+             perm_read so they don't also gate create/write/unlink. Without
+             this, a freshly-created folder (no visibility flags set yet,
+             since that's only chosen afterwards in the folder form) never
+             satisfies any of these domains, so ir.rule denies the create
+             outright regardless of what ir.model.access.csv allows - this is
+             what silently broke folder creation for group_document_hub_folder_creator
+             (and for group_document_hub_document_administration, which already
+             had perm_create=1/perm_write=1 in the ACL but could never actually
+             use it). The director/manager/administrator catch-all rule below
+             is intentionally left applying to all operations. -->
         <record id="documents_hub_folder_administration_rule" model="ir.rule">
             <field name="name">Document hub folder: administration rule</field>
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_administration'))]" />
             <field name="domain_force">[('visibility_administration', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_purchasing_and_logistics_rule" model="ir.rule">
@@ -186,6 +201,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_purchasing_and_logistics'))]" />
             <field name="domain_force">[('visibility_purchasing_and_logistics', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_marketing_rule" model="ir.rule">
@@ -193,6 +211,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_marketing'))]" />
             <field name="domain_force">[('visibility_marketing', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_production_rule" model="ir.rule">
@@ -200,6 +221,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_production'))]" />
             <field name="domain_force">[('visibility_production', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_sales_rule" model="ir.rule">
@@ -207,6 +231,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_salesman'))]" />
             <field name="domain_force">[('visibility_salesman', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_accounting_rule" model="ir.rule">
@@ -214,6 +241,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_accounting'))]" />
             <field name="domain_force">[('visibility_accounting', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_everyone_rule" model="ir.rule">
@@ -221,6 +251,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_everyone'))]" />
             <field name="domain_force">[('visibility_everyone', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_pm_rule" model="ir.rule">
@@ -228,6 +261,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_pm'))]" />
             <field name="domain_force">[('visibility_pm', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_hr_rule" model="ir.rule">
@@ -235,6 +271,9 @@
             <field name="model_id" ref="model_document_hub_folder" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_hr'))]" />
             <field name="domain_force">[('visibility_hr', '=' , True)]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
         </record>
 
         <record id="documents_hub_folder_director_rule" model="ir.rule">
@@ -243,6 +282,20 @@
             <field name="groups"
                 eval="[(4, ref('document_hub.group_document_hub_document_director'))]" />
             <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <!-- Someone with "Can create folders" but no broader visibility rule
+             granting write/unlink can otherwise create a folder and then
+             immediately lose read/write/unlink access to it, since it has no
+             visibility_x flag set yet (that's chosen afterwards in the
+             folder form). This rule lets a creator see and manage whatever
+             they personally created, on top of - not instead of - whatever
+             their department visibility rule already grants. -->
+        <record id="documents_hub_folder_own_created_rule" model="ir.rule">
+            <field name="name">Document hub folder: own created folders (creator group)</field>
+            <field name="model_id" ref="model_document_hub_folder" />
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_folder_creator'))]" />
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
         </record>
 
         <record id="documents_hub_tag_director_rule" model="ir.rule">

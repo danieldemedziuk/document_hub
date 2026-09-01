@@ -4,7 +4,7 @@
     <t t-name="document_hub.DocumentHubKanbanRenderer">
         <div class="o_document_hub_explorer d-flex h-100">
             <div class="o_document_hub_tree_sidebar flex-shrink-0 overflow-auto">
-                <div class="o_document_hub_trash_row d-flex align-items-center"
+                <div t-if="state.isSystemAdmin" class="o_document_hub_trash_row d-flex align-items-center"
                      t-attf-class="{{ state.isTrashView ? 'o_document_hub_trash_selected' : '' }}"
                      t-on-click="selectTrash">
                     <i class="fa fa-trash-o me-1"/>
@@ -17,6 +17,7 @@
                     onSelect.bind="selectFolder" onRenameStart.bind="startRenameFolder"
                     onRenameKeydown.bind="onRenameKeydown" onRenameCommit.bind="commitRenameFolder"
                     onDownload.bind="downloadFolder" onCreateSubfolder.bind="createSubfolder"
+                    onDelete.bind="deleteFolder"
                     onDropDocuments.bind="moveDocumentsToFolderById"/>
             </div>
             <div class="o_document_hub_main flex-grow-1 overflow-auto"
@@ -43,6 +44,9 @@
                         <button type="button" class="btn btn-link btn-sm p-0" t-on-click="createBlankDocument">
                             <t t-esc="newDocumentBlankLabel"/>
                         </button>
+                        <button t-if="state.canCreateFolders" type="button" class="btn btn-outline-secondary btn-sm" t-on-click="createSubfolderInCurrentFolder">
+                            <i class="fa fa-folder-o me-1"/><t t-esc="addFolderLabel"/>
+                        </button>
                         <button type="button" class="btn btn-primary btn-sm" t-on-click="pickFiles">
                             <i class="fa fa-upload me-1"/><t t-esc="uploadFileLabel"/>
                         </button>
@@ -63,7 +67,7 @@
                             <button type="button" class="btn btn-link btn-sm p-0" t-on-click="bulkRestore">
                                 <t t-esc="restoreLabel"/>
                             </button>
-                            <button type="button" class="btn btn-link btn-sm p-0 text-danger" t-on-click="bulkDeletePermanently">
+                            <button type="button" class="btn btn-link btn-sm p-0 text-danger fw-bold" t-on-click="bulkDeletePermanently">
                                 <t t-esc="deletePermanentlyLabel"/>
                             </button>
                         </t>
@@ -74,7 +78,7 @@
                             <button t-if="state.canManageDocuments" type="button" class="btn btn-link btn-sm p-0" t-on-click="bulkDuplicate">
                                 <t t-esc="duplicateLabel"/>
                             </button>
-                            <button type="button" class="btn btn-link btn-sm p-0 text-danger" t-on-click="bulkDelete">
+                            <button type="button" class="btn btn-link btn-sm p-0 text-danger fw-bold" t-on-click="bulkDelete">
                                 <t t-esc="deleteLabel"/>
                             </button>
                         </t>
@@ -103,13 +107,28 @@
                                 <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
                                 <DropdownItem onSelected="() => this.startRenameFolder(folder)"><t t-esc="renameLabel"/></DropdownItem>
                                 <DropdownItem t-if="state.canCreateFolders" onSelected="() => this.duplicateFolder(folder)"><t t-esc="duplicateLabel"/></DropdownItem>
-                                <DropdownItem onSelected="() => this.deleteFolder(folder)" class="'text-danger'"><t t-esc="deleteLabel"/></DropdownItem>
+                                <DropdownItem onSelected="() => this.deleteFolder(folder)" class="'text-danger fw-bold'"><t t-esc="deleteLabel"/></DropdownItem>
                             </Dropdown>
                         </span>
                     </div>
                 </div>
 
-                <div t-if="(state.selectedFolderId or state.isTrashView) and !state.documents.length and !subfolders.length"
+                <div t-if="state.isTrashView and state.trashedFolders.length" class="o_document_hub_subfolders">
+                    <div t-foreach="state.trashedFolders" t-as="folder" t-key="folder.id"
+                         class="o_document_hub_folder_card">
+                        <i class="fa fa-folder o_document_hub_folder_icon"/>
+                        <div class="o_document_hub_folder_name text-truncate" t-esc="folder.name"/>
+                        <span class="o_document_hub_tile_menu" t-on-click.stop="">
+                            <Dropdown togglerClass="'btn btn-sm o_document_hub_tile_menu_btn'">
+                                <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
+                                <DropdownItem onSelected="() => this.restoreFolder(folder)"><t t-esc="restoreLabel"/></DropdownItem>
+                                <DropdownItem onSelected="() => this.deleteFolderPermanently(folder)" class="'text-danger fw-bold'"><t t-esc="deletePermanentlyLabel"/></DropdownItem>
+                            </Dropdown>
+                        </span>
+                    </div>
+                </div>
+
+                <div t-if="(state.selectedFolderId or state.isTrashView) and !state.documents.length and !subfolders.length and !state.trashedFolders.length"
                      class="o_document_hub_empty text-muted text-center p-4" t-esc="emptyStateLabel"/>
 
                 <div t-if="state.documents.length" class="o_document_hub_kanban">
@@ -117,7 +136,7 @@
                          class="o_document_hub_kanban_card"
                          t-attf-class="{{ isSelected(doc.id) ? 'o_document_hub_kanban_card_selected' : '' }}"
                          t-on-click="(ev) => this.onTileClick(ev, doc)"
-                         t-att-draggable="!state.isTrashView"
+                         t-att-draggable="!state.isTrashView and (doc.state != 'lock' or isSelected(doc.id))"
                          t-on-dragstart="(ev) => this.onDocumentDragStart(ev, doc)"
                          t-on-dragend="onDocumentDragEnd">
                         <input type="checkbox" class="o_document_hub_kanban_select"
@@ -129,14 +148,20 @@
                                  alt="Thumbnail"/>
                             <DocumentHubPdfThumbnail t-elif="doc.cover_mimetype and doc.cover_mimetype.includes('pdf')"
                                attachmentId="doc.cover_attachment_id[0]"/>
+                            <DocumentHubVideoThumbnail t-elif="doc.cover_mimetype and doc.cover_mimetype.startsWith('video/')"
+                               attachmentId="doc.cover_attachment_id[0]"/>
+                            <i t-elif="doc.cover_mimetype and doc.cover_mimetype.startsWith('audio/')"
+                               class="fa fa-file-audio-o fa-3x text-info"/>
                             <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('word') or doc.cover_mimetype.includes('opendocument.text'))"
                                class="fa fa-file-word-o fa-3x text-primary"/>
-                            <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('sheet') or doc.cover_mimetype.includes('excel'))"
+                            <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('sheet') or doc.cover_mimetype.includes('excel') or doc.cover_mimetype.includes('csv'))"
                                class="fa fa-file-excel-o fa-3x text-success"/>
                             <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('presentation') or doc.cover_mimetype.includes('powerpoint'))"
                                class="fa fa-file-powerpoint-o fa-3x text-warning"/>
                             <i t-elif="doc.cover_mimetype and (doc.cover_mimetype.includes('zip') or doc.cover_mimetype.includes('compressed'))"
                                class="fa fa-file-archive-o fa-3x text-muted"/>
+                            <i t-elif="doc.cover_mimetype and doc.cover_mimetype.startsWith('text/')"
+                               class="fa fa-file-text-o fa-3x text-muted"/>
                             <i t-else="" class="fa fa-file-o fa-3x text-muted"/>
                             <i t-if="doc.state == 'lock'" class="fa fa-lock o_document_hub_kanban_lock" title="Locked"/>
                         </div>
@@ -157,7 +182,7 @@
                                 <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
                                 <t t-if="state.isTrashView">
                                     <DropdownItem onSelected="() => this.restoreDocument(doc)"><t t-esc="restoreLabel"/></DropdownItem>
-                                    <DropdownItem onSelected="() => this.deleteDocumentPermanently(doc)" class="'text-danger'"><t t-esc="deletePermanentlyLabel"/></DropdownItem>
+                                    <DropdownItem onSelected="() => this.deleteDocumentPermanently(doc)" class="'text-danger fw-bold'"><t t-esc="deletePermanentlyLabel"/></DropdownItem>
                                 </t>
                                 <t t-else="">
                                     <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.startRenameDocument(doc)"><t t-esc="renameLabel"/></DropdownItem>
@@ -168,7 +193,7 @@
                                         <t t-esc="doc.state == 'lock' ? unlockLabel : lockLabel"/>
                                     </DropdownItem>
                                     <DropdownItem onSelected="() => this.openDocumentDetails(doc.id)"><t t-esc="detailsLabel"/></DropdownItem>
-                                    <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.deleteDocument(doc)" class="'text-danger'"><t t-esc="deleteLabel"/></DropdownItem>
+                                    <DropdownItem t-if="doc.state != 'lock'" onSelected="() => this.deleteDocument(doc)" class="'text-danger fw-bold'"><t t-esc="deleteLabel"/></DropdownItem>
                                 </t>
                             </Dropdown>
                         </span>

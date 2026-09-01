@@ -23,11 +23,37 @@ msgid "%s selected"
 msgstr "Wybrano: %s"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
+#, python-format
+msgid "(same size)"
+msgstr "(ten sam rozmiar)"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
+#, python-format
+msgid "(+%s)"
+msgstr "(+%s)"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
+#, python-format
+msgid "(-%s)"
+msgstr "(-%s)"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_accounting
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_accounting
 #: model:res.groups,name:document_hub.group_document_hub_document_accounting
 msgid "Accounting"
 msgstr "Księgowość"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__action
+msgid "Action"
+msgstr "Akcja"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_needaction
@@ -83,6 +109,13 @@ msgstr "Ikona typu aktywności"
 #, python-format
 msgid "Add document"
 msgstr "Dodaj dokument"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Add folder"
+msgstr "Dodaj folder"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_administration
@@ -209,6 +242,7 @@ msgstr "Klient"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_confirm_purge_dialog.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_folder_picker_dialog.esm.js:0
 #, python-format
 msgid "Cancel"
@@ -304,6 +338,21 @@ msgstr "Data utworzenia"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
+#, python-format
+msgid "Current"
+msgstr "Aktualna"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "DELETE"
+msgstr "USUŃ"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Delete"
@@ -325,6 +374,7 @@ msgstr "Usuń folder"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_confirm_purge_dialog.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Delete permanently"
@@ -371,6 +421,7 @@ msgstr "Wyświetlana nazwa"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__document_id
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_trash_log__res_model__document_hub_document
 msgid "Document"
 msgstr "Dokument"
 
@@ -561,6 +612,7 @@ msgstr "Raporty finansowe"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__folder_id
 #: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_folder
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_trash_log__res_model__document_hub_folder
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Folder"
@@ -795,6 +847,13 @@ msgid "Locked"
 msgstr "Zablokowany"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Locked documents were skipped - unlock them first to move them."
+msgstr "Zablokowane dokumenty zostały pominięte - najpierw je odblokuj, aby je przenieść."
+
+#. module: document_hub
 #: model:ir.actions.act_window,name:document_hub.document_hub_mail_document_act
 #: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__privacy_doc__mail
 #: model:ir.ui.menu,name:document_hub.menu_document_hub_mail_documents
@@ -831,6 +890,11 @@ msgstr "Przenieś do folderu"
 #, python-format
 msgid "Move to folder…"
 msgstr "Przenieś do folderu…"
+
+#. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_trash_log__action__deleted
+msgid "Moved to trash"
+msgstr "Przeniesiono do kosza"
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__rel_is_parent_folder_project
@@ -919,6 +983,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__name
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__name
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__res_name
 msgid "Name"
 msgstr "Nazwa"
 
@@ -1046,6 +1111,20 @@ msgid "Organization"
 msgstr "Organizacja"
 
 #. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "Only a system administrator can permanently delete documents from the trash."
+msgstr "Tylko administrator systemu może trwale usuwać dokumenty z kosza."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/folder.py:0
+#, python-format
+msgid "Only a system administrator can permanently delete folders from the trash."
+msgstr "Tylko administrator systemu może trwale usuwać foldery z kosza."
+
+#. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_administration_other
 msgid "Other"
 msgstr "Inne"
@@ -1106,6 +1185,11 @@ msgstr "Polityka"
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Port"
 msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_trash_log__action__purged
+msgid "Permanently deleted"
+msgstr "Trwale usunięto"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__privacy_doc
@@ -1265,6 +1349,11 @@ msgid "Restore"
 msgstr "Przywróć"
 
 #. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_trash_log__action__restored
+msgid "Restored from trash"
+msgstr "Przywrócono z kosza"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
@@ -1396,6 +1485,13 @@ msgstr "Podatek"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_confirm_purge_dialog.esm.js:0
+#, python-format
+msgid "This cannot be undone. Type %s to confirm:"
+msgstr "Tej operacji nie można cofnąć. Wpisz %s, aby potwierdzić:"
+
+#. module: document_hub
+#. odoo-javascript
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "This folder is empty."
@@ -1446,6 +1542,13 @@ msgstr "Kosz"
 #, python-format
 msgid "Trash is empty."
 msgstr "Kosz jest pusty."
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_trash_log_act
+#: model:ir.ui.menu,name:document_hub.menu_config_trash_log
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_trash_log_tree_view
+msgid "Trash log"
+msgstr "Dziennik kosza"
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_exception_decoration
@@ -1500,6 +1603,7 @@ msgid "Use the port of your mail host."
 msgstr "Użyj portu dla swojej poczty."
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__user_id
 #: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_user
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "User"
@@ -1533,6 +1637,11 @@ msgid "Website communication history"
 msgstr "Historia komunikacji na stronie internetowej"
 
 #. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_trash_log_tree_view
+msgid "When"
+msgstr "Kiedy"
+
+#. module: document_hub
 #. odoo-python
 #: code:addons/document_hub/models/document.py:0
 #, python-format
@@ -1544,11 +1653,11 @@ msgstr "Nie możesz usunąć zablokowanego dokumentu. Najpierw go odblokuj."
 #: code:addons/document_hub/models/folder.py:0
 #, python-format
 msgid ""
-"You cannot delete folder \"%s\" while it still contains documents. Move "
-"or delete them first."
+"You cannot delete folder \"%s\" while it still contains documents. Move, "
+"restore or permanently delete them first."
 msgstr ""
 "Nie możesz usunąć folderu \"%s\", ponieważ wciąż zawiera dokumenty. "
-"Najpierw je przenieś lub usuń."
+"Najpierw je przenieś, przywróć lub usuń trwale."
 
 #. module: document_hub
 #. odoo-python

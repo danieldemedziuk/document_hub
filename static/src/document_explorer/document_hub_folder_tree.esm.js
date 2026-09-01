@@ -28,6 +28,7 @@ export class DocumentHubFolderTreeNode extends Component {
         onRenameCommit: Function,
         onDownload: Function,
         onCreateSubfolder: Function,
+        onDelete: Function,
         onDropDocuments: Function,
     };
 
@@ -36,6 +37,7 @@ export class DocumentHubFolderTreeNode extends Component {
         this.renameLabel = _t("Rename");
         this.downloadLabel = _t("Download");
         this.newFolderLabel = _t("New folder");
+        this.deleteLabel = _t("Delete");
     }
 
     get children() {
