@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { Component, useState, onWillStart, useRef } from "@odoo/owl";
+import { Component, useState, onWillStart, onMounted, onWillUnmount, useRef } from "@odoo/owl";
 import { useBus, useService } from "@web/core/utils/hooks";
 import { Domain } from "@web/core/domain";
 import { _t } from "@web/core/l10n/translation";
@@ -15,7 +15,9 @@ import { FormViewDialog } from "@web/views/view_dialogs/form_view_dialog";
 import { DocumentHubFolderTreeNode } from "./document_hub_folder_tree.esm";
 import { DocumentHubVersionDialog } from "./document_hub_version_dialog.esm";
 import { DocumentHubPdfThumbnail } from "./document_hub_pdf_thumbnail.esm";
+import { DocumentHubVideoThumbnail } from "./document_hub_video_thumbnail.esm";
 import { DocumentHubFolderPickerDialog } from "./document_hub_folder_picker_dialog.esm";
+import { DocumentHubConfirmPurgeDialog } from "./document_hub_confirm_purge_dialog.esm";
 
 /**
  * Windows-Explorer-style layout for document_hub.document: a folder tree on
@@ -38,7 +40,7 @@ import { DocumentHubFolderPickerDialog } from "./document_hub_folder_picker_dial
  */
 export class DocumentHubKanbanRenderer extends Component {
     static template = "document_hub.DocumentHubKanbanRenderer";
-    static components = { DocumentHubFolderTreeNode, Dropdown, DropdownItem, DocumentHubPdfThumbnail };
+    static components = { DocumentHubFolderTreeNode, Dropdown, DropdownItem, DocumentHubPdfThumbnail, DocumentHubVideoThumbnail };
     static props = ["archInfo", "list", "Compiler?", "deleteRecord", "openRecord", "readonly", "evalViewModifier",
         "forceGlobalClick?", "noContentHelp?", "scrollTop?", "canQuickCreate?",
         "quickCreateState?", "progressBarState?"];
@@ -74,10 +76,13 @@ export class DocumentHubKanbanRenderer extends Component {
         this.deleteFolderTitle = _t("Delete folder");
         this.deleteDocumentTitle = _t("Delete document");
         this.newFolderDefaultName = _t("New folder");
+        this.addFolderLabel = _t("Add folder");
         this.moveToFolderLabel = _t("Move to folder…");
         this.cancelSelectionLabel = _t("Cancel selection");
         this.selectAllLabel = _t("Select all");
         this.deselectAllLabel = _t("Deselect all");
+        this.purgeKeyword = _t("DELETE");
+        this.lockedMoveSkippedLabel = _t("Locked documents were skipped - unlock them first to move them.");
 
         this.lastClickedId = null;
         this.state = useState({
@@ -90,6 +95,8 @@ export class DocumentHubKanbanRenderer extends Component {
             isDraggingOver: false,
             canManageDocuments: false,
             canCreateFolders: false,
+            isSystemAdmin: false,
+            trashedFolders: [],
             selectedIds: new Set(),
             dragOverFolderId: false,
         });
@@ -108,8 +115,48 @@ export class DocumentHubKanbanRenderer extends Component {
             this.state.canCreateFolders = await this.user.hasGroup(
                 "document_hub.group_document_hub_folder_creator"
             );
+            // Trash is only ever shown to a real system administrator: everyone
+            // else's "Delete" only ever moves things there (see action_archive()
+            // on both models) - permanently removing anything, or even seeing
+            // what's pending removal, is reserved for base.group_system.
+            this.state.isSystemAdmin = await this.user.hasGroup('base.group_system');
         });
         useBus(this.env.searchModel, "update", () => this.reloadDocuments());
+
+        // Delete/F2/Ctrl+A on the current selection - window-level so they work
+        // without first clicking into the tile grid, like a real file manager.
+        // Skipped while focus is in a text input/textarea (rename field, search
+        // bar, a dialog's own inputs) so typing there is never hijacked.
+        this._onGlobalKeydown = (ev) => this.onGlobalKeydown(ev);
+        onMounted(() => window.addEventListener("keydown", this._onGlobalKeydown));
+        onWillUnmount(() => window.removeEventListener("keydown", this._onGlobalKeydown));
+    }
+
+    onGlobalKeydown(ev) {
+        const tag = (ev.target.tagName || "").toLowerCase();
+        if (tag === "input" || tag === "textarea" || tag === "select" || ev.target.isContentEditable) {
+            return;
+        }
+        if (ev.key === "Delete") {
+            if (this.state.selectedIds.size) {
+                ev.preventDefault();
+                if (this.state.isTrashView) {
+                    this.bulkDeletePermanently();
+                } else {
+                    this.bulkDelete();
+                }
+            }
+        } else if (ev.key === "F2" && !this.state.isTrashView && this.state.selectedIds.size === 1) {
+            const [id] = this.state.selectedIds;
+            const doc = this.state.documents.find((d) => d.id === id);
+            if (doc && doc.state !== "lock") {
+                ev.preventDefault();
+                this.startRenameDocument(doc);
+            }
+        } else if ((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === "a" && this.state.documents.length) {
+            ev.preventDefault();
+            this.state.selectedIds = new Set(this.state.documents.map((doc) => doc.id));
+        }
     }
 
     async loadFolders() {
@@ -178,7 +225,7 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     async selectTrash() {
-        if (this.state.isTrashView) {
+        if (!this.state.isSystemAdmin || this.state.isTrashView) {
             return;
         }
         this.state.isTrashView = true;
@@ -190,16 +237,27 @@ export class DocumentHubKanbanRenderer extends Component {
     async reloadDocuments() {
         const fields = ["name", "topic", "state", "cover_attachment_id", "cover_mimetype", "tag_ids", "owner_id"];
         if (this.state.isTrashView) {
-            const domain = Domain.and([
+            // Only the "root" of what was deleted: a folder whose own parent is
+            // still active (its whole subtree moved to trash together with it -
+            // see Folder.action_archive() - so the nested pieces don't also show
+            // up here individually), and likewise a document whose folder is
+            // still active (one deleted on its own, not via a folder cascade).
+            const folderDomain = [
+                ["active", "=", false],
+                "|", ["parent_folder_id", "=", false], ["parent_folder_id.active", "=", true],
+            ];
+            const documentDomain = Domain.and([
                 this.env.searchModel.domain,
-                [["active", "=", false]],
+                [["active", "=", false], ["folder_id.active", "=", true]],
             ]).toList();
-            this.state.documents = await this.orm.searchRead(
-                "document_hub.document", domain, [...fields, "folder_id"]
-            );
+            [this.state.trashedFolders, this.state.documents] = await Promise.all([
+                this.orm.searchRead("document_hub.folder", folderDomain, ["name"]),
+                this.orm.searchRead("document_hub.document", documentDomain, [...fields, "folder_id"]),
+            ]);
             await this._syncTagCache();
             return;
         }
+        this.state.trashedFolders = [];
         if (!this.state.selectedFolderId) {
             this.state.documents = [];
             return;
@@ -260,17 +318,40 @@ export class DocumentHubKanbanRenderer extends Component {
         this.state.renaming = { kind: "folder", id: folderId };
     }
 
+    createSubfolderInCurrentFolder() {
+        if (this.selectedFolder) {
+            this.createSubfolder(this.selectedFolder);
+        }
+    }
+
     deleteFolder(folder) {
         this.dialog.add(ConfirmationDialog, {
             title: this.deleteFolderTitle,
             body: deleteConfirmationMessage,
             confirm: async () => {
-                await this.orm.unlink("document_hub.folder", [folder.id]);
+                await this.orm.call("document_hub.folder", "action_archive", [folder.id]);
                 await this.loadFolders();
                 if (this.state.selectedFolderId === folder.id) {
                     this.state.selectedFolderId = false;
                     this.state.documents = [];
                 }
+            },
+        });
+    }
+
+    async restoreFolder(folder) {
+        await this.orm.call("document_hub.folder", "action_unarchive", [folder.id]);
+        await this.loadFolders();
+        await this.reloadDocuments();
+    }
+
+    deleteFolderPermanently(folder) {
+        this.dialog.add(DocumentHubConfirmPurgeDialog, {
+            title: this.deleteFolderTitle,
+            expectedText: folder.name,
+            onConfirm: async () => {
+                await this.orm.unlink("document_hub.folder", [folder.id]);
+                await this.reloadDocuments();
             },
         });
     }
@@ -309,10 +390,10 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     deleteDocumentPermanently(doc) {
-        this.dialog.add(ConfirmationDialog, {
+        this.dialog.add(DocumentHubConfirmPurgeDialog, {
             title: this.deleteDocumentTitle,
-            body: deleteConfirmationMessage,
-            confirm: async () => {
+            expectedText: doc.topic,
+            onConfirm: async () => {
                 await this.orm.unlink("document_hub.document", [doc.id]);
                 await this.reloadDocuments();
             },
@@ -391,9 +472,7 @@ export class DocumentHubKanbanRenderer extends Component {
             folders: this.state.folders,
             excludeFolderId: this.state.selectedFolderId,
             onSelected: async (folderId) => {
-                await this.orm.write("document_hub.document", [...this.state.selectedIds], { folder_id: folderId });
-                this.clearSelection();
-                await this.reloadDocuments();
+                await this.moveDocumentsToFolder([...this.state.selectedIds], folderId);
             },
         });
     }
@@ -425,10 +504,10 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     bulkDeletePermanently() {
-        this.dialog.add(ConfirmationDialog, {
+        this.dialog.add(DocumentHubConfirmPurgeDialog, {
             title: this.deleteDocumentTitle,
-            body: deleteConfirmationMessage,
-            confirm: async () => {
+            expectedText: this.purgeKeyword,
+            onConfirm: async () => {
                 await this.orm.unlink("document_hub.document", [...this.state.selectedIds]);
                 this.clearSelection();
                 await this.reloadDocuments();
@@ -439,6 +518,10 @@ export class DocumentHubKanbanRenderer extends Component {
     // --- Drag & drop move (documents -> folders) ----------------------------
 
     onDocumentDragStart(ev, doc) {
+        if (doc.state === "lock" && !this.state.selectedIds.has(doc.id)) {
+            ev.preventDefault();
+            return;
+        }
         // Dragging a tile that's part of the active selection drags the whole
         // selection; dragging an unselected tile drags just that one document.
         this._draggedDocumentIds = this.state.selectedIds.has(doc.id)
@@ -498,10 +581,23 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     async moveDocumentsToFolder(ids, folderId) {
-        if (!ids.length || (ids.length === 1 && this.state.selectedFolderId === folderId)) {
+        // A locked document's folder_id is server-side protected (see
+        // Document.write()/_LOCKED_PROTECTED_FIELDS) - filtering it out here
+        // up front means the rest of the batch still moves instead of the
+        // whole write() failing, and the user gets a clear reason why.
+        const lockedCount = this.state.documents.filter(
+            (doc) => ids.includes(doc.id) && doc.state === "lock"
+        ).length;
+        const movableIds = lockedCount
+            ? ids.filter((id) => !this.state.documents.some((doc) => doc.id === id && doc.state === "lock"))
+            : ids;
+        if (lockedCount) {
+            this.notification.add(this.lockedMoveSkippedLabel, { type: "warning" });
+        }
+        if (!movableIds.length || (movableIds.length === 1 && this.state.selectedFolderId === folderId)) {
             return;
         }
-        await this.orm.write("document_hub.document", ids, { folder_id: folderId });
+        await this.orm.write("document_hub.document", movableIds, { folder_id: folderId });
         this.clearSelection();
         await this.reloadDocuments();
     }
