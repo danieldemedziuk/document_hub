@@ -5,7 +5,7 @@
         <Dialog title="title" size="'md'">
             <p t-esc="instructionLabel"/>
             <input type="text" class="form-control" t-model="state.typed"
-                   t-on-keydown="(ev) => { if (ev.key === 'Enter') this.confirm(); }"/>
+                   t-on-keydown="onInputKeydown"/>
             <t t-set-slot="footer">
                 <button type="button" class="btn btn-danger fw-bold" t-att-disabled="!canConfirm" t-on-click="confirm">
                     <t t-esc="confirmLabel"/>

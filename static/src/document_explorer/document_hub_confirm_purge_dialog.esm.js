@@ -35,6 +35,12 @@ export class DocumentHubConfirmPurgeDialog extends Component {
         return this.state.typed === this.props.expectedText;
     }
 
+    onInputKeydown(ev) {
+        if (ev.key === "Enter") {
+            this.confirm();
+        }
+    }
+
     confirm() {
         if (!this.canConfirm) {
             return;
