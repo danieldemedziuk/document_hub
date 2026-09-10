@@ -1,0 +1,35 @@
+// Card picker for `document_hub.document` relational fields.
+// Shared by the many2one and many2many variants — see document_picker_common.xml.
+
+$o-document-hub-picker-filename-color: #7c8289c2;
+$o-document-hub-picker-search-color: #17a2b8;
+
+// --- Card ----------------------------------------------------------------
+
+.o_document_hub_picker_card_body {
+    cursor: pointer;
+    min-width: 0;
+}
+
+.o_document_hub_picker_filenames {
+    margin-top: 4px;
+    font-size: 12px;
+    color: $o-document-hub-picker-filename-color;
+}
+
+// Nudged into the card's padding so the icon sits flush with the corner.
+.o_document_hub_picker_remove {
+    transform: translate(-2px, -3px);
+}
+
+// --- Actions -------------------------------------------------------------
+
+// Same specificity as .btn-link, so the hover and focus states have to be
+// restated to keep winning over Bootstrap.
+.o_document_hub_picker_search {
+    &,
+    &:hover,
+    &:focus {
+        color: $o-document-hub-picker-search-color;
+    }
+}

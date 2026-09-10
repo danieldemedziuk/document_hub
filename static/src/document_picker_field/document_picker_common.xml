@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="document_hub.DocumentPickerCards">
+        <div class="o_document_hub_picker d-flex flex-column gap-2">
+            <div t-if="!cards.length" class="text-muted fst-italic">
+                <t t-esc="props.emptyLabel"/>
+            </div>
+            <div t-foreach="cards" t-as="card" t-key="card.key"
+                 class="o_document_hub_picker_card position-relative d-flex align-items-center border rounded p-2 pt-1 pe-4">
+                <div class="o_document_hub_picker_card_body flex-grow-1"
+                     t-on-click="() => this.editCard(card)">
+                    <div>
+                        <span class="fw-bold">
+                            <i class="fa fa-file-text-o me-2"/>
+                            <t t-esc="card.displayName"/>
+                        </span>
+                        <span t-if="card.topic" class="text-muted ms-2">
+                            <t t-esc="card.topic"/>
+                        </span>
+                    </div>
+                    <div t-if="props.showFilenames and card.fileNames" class="o_document_hub_picker_filenames">
+                        <div t-foreach="card.fileNames.split('\n')" t-as="fname" t-key="fname_index"
+                             class="text-truncate">
+                            <t t-esc="fname"/>
+                        </div>
+                    </div>
+                </div>
+                <button t-if="!props.readonly" type="button"
+                        class="o_document_hub_picker_remove btn btn-link text-danger p-0 position-absolute top-0 end-0 m-1"
+                        title="Remove" t-on-click="() => this.unlink(card)">
+                    <i class="fa fa-times"/>
+                </button>
+            </div>
+            <div t-if="!props.readonly and canAdd" class="d-flex gap-4">
+                <button t-if="props.canCreate" type="button" class="btn btn-link p-0"
+                        t-on-click="() => this.addRecord()">
+                    <i class="fa fa-plus me-1"/> <t t-esc="props.addLabel"/>
+                </button>
+                <button t-if="props.canSearch" type="button" class="o_document_hub_picker_search btn btn-link p-0"
+                        t-on-click="() => this.searchRecords()">
+                    <i class="fa fa-search me-1"/> <t t-esc="props.searchLabel"/>
+                </button>
+            </div>
+        </div>
+    </t>
+
+</templates>
