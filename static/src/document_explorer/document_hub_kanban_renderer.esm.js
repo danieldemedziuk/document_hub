@@ -102,6 +102,12 @@ export class DocumentHubKanbanRenderer extends Component {
         });
         onWillStart(async () => {
             await this.loadFolders();
+            // An action can open the explorer straight inside one folder by
+            // putting its id in default_folder_id in the search model's context.
+            const defaultFolderId = this.env.searchModel.context.default_folder_id;
+            if (this.state.folders.some((folder) => folder.id === defaultFolderId)) {
+                this.state.selectedFolderId = defaultFolderId;
+            }
             await this.reloadDocuments();
             // Mirrors the server-side check in document_hub.document._check_management_permission():
             // lock/unlock/duplicate are restricted to the director tier. Hiding the menu entries for

@@ -8,6 +8,7 @@ class Folder(models.Model):
     _name = 'document_hub.folder'
     _description = 'Document hub: Folder'
     _rec_name = 'parent_path'
+    _rec_names_search = ['name', 'parent_path']
     _parent_name = 'parent_folder_id'
 
     name = fields.Char(string='Name', required=True, translate=True)
@@ -32,16 +33,21 @@ class Folder(models.Model):
     
     is_project = fields.Boolean(string="Is project", default=False, help='Mark this option if you are sure this folder is for projects.')
 
-    @api.depends('parent_folder_id', 'name')
+    def _folder_path_name(self):
+        """Path of the folder, in the language of the current environment."""
+        self.ensure_one()
+        parent_name = self.parent_folder_id.name
+        return f"{parent_name}: {self.name}" if parent_name else self.name
+
+    @api.depends('parent_folder_id.name', 'name')
     def _compute_parent_path(self):
         for rec in self:
-            name = _(rec.name)
-            
-            if rec.parent_folder_id:
-                parent_folder = _(rec.parent_folder_id.name)
-                rec.parent_path = F"{parent_folder}: {name}"
-            else:
-                rec.parent_path = name
+            rec.parent_path = rec._folder_path_name()
+
+    @api.depends('parent_folder_id.name', 'name')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = rec._folder_path_name()
 
     def unlink(self):
         if not self.env.su and not self.env.user.has_group('base.group_system'):
