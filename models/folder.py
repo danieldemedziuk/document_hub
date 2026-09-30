@@ -3,6 +3,8 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError, ValidationError
 
+GROUP_PREFIX = 'document_hub.group_document_hub_document_'
+
 
 class Folder(models.Model):
     _name = 'document_hub.folder'
@@ -32,6 +34,46 @@ class Folder(models.Model):
     visibility_everyone = fields.Boolean(string='Everyone', default=False)
     
     is_project = fields.Boolean(string="Is project", default=False, help='Mark this option if you are sure this folder is for projects.')
+
+    # visibility_x flag -> the department group it opens the folder to
+    _VISIBILITY_GROUPS = {
+        'visibility_administration': f'{GROUP_PREFIX}administration',
+        'visibility_purchasing_and_logistics': f'{GROUP_PREFIX}purchasing_and_logistics',
+        'visibility_marketing': f'{GROUP_PREFIX}marketing',
+        'visibility_production': f'{GROUP_PREFIX}production',
+        'visibility_accounting': f'{GROUP_PREFIX}accounting',
+        'visibility_pm': f'{GROUP_PREFIX}pm',
+        'visibility_hr': f'{GROUP_PREFIX}hr',
+        'visibility_salesman': f'{GROUP_PREFIX}salesman',
+        'visibility_everyone': f'{GROUP_PREFIX}everyone',
+    }
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not any(vals.get(field) for field in self._VISIBILITY_GROUPS):
+                vals.update(self._default_visibility_values(vals.get('parent_folder_id')))
+        return super().create(vals_list)
+
+    @api.model
+    def _default_visibility_values(self, parent_folder_id):
+        """Returns a dict of visibility_x flags to set on a new folder, based on the
+        parent folder's flags or the creator's department groups if parent has none.
+        
+        Returns `{visibility_everyone: True}` if the creator has no department of their own."""
+        if parent_folder_id:
+            parent = self.sudo().browse(parent_folder_id)
+            inherited = {field: True for field in self._VISIBILITY_GROUPS if parent[field]}
+            if inherited:
+                return inherited
+        user = self.env.user
+        own = {
+            field: True for field, group in self._VISIBILITY_GROUPS.items()
+            if field != 'visibility_everyone' and user.has_group(group)
+        }
+        if not own and user.has_group(self._VISIBILITY_GROUPS['visibility_everyone']):
+            own = {'visibility_everyone': True}
+        return own
 
     def _folder_path_name(self):
         """Path of the folder, in the language of the current environment."""
