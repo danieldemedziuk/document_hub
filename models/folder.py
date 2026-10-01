@@ -51,7 +51,7 @@ class Folder(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if not any(vals.get(field) for field in self._VISIBILITY_GROUPS):
+            if not any(field in vals for field in self._VISIBILITY_GROUPS):
                 vals.update(self._default_visibility_values(vals.get('parent_folder_id')))
         return super().create(vals_list)
 
@@ -147,6 +147,16 @@ class Folder(models.Model):
         if documents:
             documents.action_unarchive()
         return res
+
+    @api.onchange('parent_folder_id')
+    def _onchange_parent_folder_id(self):
+        # New folders only
+        if self._origin or not self.parent_folder_id:
+            return
+        values = self._default_visibility_values(self.parent_folder_id._origin.id)
+        if values:
+            for field in self._VISIBILITY_GROUPS:
+                self[field] = values.get(field, False)
 
     @api.onchange('visibility_everyone')
     def _change_settings_everyone(self):
