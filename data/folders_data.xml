@@ -13,7 +13,6 @@
             <field name="name">Project</field>
             <field name="description">All documents concerning ongoing and completed projects, including plans, reports, and agreements.</field>
             <field name="is_project">True</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_purchasing_and_logistics">True</field>
             <field name="visibility_accounting">True</field>
             <field name="visibility_pm">True</field>
@@ -22,7 +21,6 @@
         <record id="folder_marketing" model="document_hub.folder">
             <field name="name">Marketing</field>
             <field name="description">Materials and documents related to marketing strategies, campaigns, and promotional activities.</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_marketing">True</field>
         </record>
 
@@ -46,7 +44,6 @@
         <record id="folder_purchases" model="document_hub.folder">
             <field name="name">Purchases</field>
             <field name="description">Documents related to purchasing activities</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_purchasing_and_logistics">True</field>
         </record>
 
@@ -56,7 +53,6 @@
             <field name="description">Project-related contracts, agreements, and legal documents.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
             <field name="is_project">True</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_accounting">True</field>
             <field name="visibility_pm">True</field>
         </record>
@@ -66,7 +62,6 @@
             <field name="description">Supplementary documents and annexes attached to project files and contracts.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
             <field name="is_project">True</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_accounting">True</field>
             <field name="visibility_pm">True</field>
         </record>
@@ -76,7 +71,6 @@
             <field name="description">Meeting minutes, protocols, and procedural documents related to projects.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
             <field name="is_project">True</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_accounting">True</field>
             <field name="visibility_pm">True</field>
         </record>
@@ -86,7 +80,6 @@
             <field name="description">Invoices and billing documents associated with specific projects.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
             <field name="is_project">True</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_accounting">True</field>
             <field name="visibility_pm">True</field>
         </record>
@@ -96,7 +89,6 @@
             <field name="description">Non-Disclosure Agreements and confidentiality documents related to projects.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
             <field name="is_project">True</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_accounting">True</field>
             <field name="visibility_pm">True</field>
         </record>
@@ -106,7 +98,6 @@
             <field name="description">Documents related to miscellaneous or smaller projects not categorized elsewhere.</field>
             <field name="parent_folder_id" ref="document_hub.folder_project" />
             <field name="is_project">True</field>
-            <field name="visibility_administration">True</field>
             <field name="visibility_accounting">True</field>
             <field name="visibility_pm">True</field>
         </record>
@@ -192,7 +183,6 @@
             <field name="name">NDA</field>
             <field name="description">Non-Disclosure Agreements and confidentiality documents related to purchasing activities.</field>
             <field name="parent_folder_id" ref="document_hub.folder_purchases" />
-            <field name="visibility_administration">True</field>
             <field name="visibility_purchasing_and_logistics">True</field>
         </record>
 
@@ -200,7 +190,6 @@
             <field name="name">Regulations</field>
             <field name="description">Regulatory documents, compliance guidelines, and legal requirements for purchasing activities.</field>
             <field name="parent_folder_id" ref="document_hub.folder_purchases" />
-            <field name="visibility_administration">True</field>
             <field name="visibility_purchasing_and_logistics">True</field>
         </record>
 
@@ -208,7 +197,6 @@
             <field name="name">Procedures</field>
             <field name="description">Standard operating procedures, workflow documents, and process guidelines for purchasing activities.</field>
             <field name="parent_folder_id" ref="document_hub.folder_purchases" />
-            <field name="visibility_administration">True</field>
             <field name="visibility_purchasing_and_logistics">True</field>
         </record>
         
