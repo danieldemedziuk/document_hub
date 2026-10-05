@@ -22,7 +22,7 @@ class Document(models.Model):
     cover_attachment_id = fields.Many2one('ir.attachment', string='Cover file', compute='_compute_cover_attachment_id',
                                           store=True, help='First attachment, used as the kanban card thumbnail.')
     cover_mimetype = fields.Char(related='cover_attachment_id.mimetype', string='Cover file type')
-    description = fields.Html(string='Description', tracking=True)
+    description = fields.Html(string='Description')
     tag_ids = fields.Many2many('document_hub.tag', string='Tags', copy=False, tracking=True)
     partner_id = fields.Many2one('res.partner', string='Contact', tracking=True)
     project_id = fields.Many2one('project.project', string='Project', domain="[('active', 'in', (True, False))]", tracking=True)
