@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="folder_template_project" model="document_hub.folder.template">
+            <field name="name">Project</field>
+        </record>
+
+        <record id="folder_template_project_sales_department_files" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">10</field>
+            <field name="name">00 Files from the sales department</field>
+        </record>
+
+        <record id="folder_template_project_schedule_and_charter" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">20</field>
+            <field name="name">01 Schedule and project charter</field>
+        </record>
+
+        <record id="folder_template_project_meeting_notes" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">30</field>
+            <field name="name">02 Meeting notes</field>
+        </record>
+
+        <record id="folder_template_project_incoming_offers" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">40</field>
+            <field name="name">03 Incoming offers</field>
+        </record>
+
+        <record id="folder_template_project_technical_data" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">50</field>
+            <field name="name">04 Technical data from the client, specifications, other</field>
+        </record>
+
+        <record id="folder_template_project_boms" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">60</field>
+            <field name="name">05 BOMs</field>
+        </record>
+
+        <record id="folder_template_project_photos" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">70</field>
+            <field name="name">06 Photos</field>
+        </record>
+
+        <record id="folder_template_project_documentation" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">80</field>
+            <field name="name">07 Documentation</field>
+        </record>
+
+        <record id="folder_template_project_3d_models_and_layouts" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">90</field>
+            <field name="name">08 3D models + layouts</field>
+        </record>
+
+        <record id="folder_template_project_other" model="document_hub.folder.template.line">
+            <field name="template_id" ref="document_hub.folder_template_project" />
+            <field name="sequence">100</field>
+            <field name="name">09 Other</field>
+        </record>
+
+    </data>
+</odoo>

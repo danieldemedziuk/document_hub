@@ -44,6 +44,56 @@ msgid "(-%s)"
 msgstr "(-%s)"
 
 #. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_sales_department_files
+msgid "00 Files from the sales department"
+msgstr "00 Pliki od działu sprzedaży"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_schedule_and_charter
+msgid "01 Schedule and project charter"
+msgstr "01 Harmonogram i Karta Projektu"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_meeting_notes
+msgid "02 Meeting notes"
+msgstr "02 Notatki ze spotkań"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_incoming_offers
+msgid "03 Incoming offers"
+msgstr "03 Oferty przychodzące"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_technical_data
+msgid "04 Technical data from the client, specifications, other"
+msgstr "04 Dane techniczne od klienta, specyfikacje, inne"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_boms
+msgid "05 BOMs"
+msgstr "05 BOM-y"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_photos
+msgid "06 Photos"
+msgstr "06 Zdjęcia"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_documentation
+msgid "07 Documentation"
+msgstr "07 Dokumentacja"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_3d_models_and_layouts
+msgid "08 3D models + layouts"
+msgstr "08 Modele 3D + Layouty"
+
+#. module: document_hub
+#: model:document_hub.folder.template.line,name:document_hub.folder_template_project_other
+msgid "09 Other"
+msgstr "09 Inne"
+
+#. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_accounting
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_accounting
 #: model:res.groups,name:document_hub.group_document_hub_document_accounting
@@ -454,6 +504,16 @@ msgid "Document hub: Folder"
 msgstr "Centrum dokumentów: Folder"
 
 #. module: document_hub
+#: model:ir.model,name:document_hub.model_document_hub_folder_template
+msgid "Document hub: Folder template"
+msgstr "Centrum dokumentów: Szablon folderów"
+
+#. module: document_hub
+#: model:ir.model,name:document_hub.model_document_hub_folder_template_line
+msgid "Document hub: Folder template line"
+msgstr "Centrum dokumentów: Pozycja szablonu folderów"
+
+#. module: document_hub
 #: model:ir.model,name:document_hub.model_document_hub_tag
 msgid "Document hub: Tag"
 msgstr "Centrum dokumentów: Etykieta"
@@ -617,6 +677,18 @@ msgstr "Raporty finansowe"
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Folder"
 msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_folder__template_line_id
+msgid "Folder template line this folder was created from."
+msgstr "Pozycja szablonu folderów, z której utworzono ten folder."
+
+#. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_folder_template_action
+#: model:ir.ui.menu,name:document_hub.menu_config_folder_template
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_template_view_tree
+msgid "Folder templates"
+msgstr "Szablony folderów"
 
 #. module: document_hub
 #: model:ir.actions.act_window,name:document_hub.document_hub_folder_act
@@ -982,6 +1054,8 @@ msgstr ""
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__name
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__name
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__name
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__res_name
 msgid "Name"
@@ -1204,9 +1278,11 @@ msgstr "Procedury"
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project
 #: model:document_hub.folder,parent_path:document_hub.folder_project
+#: model:document_hub.folder.template,name:document_hub.folder_template_project
 #: model:document_hub.tag,name:document_hub.tag_project
 #: model:ir.model,name:document_hub.model_project_project
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__project_id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__project_id
 msgid "Project"
 msgstr "Projekt"
 
@@ -1214,6 +1290,11 @@ msgstr "Projekt"
 #: model:res.groups,name:document_hub.group_document_hub_document_pm
 msgid "Project manager"
 msgstr "Kierownik projektu"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_folder__project_id
+msgid "Project whose main folder this is."
+msgstr "Projekt, którego folderem głównym jest ten folder."
 
 #. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_project_contracts
@@ -1394,6 +1475,7 @@ msgstr "Wybierz dokumenty"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__sequence
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__sequence
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__sequence
 msgid "Sequence"
 msgstr "Kolejność"
@@ -1458,6 +1540,16 @@ msgid "Sub folder"
 msgstr "Folder podrzędny"
 
 #. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__line_ids
+msgid "Subfolders"
+msgstr "Podfoldery"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_folder_template__line_ids
+msgid "Subfolders created from this template, in this order."
+msgstr "Podfoldery tworzone z tego szablonu, w tej kolejności."
+
+#. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_project_annexes
 msgid ""
 "Supplementary documents and annexes attached to project files and contracts."
@@ -1482,6 +1574,16 @@ msgstr "Tagi"
 #: model:document_hub.tag,name:document_hub.tag_tax
 msgid "Tax"
 msgstr "Podatek"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__template_id
+msgid "Template"
+msgstr "Szablon"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__template_line_id
+msgid "Template line"
+msgstr "Pozycja szablonu"
 
 #. module: document_hub
 #. odoo-javascript

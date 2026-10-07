@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class Project(models.Model):
@@ -20,3 +20,24 @@ class Project(models.Model):
             counts = {group['project_id'][0]: group['project_id_count'] for group in groups}
         for project in self:
             project.doc_count = counts.get(project.id, 0)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        projects = super().create(vals_list)
+        projects._create_document_folder()
+        return projects
+
+    def _create_document_folder(self):
+        """Create the folder of each project under the Project root folder, with the project template subfolders."""
+        root_folder = self.env.ref('document_hub.folder_project')
+        template = self.env.ref('document_hub.folder_template_project').sudo()
+        
+        for project in self:
+            project_folder = self.env['document_hub.folder'].sudo().create({
+                'name': project.display_name,
+                'parent_folder_id': root_folder.id,
+                'company_id': project.company_id.id,
+                'is_project': True,
+                'project_id': project.id,
+            })
+            template._create_subfolders(project_folder)

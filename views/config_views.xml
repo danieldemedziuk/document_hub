@@ -34,6 +34,7 @@
                             <field name="parent_folder_id" domain="[('id', '!=', id)]" />
                             <field name="children_folder_ids" invisible="1" />
                             <field name="is_project" />
+                            <field name="project_id" invisible="not project_id" />
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
@@ -92,6 +93,45 @@
         </field>
     </record>
 
+    <record id="document_hub_folder_template_view_tree" model="ir.ui.view">
+        <field name="name">document_hub.folder.template.view.tree</field>
+        <field name="model">document_hub.folder.template</field>
+        <field name="arch" type="xml">
+            <tree string="Folder templates">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_hub_folder_template_view_form" model="ir.ui.view">
+        <field name="name">document_hub.folder.template.view.form</field>
+        <field name="model">document_hub.folder.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <field name="line_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="name" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="document_hub_folder_template_action" model="ir.actions.act_window">
+        <field name="name">Folder templates</field>
+        <field name="res_model">document_hub.folder.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <record id="document_hub_tag_tree_view" model="ir.ui.view">
         <field name="name">Document hub tag tree view</field>
         <field name="model">document_hub.tag</field>
@@ -138,6 +178,7 @@
     <menuitem name="Configuration" id="menu_config" parent="document_hub.menu_root" sequence="50" groups="document_hub.group_document_hub_document_manager"/>
     <menuitem name="General" id="menu_config_general" parent="document_hub.menu_config" sequence="10">
         <menuitem name="Folders" id="menu_config_folder" action="document_hub_folder_act" sequence="1" />
+        <menuitem name="Folder templates" id="menu_config_folder_template" action="document_hub_folder_template_action" sequence="2" />
         <menuitem name="Tags" id="menu_config_tag" action="document_hub_tag_act" sequence="5" />
         <menuitem name="Trash log" id="menu_config_trash_log" action="document_hub_trash_log_act" sequence="10" groups="base.group_system" />
     </menuitem>
