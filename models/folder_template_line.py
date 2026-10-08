@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class FolderTemplateLine(models.Model):
@@ -10,6 +11,13 @@ class FolderTemplateLine(models.Model):
         'document_hub.folder.template', string='Template', required=True, ondelete='cascade', index=True)
     sequence = fields.Integer(string='Sequence', default=10)
     name = fields.Char(string='Name', required=True, translate=True)
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_module_data(self):
+        if self.env['ir.model.data'].sudo().search_count([
+            ('model', '=', self._name), ('res_id', 'in', self.ids), ('module', 'not in', ['__export__', '__import__']),
+        ]):
+            raise UserError(_('Subfolders that come with a module cannot be deleted, only renamed or reordered.'))
 
     def _create_folders(self, parent_folder):
         """Create a subfolder of parent_folder for every line."""
