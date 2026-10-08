@@ -85,6 +85,7 @@ class Document(models.Model):
                     vals['tag_ids'] = [(6, 0, matched.ids)]
 
         res = super(Document, self.sudo()).create(vals_list)
+        res._link_attachments()
         return res
 
     def write(self, vals):
@@ -94,7 +95,26 @@ class Document(models.Model):
         if not self.env.su and self._LOCKED_PROTECTED_FIELDS.intersection(vals) \
                 and any(document.state == 'lock' for document in self):
             raise UserError(_('You cannot modify a locked document. Unlock it first.'))
-        return super().write(vals)
+        result = super().write(vals)
+        if 'file_ids' in vals:
+            self._link_attachments()
+        return result
+
+    def _link_attachments(self):
+        """Bind the files uploaded on the form to their document.
+
+        many2many_binary uploads before the document is saved, so the files get
+        no res_id (or land on ir.ui.view), and Odoo lets only their uploader
+        open such a file. Bound to the document, a file is readable by whoever
+        may read the document, and never public.
+        sudo: the uploader may be another user; only orphan files of this
+        document are touched, after the document itself was written.
+        """
+        for record in self:
+            orphans = record.sudo().file_ids.filtered(
+                lambda a: not a.res_id and a.res_model in (False, self._name, 'ir.ui.view'))
+            if orphans:
+                orphans.write({'res_model': self._name, 'res_id': record.id, 'public': False})
 
     def unlink(self):
         if not self.env.su:
