@@ -1545,6 +1545,17 @@ msgid "Subfolders"
 msgstr "Podfoldery"
 
 #. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/folder_template_line.py:0
+#, python-format
+msgid ""
+"Subfolders that come with a module cannot be deleted, only renamed or "
+"reordered."
+msgstr ""
+"Podfolderów dostarczonych z modułem nie można usunąć, można tylko zmienić ich "
+"nazwę lub kolejność."
+
+#. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_folder_template__line_ids
 msgid "Subfolders created from this template, in this order."
 msgstr "Podfoldery tworzone z tego szablonu, w tej kolejności."

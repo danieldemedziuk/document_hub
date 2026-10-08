@@ -1,4 +1,5 @@
 from odoo import Command
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -31,3 +32,15 @@ class TestProjectFolder(TransactionCase):
 
         self.assertEqual(template.name, 'Projects')
         self.assertIn('Contracts', template.line_ids.mapped('name'))
+
+    def test_only_manually_added_template_lines_can_be_deleted(self):
+        module_line = self.env.ref('document_hub.folder_template_project_meeting_notes').with_user(self.manager)
+        manual_line = self.env['document_hub.folder.template.line'].with_user(self.manager).create(
+            {'template_id': self.template.id, 'name': 'Contracts'})
+
+        with self.assertRaises(UserError):
+            module_line.unlink()
+        manual_line.unlink()
+
+        self.assertTrue(module_line.exists())
+        self.assertFalse(manual_line.exists())
