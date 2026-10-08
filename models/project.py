@@ -30,8 +30,8 @@ class Project(models.Model):
     def _create_document_folder(self):
         """Create the folder of each project under the Project root folder, with the project template subfolders."""
         root_folder = self.env.ref('document_hub.folder_project')
-        template = self.env.ref('document_hub.folder_template_project').sudo()
-        
+        template_lines = self.env.ref('document_hub.folder_template_project').sudo().line_ids
+
         for project in self:
             project_folder = self.env['document_hub.folder'].sudo().create({
                 'name': project.display_name,
@@ -40,4 +40,4 @@ class Project(models.Model):
                 'is_project': True,
                 'project_id': project.id,
             })
-            template._create_subfolders(project_folder)
+            template_lines._create_folders(project_folder)
