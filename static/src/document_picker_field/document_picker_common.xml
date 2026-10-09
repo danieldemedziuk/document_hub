@@ -21,7 +21,7 @@
                     </div>
                     <div t-if="props.showFilenames and card.fileNames" class="o_document_hub_picker_filenames">
                         <div t-foreach="card.fileNames.split('\n')" t-as="fname" t-key="fname_index"
-                             class="text-truncate">
+                             class="text-truncate" t-att-title="fname">
                             <t t-esc="fname"/>
                         </div>
                     </div>

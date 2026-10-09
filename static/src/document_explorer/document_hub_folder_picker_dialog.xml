@@ -6,7 +6,7 @@
             <div t-if="!rows.length" class="text-muted text-center p-3" t-esc="noFoldersLabel"/>
             <div t-else="" class="o_document_hub_folder_picker">
                 <div t-foreach="rows" t-as="folder" t-key="folder.id"
-                     class="o_document_hub_folder_picker_row d-flex align-items-center"
+                     class="o_document_hub_folder_picker_row d-flex align-items-center" t-att-title="folder.name"
                      t-attf-class="{{ state.selectedId === folder.id ? 'o_document_hub_folder_picker_row_selected' : '' }}"
                      t-attf-style="padding-left: {{ 12 + folder.depth * 20 }}px"
                      t-on-click="() => this.select(folder.id)">
