@@ -2,7 +2,7 @@
 
 {
     'name': 'Document hub',
-    'version': '17.0.0.0.2',
+    'version': '17.0.0.0.3',
     'author': 'DSquare Net',
     'license': 'GPL-2',
     'sequence': 55,

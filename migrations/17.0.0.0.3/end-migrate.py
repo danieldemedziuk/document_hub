@@ -14,8 +14,10 @@ def migrate(cr, version):
 
 
 def _create_project_folders(env):
-    """Create the folder of every active project."""
-    projects = env['project.project'].search([])
+    """Create the folder of every active project that has none yet."""
+    with_folder = env['document_hub.folder'].with_context(active_test=False).search(
+        [('project_id', '!=', False)]).project_id
+    projects = env['project.project'].search([]) - with_folder
     projects._create_document_folder()
 
     _logger.info('Created the document folders of %s projects.', len(projects))
@@ -37,5 +39,5 @@ def _move_documents_to_project_folders(env):
     folder_by_project = {folder.project_id: folder for folder in project_folders}
     for project, project_documents in documents.grouped('project_id').items():
         project_documents.write({'folder_id': folder_by_project[project].id})
-        
+
     _logger.info('Moved %s documents to the folders of their projects.', len(documents))
