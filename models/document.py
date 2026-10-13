@@ -34,7 +34,8 @@ class Document(models.Model):
     rel_is_project = fields.Boolean(related='folder_id.is_project')
     rel_is_parent_folder_project = fields.Boolean(related='folder_id.parent_folder_id.is_project')
     is_admin = fields.Boolean(compute='compute_admin_group')
-    
+    can_edit = fields.Boolean(compute='_compute_can_edit')
+
     rel_visibility_administration = fields.Boolean(related='folder_id.visibility_administration')
     rel_visibility_purchasing_and_logistics = fields.Boolean(related='folder_id.visibility_purchasing_and_logistics')
     rel_visibility_marketing = fields.Boolean(related='folder_id.visibility_marketing')
@@ -55,6 +56,10 @@ class Document(models.Model):
     def _compute_cover_attachment_id(self):
         for document in self:
             document.cover_attachment_id = document.file_ids[:1]
+
+    @api.depends_context('uid')
+    def _compute_can_edit(self):
+        self.can_edit = self.check_access_rights('write', raise_exception=False)
 
     # Fields the form already treats as readonly once state == 'lock'
     # (see document_hub_document_form_view). Enforced here too: readonly on
