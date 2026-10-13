@@ -744,22 +744,12 @@ export class DocumentHubKanbanRenderer extends Component {
                 this.notification.add(uploadedFile.error, { type: "danger" });
                 continue;
             }
-            const [docId] = await this.orm.create("document_hub.document", [{
+            await this.orm.create("document_hub.document", [{
                 topic: uploadedFile.filename,
                 folder_id: this.state.selectedFolderId,
                 privacy_doc: privacyDoc,
                 file_ids: [[6, 0, [uploadedFile.id]]],
             }]);
-            // /web/binary/upload_attachment uploads with res_id=0 (no document exists
-            // yet to attach to). An attachment with res_id=0 is only readable by its
-            // own creator (see ir.attachment.check(): res_id falsy => allowed only for
-            // create_uid == uid). Repointing it at the saved document makes its access
-            // follow the document's own read rules, so other users who can see the
-            // document can also open its file.
-            await this.orm.write("ir.attachment", [uploadedFile.id], {
-                res_model: "document_hub.document",
-                res_id: docId,
-            });
         }
         await this.reloadDocuments();
     }
