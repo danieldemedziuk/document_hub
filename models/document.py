@@ -92,13 +92,16 @@ class Document(models.Model):
         # self.env.su: skip for trusted system automation (e.g. the sale_offer
         # attachment sync in sale_offer.py, which runs sudo()'d) - locking is
         # meant to stop casual user edits, not break existing integrations.
-        if not self.env.su and self._LOCKED_PROTECTED_FIELDS.intersection(vals) \
-                and any(document.state == 'lock' for document in self):
-            raise UserError(_('You cannot modify a locked document. Unlock it first.'))
+        if not self.env.su:
+            self._check_unlocked(vals)
         result = super().write(vals)
         if 'file_ids' in vals:
             self._link_attachments()
         return result
+
+    def _check_unlocked(self, vals):
+        if self._LOCKED_PROTECTED_FIELDS.intersection(vals) and any(document.state == 'lock' for document in self):
+            raise UserError(_('You cannot modify a locked document. Unlock it first.'))
 
     def _link_attachments(self):
         """Bind the files uploaded on the form to their document.
