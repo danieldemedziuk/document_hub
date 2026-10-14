@@ -739,17 +739,23 @@ export class DocumentHubKanbanRenderer extends Component {
         );
         const uploaded = JSON.parse(response);
         const privacyDoc = this.env.searchModel.context.default_privacy_doc || "mail";
+
+        const documents = [];
         for (const uploadedFile of uploaded) {
             if (uploadedFile.error) {
                 this.notification.add(uploadedFile.error, { type: "danger" });
                 continue;
             }
-            await this.orm.create("document_hub.document", [{
+            documents.push({
                 topic: uploadedFile.filename,
                 folder_id: this.state.selectedFolderId,
                 privacy_doc: privacyDoc,
                 file_ids: [[6, 0, [uploadedFile.id]]],
-            }]);
+            });
+        }
+
+        if (documents.length) {
+            await this.orm.create("document_hub.document", documents);
         }
         await this.reloadDocuments();
     }
