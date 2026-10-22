@@ -32,7 +32,7 @@ class Document(models.Model):
     state = fields.Selection([('open', 'Open'), ('lock', 'Locked')], string='State', default='open', tracking=True, copy=False)
     privacy_doc = fields.Selection([('company', 'Company'), ('mail', 'Mail')], string='Privacy', default='mail', copy=True)
     rel_is_project = fields.Boolean(related='folder_id.is_project')
-    rel_is_parent_folder_project = fields.Boolean(related='folder_id.parent_folder_id.is_project')
+    rel_is_parent_folder_project = fields.Boolean(related='folder_id.parent_folder_id.is_project', string='Is parent folder project')
     is_admin = fields.Boolean(compute='compute_admin_group')
     
     rel_visibility_administration = fields.Boolean(related='folder_id.visibility_administration')
