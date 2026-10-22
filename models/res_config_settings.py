@@ -7,10 +7,10 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     imap_active = fields.Boolean(default=False)
-    imap_host = fields.Char(string='Host')
-    imap_port = fields.Integer(string='Port', default=465)
-    imap_user = fields.Char(string='User')
-    imap_password = fields.Char(string='Password')
+    imap_host = fields.Char(string='IMAP host')
+    imap_port = fields.Integer(string='IMAP port', default=465)
+    imap_user = fields.Char(string='IMAP user')
+    imap_password = fields.Char(string='IMAP password')
     imap_folder = fields.Many2one('document_hub.folder', string="Folder", default=lambda lm: lm.env.ref('document_hub.folder_administration_inbox'))
     
     def set_values(self):

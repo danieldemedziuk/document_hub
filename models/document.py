@@ -22,7 +22,7 @@ class Document(models.Model):
     cover_attachment_id = fields.Many2one('ir.attachment', string='Cover file', compute='_compute_cover_attachment_id',
                                           store=True, help='First attachment, used as the kanban card thumbnail.')
     cover_mimetype = fields.Char(related='cover_attachment_id.mimetype', string='Cover file type')
-    description = fields.Html(string='Description', tracking=True)
+    description = fields.Html(string='Description')
     tag_ids = fields.Many2many('document_hub.tag', string='Tags', copy=False, tracking=True)
     partner_id = fields.Many2one('res.partner', string='Contact', tracking=True)
     project_id = fields.Many2one('project.project', string='Project', domain="[('active', 'in', (True, False))]", tracking=True)
@@ -32,7 +32,7 @@ class Document(models.Model):
     state = fields.Selection([('open', 'Open'), ('lock', 'Locked')], string='State', default='open', tracking=True, copy=False)
     privacy_doc = fields.Selection([('company', 'Company'), ('mail', 'Mail')], string='Privacy', default='mail', copy=True)
     rel_is_project = fields.Boolean(related='folder_id.is_project')
-    rel_is_parent_folder_project = fields.Boolean(related='folder_id.parent_folder_id.is_project')
+    rel_is_parent_folder_project = fields.Boolean(related='folder_id.parent_folder_id.is_project', string='Is parent folder project')
     is_admin = fields.Boolean(compute='compute_admin_group')
     
     rel_visibility_administration = fields.Boolean(related='folder_id.visibility_administration')
@@ -85,6 +85,7 @@ class Document(models.Model):
                     vals['tag_ids'] = [(6, 0, matched.ids)]
 
         res = super(Document, self.sudo()).create(vals_list)
+        res._link_attachments()
         return res
 
     def write(self, vals):
@@ -94,7 +95,26 @@ class Document(models.Model):
         if not self.env.su and self._LOCKED_PROTECTED_FIELDS.intersection(vals) \
                 and any(document.state == 'lock' for document in self):
             raise UserError(_('You cannot modify a locked document. Unlock it first.'))
-        return super().write(vals)
+        result = super().write(vals)
+        if 'file_ids' in vals:
+            self._link_attachments()
+        return result
+
+    def _link_attachments(self):
+        """Bind the files uploaded on the form to their document.
+
+        many2many_binary uploads before the document is saved, so the files get
+        no res_id (or land on ir.ui.view), and Odoo lets only their uploader
+        open such a file. Bound to the document, a file is readable by whoever
+        may read the document, and never public.
+        sudo: the uploader may be another user; only orphan files of this
+        document are touched, after the document itself was written.
+        """
+        for record in self:
+            orphans = record.sudo().file_ids.filtered(
+                lambda a: not a.res_id and a.res_model in (False, self._name, 'ir.ui.view'))
+            if orphans:
+                orphans.write({'res_model': self._name, 'res_id': record.id, 'public': False})
 
     def unlink(self):
         if not self.env.su:

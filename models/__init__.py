@@ -8,3 +8,4 @@ from . import res_config_settings
 from . import inbox_mail
 from . import sale_offer
 
+from . import ir_attachment
