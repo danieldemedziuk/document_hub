@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api, _
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 
 GROUP_PREFIX = 'document_hub.group_document_hub_document_'
 
@@ -34,6 +34,10 @@ class Folder(models.Model):
     visibility_everyone = fields.Boolean(string='Everyone', default=False)
     
     is_project = fields.Boolean(string="Is project", default=False, help='Mark this option if you are sure this folder is for projects.')
+    project_id = fields.Many2one('project.project', string='Project', ondelete='set null', index=True, copy=False,
+                                 readonly=True, help='Project whose main folder this is.')
+    template_line_id = fields.Many2one('document_hub.folder.template.line', string='Template line', ondelete='set null',
+                                       copy=False, readonly=True, help='Folder template line this folder was created from.')
 
     # visibility_x flag -> the department group it opens the folder to
     _VISIBILITY_GROUPS = {

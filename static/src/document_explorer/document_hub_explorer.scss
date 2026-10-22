@@ -6,6 +6,9 @@
 
 .o_document_hub_tree_sidebar {
     width: 260px;
+    min-width: 180px;
+    max-width: 60%;
+    resize: horizontal;
     border-right: 1px solid var(--o-kanban-record-border, rgba(0, 0, 0, 0.08));
     padding: 8px 4px;
 }
