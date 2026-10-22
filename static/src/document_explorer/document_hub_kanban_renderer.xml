@@ -90,7 +90,7 @@
 
                 <div t-if="subfolders.length" class="o_document_hub_subfolders">
                     <div t-foreach="subfolders" t-as="folder" t-key="folder.id"
-                         class="o_document_hub_folder_card"
+                         class="o_document_hub_folder_card" t-att-title="folder.name"
                          t-attf-class="{{ state.dragOverFolderId === folder.id ? 'o_document_hub_folder_card_dragover' : '' }}"
                          t-on-click="() => this.selectFolder(folder.id)"
                          t-on-dragover="onSubfolderDragOver"
@@ -115,7 +115,7 @@
 
                 <div t-if="state.isTrashView and state.trashedFolders.length" class="o_document_hub_subfolders">
                     <div t-foreach="state.trashedFolders" t-as="folder" t-key="folder.id"
-                         class="o_document_hub_folder_card">
+                         class="o_document_hub_folder_card" t-att-title="folder.name">
                         <i class="fa fa-folder o_document_hub_folder_icon"/>
                         <div class="o_document_hub_folder_name text-truncate" t-esc="folder.name"/>
                         <span class="o_document_hub_tile_menu" t-on-click.stop="">
@@ -133,7 +133,7 @@
 
                 <div t-if="state.documents.length" class="o_document_hub_kanban">
                     <div t-foreach="state.documents" t-as="doc" t-key="doc.id"
-                         class="o_document_hub_kanban_card"
+                         class="o_document_hub_kanban_card" t-att-title="doc.topic"
                          t-attf-class="{{ isSelected(doc.id) ? 'o_document_hub_kanban_card_selected' : '' }}"
                          t-on-click="(ev) => this.onTileClick(ev, doc)"
                          t-att-draggable="!state.isTrashView and (doc.state != 'lock' or isSelected(doc.id))"
@@ -169,7 +169,7 @@
                                class="o_document_hub_rename_input" t-on-click.stop=""
                                t-on-keydown="onRenameKeydown" t-on-blur="(ev) => this.commitRename(ev, 'document', doc.id)"/>
                         <div t-else="" class="o_document_hub_kanban_title text-truncate" t-esc="doc.topic"/>
-                        <div t-if="state.isTrashView and doc.folder_id" class="o_document_hub_kanban_subtitle text-muted text-truncate" t-esc="doc.folder_id[1]"/>
+                        <div t-if="state.isTrashView and doc.folder_id" class="o_document_hub_kanban_subtitle text-muted text-truncate" t-att-title="doc.folder_id[1]" t-esc="doc.folder_id[1]"/>
                         <div class="o_document_hub_kanban_footer">
                             <span t-foreach="tagNames(doc.tag_ids)" t-as="tagName" t-key="tagName"
                                   class="badge rounded-pill text-bg-secondary o_document_hub_kanban_tag" t-esc="tagName"/>

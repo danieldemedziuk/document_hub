@@ -3,7 +3,7 @@
 
     <t t-name="document_hub.FolderTreeNode">
         <div class="o_document_hub_tree_node">
-            <div class="o_document_hub_tree_row d-flex align-items-center"
+            <div class="o_document_hub_tree_row d-flex align-items-center" t-att-title="props.folder.name"
                  t-attf-class="{{ isSelected ? 'o_document_hub_tree_row_selected' : '' }}"
                  t-on-click="() => this.props.onSelect(props.folder.id)"
                  t-on-dragover.prevent.stop=""
