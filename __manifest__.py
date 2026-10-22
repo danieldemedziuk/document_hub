@@ -2,7 +2,7 @@
 
 {
     'name': 'Document hub',
-    'version': '17.0.0.0.2',
+    'version': '17.0.0.0.3',
     'author': 'DSquare Net',
     'license': 'GPL-2',
     'sequence': 55,
@@ -42,6 +42,7 @@ This module is fully open source under the GPL-2 license.
     'data': [
         'data/document_sequence.xml',
         'data/folders_data.xml',
+        'data/folder_template_data.xml',
         'data/tags_data.xml',
         'data/cron_data.xml',
         'security/document_hub_security.xml',
