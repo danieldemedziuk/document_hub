@@ -670,10 +670,14 @@ msgid "Has Message"
 msgstr "Ma wiadomość"
 
 #. module: document_hub
-#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_host
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Host"
 msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_host
+msgid "IMAP host"
+msgstr "Host IMAP"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_hr
@@ -775,11 +779,15 @@ msgid "Is Follower"
 msgstr "Jest Obserwujący"
 
 #. module: document_hub
-#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_is_parent_folder_project
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_is_project
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__is_project
 msgid "Is project"
 msgstr "Jest projektem"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_is_parent_folder_project
+msgid "Is parent folder project"
+msgstr "Folder nadrzędny jest projektem"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__keywords
@@ -1157,10 +1165,14 @@ msgid "Parent folder"
 msgstr "Folder nadrzędny"
 
 #. module: document_hub
-#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_password
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Password"
 msgstr "Hasło"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_password
+msgid "IMAP password"
+msgstr "Hasło IMAP"
 
 #. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_finance_financial_reports
@@ -1181,10 +1193,14 @@ msgid "Policy"
 msgstr "Polityka"
 
 #. module: document_hub
-#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_port
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Port"
 msgstr ""
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_port
+msgid "IMAP port"
+msgstr "Port IMAP"
 
 #. module: document_hub
 #: model:ir.model.fields.selection,name:document_hub.selection__document_hub_trash_log__action__purged
@@ -1604,10 +1620,14 @@ msgstr "Użyj portu dla swojej poczty."
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__user_id
-#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_user
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "User"
 msgstr "Użytkownik"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_user
+msgid "IMAP user"
+msgstr "Użytkownik IMAP"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__version_number
