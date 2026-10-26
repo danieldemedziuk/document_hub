@@ -1826,3 +1826,45 @@ msgstr "np. Marketing"
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
 msgid "e.g. Project contract"
 msgstr "np. Umowa projektowa"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Collapse all folders"
+msgstr "Zwiń wszystkie foldery"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Expand all folders"
+msgstr "Rozwiń wszystkie foldery"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Search folders..."
+msgstr "Szukaj folderów..."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "No folder matches this search."
+msgstr "Żaden folder nie pasuje do wyszukiwania."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "Files of a new document must be uploaded before it is created."
+msgstr "Pliki nowego dokumentu muszą zostać przesłane przed jego utworzeniem."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/folder.py:0
+#, python-format
+msgid "A folder cannot be moved into itself or one of its subfolders."
+msgstr "Nie można przenieść folderu do niego samego ani do jego podfolderu."

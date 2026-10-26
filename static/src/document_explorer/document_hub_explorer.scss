@@ -69,9 +69,56 @@
     padding-left: 16px;
 }
 
+.o_document_hub_tree_toolbar {
+    margin-bottom: 6px;
+}
+
+.o_document_hub_tree_search {
+    margin-bottom: 6px;
+
+    .form-control {
+        padding-left: 26px;
+    }
+}
+
+.o_document_hub_tree_search_icon {
+    position: absolute;
+    top: 50%;
+    left: 9px;
+    transform: translateY(-50%);
+    color: var(--o-kanban-record-muted-color, #6c757d);
+    pointer-events: none;
+}
+
+.o_document_hub_tree_no_match {
+    padding: 4px 6px;
+    font-size: 12px;
+}
+
+.o_document_hub_tree_label_match {
+    font-weight: bold;
+}
+
+.o_document_hub_tree_count {
+    margin-left: auto;
+    padding-left: 6px;
+    font-size: 11px;
+    color: var(--o-kanban-record-muted-color, #6c757d);
+    flex-shrink: 0;
+}
+
+.o_document_hub_tree_row_dragover {
+    outline: 2px dashed var(--o-brand-primary, #714b67);
+    outline-offset: -2px;
+}
+
+.o_document_hub_tree_toolbar_btn {
+    padding: 1px 6px;
+    line-height: 1.2;
+}
+
 .o_document_hub_trash_row {
     padding: 3px 4px;
-    margin-bottom: 6px;
     border-radius: 4px;
     cursor: pointer;
 

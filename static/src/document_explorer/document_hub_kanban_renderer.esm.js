@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import { Component, useState, onWillStart, onMounted, onWillUnmount, useRef } from "@odoo/owl";
+import { browser } from "@web/core/browser/browser";
 import { useBus, useService } from "@web/core/utils/hooks";
 import { Domain } from "@web/core/domain";
 import { _t } from "@web/core/l10n/translation";
@@ -18,6 +19,11 @@ import { DocumentHubPdfThumbnail } from "./document_hub_pdf_thumbnail.esm";
 import { DocumentHubVideoThumbnail } from "./document_hub_video_thumbnail.esm";
 import { DocumentHubFolderPickerDialog } from "./document_hub_folder_picker_dialog.esm";
 import { DocumentHubConfirmPurgeDialog } from "./document_hub_confirm_purge_dialog.esm";
+
+/** Lowercase without diacritics, so "zlec" finds "Zlecenia" and "Zleć". */
+function normalizeForSearch(text) {
+    return (text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ł/g, "l");
+}
 
 /**
  * Windows-Explorer-style layout for document_hub.document: a folder tree on
@@ -81,6 +87,10 @@ export class DocumentHubKanbanRenderer extends Component {
         this.cancelSelectionLabel = _t("Cancel selection");
         this.selectAllLabel = _t("Select all");
         this.deselectAllLabel = _t("Deselect all");
+        this.expandAllLabel = _t("Expand all folders");
+        this.collapseAllLabel = _t("Collapse all folders");
+        this.searchFoldersLabel = _t("Search folders...");
+        this.noFolderFoundLabel = _t("No folder matches this search.");
         this.purgeKeyword = _t("DELETE");
         this.lockedMoveSkippedLabel = _t("Locked documents were skipped - unlock them first to move them.");
 
@@ -99,6 +109,9 @@ export class DocumentHubKanbanRenderer extends Component {
             trashedFolders: [],
             selectedIds: new Set(),
             dragOverFolderId: false,
+            collapsedFolderIds: this._loadCollapsedFolderIds(),
+            folderSearch: "",
+            documentCountByFolder: {},
         });
         onWillStart(async () => {
             await this.loadFolders();
@@ -174,6 +187,17 @@ export class DocumentHubKanbanRenderer extends Component {
         );
     }
 
+    async loadDocumentCounts() {
+        const groups = await this.orm.readGroup("document_hub.document", [], ["folder_id"], ["folder_id"]);
+        const counts = {};
+        for (const group of groups) {
+            if (group.folder_id) {
+                counts[group.folder_id[0]] = group.folder_id_count;
+            }
+        }
+        this.state.documentCountByFolder = counts;
+    }
+
     get childrenByParent() {
         const map = new Map();
         for (const folder of this.state.folders) {
@@ -188,6 +212,74 @@ export class DocumentHubKanbanRenderer extends Component {
 
     get rootFolders() {
         return this.childrenByParent.get(false) || [];
+    }
+
+    /**
+     * Folder ids the tree shows while searching: every match plus the
+     * ancestors leading to it, so a hit keeps its place in the hierarchy.
+     * null when no search is active.
+     */
+    get folderSearchResult() {
+        const query = normalizeForSearch(this.state.folderSearch.trim());
+        if (!query) {
+            return null;
+        }
+        const byId = new Map(this.state.folders.map((folder) => [folder.id, folder]));
+        const matchIds = new Set();
+        const visibleIds = new Set();
+        for (const folder of this.state.folders) {
+            if (!normalizeForSearch(folder.name).includes(query)) {
+                continue;
+            }
+            matchIds.add(folder.id);
+            let current = folder;
+            while (current && !visibleIds.has(current.id)) {
+                visibleIds.add(current.id);
+                current = current.parent_folder_id ? byId.get(current.parent_folder_id[0]) : null;
+            }
+        }
+        return { matchIds, visibleIds };
+    }
+
+    get treeChildrenByParent() {
+        const result = this.folderSearchResult;
+        if (!result) {
+            return this.childrenByParent;
+        }
+        const map = new Map();
+        for (const [parentId, children] of this.childrenByParent) {
+            map.set(parentId, children.filter((folder) => result.visibleIds.has(folder.id)));
+        }
+        return map;
+    }
+
+    get treeRootFolders() {
+        return this.treeChildrenByParent.get(false) || [];
+    }
+
+    get treeCollapsedIds() {
+        // A search shows its hits fully expanded without forgetting what the
+        // user had collapsed before searching.
+        return this.folderSearchResult ? new Set() : this.state.collapsedFolderIds;
+    }
+
+    get treeMatchIds() {
+        const result = this.folderSearchResult;
+        return result ? result.matchIds : new Set();
+    }
+
+    onFolderSearchInput(ev) {
+        this.state.folderSearch = ev.target.value;
+    }
+
+    onFolderSearchKeydown(ev) {
+        if (ev.key === "Escape") {
+            this.clearFolderSearch();
+        }
+    }
+
+    clearFolderSearch() {
+        this.state.folderSearch = "";
     }
 
     get selectedFolder() {
@@ -216,6 +308,57 @@ export class DocumentHubKanbanRenderer extends Component {
         return chain;
     }
 
+    get collapsedStorageKey() {
+        return `document_hub.collapsed_folders.${this.user.userId}`;
+    }
+
+    /** Collapsed folders are remembered per user in this browser only - a UI convenience, nothing more. */
+    _loadCollapsedFolderIds() {
+        try {
+            const stored = JSON.parse(browser.localStorage.getItem(this.collapsedStorageKey) || "[]");
+            return new Set(Array.isArray(stored) ? stored.filter(Number.isInteger) : []);
+        } catch {
+            return new Set();
+        }
+    }
+
+    _setCollapsedFolderIds(collapsed) {
+        this.state.collapsedFolderIds = collapsed;
+        try {
+            browser.localStorage.setItem(this.collapsedStorageKey, JSON.stringify([...collapsed]));
+        } catch {
+            // Storage blocked or full: the tree still works, it just won't be remembered.
+        }
+    }
+
+    toggleFolderExpanded(folderId) {
+        const collapsed = new Set(this.state.collapsedFolderIds);
+        if (!collapsed.delete(folderId)) {
+            collapsed.add(folderId);
+        }
+        this._setCollapsedFolderIds(collapsed);
+    }
+
+    expandAllFolders() {
+        this._setCollapsedFolderIds(new Set());
+    }
+
+    collapseAllFolders() {
+        // Only folders with children can show a caret, so only they are worth tracking.
+        const parentIds = [...this.childrenByParent.keys()].filter(Boolean);
+        this._setCollapsedFolderIds(new Set(parentIds));
+    }
+
+    /** Keeps the selected folder visible in the tree after a "collapse all". */
+    revealFolder(folderId) {
+        const ancestorIds = this.breadcrumbFolders.slice(0, -1).map((folder) => folder.id);
+        if (folderId && ancestorIds.some((id) => this.state.collapsedFolderIds.has(id))) {
+            const collapsed = new Set(this.state.collapsedFolderIds);
+            ancestorIds.forEach((id) => collapsed.delete(id));
+            this._setCollapsedFolderIds(collapsed);
+        }
+    }
+
     tagNames(tagIds) {
         return tagIds.map((id) => this.state.tagsById[id]).filter(Boolean);
     }
@@ -226,6 +369,7 @@ export class DocumentHubKanbanRenderer extends Component {
         }
         this.state.isTrashView = false;
         this.state.selectedFolderId = folderId;
+        this.revealFolder(folderId);
         this.clearSelection();
         await this.reloadDocuments();
     }
@@ -241,6 +385,9 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     async reloadDocuments() {
+        // Any reload may follow an upload, move, delete or restore, so the
+        // per-folder counts in the tree are refreshed alongside.
+        const countsLoaded = this.loadDocumentCounts();
         const fields = ["name", "topic", "state", "cover_attachment_id", "cover_mimetype", "tag_ids", "owner_id"];
         if (this.state.isTrashView) {
             // Only the "root" of what was deleted: a folder whose own parent is
@@ -260,12 +407,13 @@ export class DocumentHubKanbanRenderer extends Component {
                 this.orm.searchRead("document_hub.folder", folderDomain, ["name"]),
                 this.orm.searchRead("document_hub.document", documentDomain, [...fields, "folder_id"]),
             ]);
-            await this._syncTagCache();
+            await Promise.all([this._syncTagCache(), countsLoaded]);
             return;
         }
         this.state.trashedFolders = [];
         if (!this.state.selectedFolderId) {
             this.state.documents = [];
+            await countsLoaded;
             return;
         }
         const domain = Domain.and([
@@ -273,7 +421,7 @@ export class DocumentHubKanbanRenderer extends Component {
             [["folder_id", "=", this.state.selectedFolderId]],
         ]).toList();
         this.state.documents = await this.orm.searchRead("document_hub.document", domain, fields);
-        await this._syncTagCache();
+        await Promise.all([this._syncTagCache(), countsLoaded]);
     }
 
     async _syncTagCache() {
@@ -545,18 +693,62 @@ export class DocumentHubKanbanRenderer extends Component {
 
     onDocumentDragEnd() {
         this._draggedDocumentIds = null;
+        this._draggedFolderId = null;
         this.state.dragOverFolderId = false;
     }
 
+    onFolderDragStart(ev, folder) {
+        if (!this.state.canCreateFolders) {
+            ev.preventDefault();
+            return;
+        }
+        this._draggedFolderId = folder.id;
+        ev.dataTransfer.effectAllowed = "move";
+        // Same marker idea as documents: lets drop targets tell a folder
+        // move apart from documents or OS files being dragged.
+        ev.dataTransfer.setData("application/x-document-hub-folder", "1");
+    }
+
+    /** Whether folderId is targetId itself or one of its ancestors. */
+    _isSelfOrAncestor(folderId, targetId) {
+        let current = this.state.folders.find((folder) => folder.id === targetId);
+        while (current) {
+            if (current.id === folderId) {
+                return true;
+            }
+            const parentId = current.parent_folder_id ? current.parent_folder_id[0] : false;
+            current = this.state.folders.find((folder) => folder.id === parentId);
+        }
+        return false;
+    }
+
+    async moveDraggedFolderTo(targetId) {
+        const folderId = this._draggedFolderId;
+        this._draggedFolderId = null;
+        if (!folderId) {
+            return;
+        }
+        const folder = this.state.folders.find((f) => f.id === folderId);
+        const currentParentId = folder && folder.parent_folder_id ? folder.parent_folder_id[0] : false;
+        // Moving into itself/its own subtree is also refused server-side
+        // (Folder._check_parent_folder_recursion); this just skips the round trip.
+        if (!folder || currentParentId === targetId || this._isSelfOrAncestor(folderId, targetId)) {
+            return;
+        }
+        await this.orm.write("document_hub.folder", [folderId], { parent_folder_id: targetId });
+        await this.loadFolders();
+        this.revealFolder(this.state.selectedFolderId);
+    }
+
     onSubfolderDragOver(ev) {
-        if (this._draggedDocumentIds) {
+        if (this._draggedDocumentIds || this._draggedFolderId) {
             ev.preventDefault();
             ev.stopPropagation();
         }
     }
 
     onSubfolderDragEnter(ev, folder) {
-        if (this._draggedDocumentIds) {
+        if (this._draggedDocumentIds || (this._draggedFolderId && this._draggedFolderId !== folder.id)) {
             this.state.dragOverFolderId = folder.id;
         }
     }
@@ -569,6 +761,12 @@ export class DocumentHubKanbanRenderer extends Component {
 
     async onSubfolderDrop(ev, folder) {
         this.state.dragOverFolderId = false;
+        if (this._draggedFolderId) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            await this.moveDraggedFolderTo(folder.id);
+            return;
+        }
         if (!this._draggedDocumentIds) {
             return;
         }
@@ -701,7 +899,7 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     onDragOver() {
-        if (this.state.selectedFolderId && !this._draggedDocumentIds) {
+        if (this.state.selectedFolderId && !this._draggedDocumentIds && !this._draggedFolderId) {
             this.state.isDraggingOver = true;
         }
     }
@@ -712,6 +910,11 @@ export class DocumentHubKanbanRenderer extends Component {
 
     async onDrop(ev) {
         this.state.isDraggingOver = false;
+        if (this._draggedFolderId) {
+            // Dropped on open canvas: no target folder, nothing to move.
+            this._draggedFolderId = null;
+            return;
+        }
         if (this._draggedDocumentIds) {
             // Dropped on open canvas rather than a specific subfolder/tree
             // target: since a document tile is only visible while its own
