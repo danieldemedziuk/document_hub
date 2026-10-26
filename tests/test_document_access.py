@@ -190,3 +190,40 @@ class TestDocumentAccess(TransactionCase):
 
         with self.assertRaises(ValidationError):
             self.production_folder.write({'parent_folder_id': child.id})
+
+    # --- archiving folders --------------------------------------------------
+
+    def test_folder_creator_can_archive_and_restore(self):
+        creator = self._folder_creator()
+        folder = self.env['document_hub.folder'].with_user(creator).create(
+            {'name': 'Old', 'visibility_production': True})
+
+        folder.action_folder_archive()
+        self.assertTrue(folder.is_archived)
+        self.assertTrue(folder.active, 'archiving must not move the folder to the trash')
+        folder.action_folder_unarchive()
+
+        self.assertFalse(folder.is_archived)
+
+    def test_department_user_cannot_archive_folders(self):
+        with self.assertRaises(AccessError):
+            self.production_folder.with_user(self.producer).action_folder_archive()
+        self.assertFalse(self.production_folder.is_archived)
+
+    def test_archived_folder_documents_stay_readable(self):
+        self.production_folder.action_folder_archive()
+
+        documents = self.env['document_hub.document'].with_user(self.producer).search(
+            [('folder_id', '=', self.production_folder.id)])
+
+        self.assertEqual(documents, self.production_document)
+
+    def test_archiving_a_project_archives_its_folder(self):
+        project = self.env['project.project'].create({'name': 'Finished line'})
+        folder = self.env['document_hub.folder'].search([('project_id', '=', project.id)])
+
+        project.action_archive()
+        self.assertTrue(folder.is_archived)
+        project.action_unarchive()
+
+        self.assertFalse(folder.is_archived)

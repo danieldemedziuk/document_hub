@@ -37,6 +37,10 @@ export class DocumentHubFolderTreeNode extends Component {
         onDownload: Function,
         onCreateSubfolder: Function,
         onDelete: Function,
+        onMove: Function,
+        onDuplicate: Function,
+        onArchive: Function,
+        onUnarchive: Function,
         onDropDocuments: Function,
     };
 
@@ -46,6 +50,10 @@ export class DocumentHubFolderTreeNode extends Component {
         this.downloadLabel = _t("Download");
         this.newFolderLabel = _t("New folder");
         this.deleteLabel = _t("Delete");
+        this.moveLabel = _t("Move to folder…");
+        this.duplicateLabel = _t("Duplicate");
+        this.archiveLabel = _t("Archive");
+        this.unarchiveLabel = _t("Restore from archive");
     }
 
     get children() {

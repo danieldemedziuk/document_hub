@@ -223,6 +223,7 @@ msgstr "Zatwierdzone"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_archived
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__is_archived
 msgid "Archived"
 msgstr "Zarchiwizowane"
 
@@ -1868,3 +1869,55 @@ msgstr "Pliki nowego dokumentu muszą zostać przesłane przed jego utworzeniem.
 #, python-format
 msgid "A folder cannot be moved into itself or one of its subfolders."
 msgstr "Nie można przenieść folderu do niego samego ani do jego podfolderu."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Archive"
+msgstr "Archiwizuj"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Restore from archive"
+msgstr "Przywróć z archiwum"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Show archived folders"
+msgstr "Pokaż zarchiwizowane foldery"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Hide archived folders"
+msgstr "Ukryj zarchiwizowane foldery"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Folder archived. Use \"Show archived folders\" to see it again."
+msgstr "Folder zarchiwizowany. Użyj „Pokaż zarchiwizowane foldery”, aby znów go zobaczyć."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/folder.py:0
+#, python-format
+msgid "You do not have permission to archive folders."
+msgstr "Nie masz uprawnień do archiwizowania folderów."
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_folder__is_archived
+msgid "Hidden from the folder tree together with its subfolders. Its documents stay available."
+msgstr "Ukryty w drzewie folderów razem z podfolderami. Jego dokumenty pozostają dostępne."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_view_search
+msgid "Archived folders"
+msgstr "Zarchiwizowane foldery"
