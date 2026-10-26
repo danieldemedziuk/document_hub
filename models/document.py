@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from odoo import fields, models, api, _
-from odoo.exceptions import UserError, ValidationError
+from odoo import Command, fields, models, api, _
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -84,6 +84,14 @@ class Document(models.Model):
                 if matched:
                     vals['tag_ids'] = [(6, 0, matched.ids)]
 
+        if not self.env.su:
+            default_folder_id = self.env.context.get('default_folder_id')
+            folder_ids, attachment_ids = set(), set()
+            for vals in vals_list:
+                folder_ids.add(vals.get('folder_id', default_folder_id))
+                attachment_ids |= self._linked_file_ids(vals.get('file_ids'), creating=True)
+            self._check_reachable(folder_ids - {False, None}, attachment_ids)
+
         res = super(Document, self.sudo()).create(vals_list)
         res._link_attachments()
         return res
@@ -95,10 +103,57 @@ class Document(models.Model):
         if not self.env.su and self._LOCKED_PROTECTED_FIELDS.intersection(vals) \
                 and any(document.state == 'lock' for document in self):
             raise UserError(_('You cannot modify a locked document. Unlock it first.'))
+        if not self.env.su and ('folder_id' in vals or 'file_ids' in vals):
+            new_file_ids = self._linked_file_ids(vals.get('file_ids')) - set(self.sudo().file_ids.ids)
+            self._check_reachable({vals['folder_id']} if vals.get('folder_id') else set(), new_file_ids)
         result = super().write(vals)
         if 'file_ids' in vals:
             self._link_attachments()
         return result
+
+    @api.model
+    def _linked_file_ids(self, commands, creating=False):
+        """Ids of existing attachments that file_ids commands would link.
+
+        On create(), which runs sudo(), the commands that would edit or delete
+        an arbitrary attachment as superuser are refused outright: the explorer
+        and the form only ever link files that were uploaded beforehand.
+        """
+        file_ids = set()
+        for command in commands or []:
+            if isinstance(command, int):
+                file_ids.add(command)
+            elif command[0] == Command.LINK:
+                file_ids.add(command[1])
+            elif command[0] == Command.SET:
+                file_ids.update(command[2])
+            elif creating and command[0] in (Command.CREATE, Command.UPDATE, Command.DELETE):
+                raise AccessError(_('Files of a new document must be uploaded before it is created.'))
+        return file_ids
+
+    @api.model
+    def _check_reachable(self, folder_ids, attachment_ids):
+        """Refuse folders and files the current user could not read.
+
+        create() and the trash/version actions run sudo() so that read-only
+        department groups can still upload, and a file listed on a readable
+        document becomes readable too (see ir_attachment.py). Without this
+        check anyone could drop a document into a hidden folder, or pull a
+        hidden file (another record's, another user's unsaved upload) into a
+        document of their own and read it from there.
+        """
+        if self.env.su:
+            return
+        folders = self.env['document_hub.folder'].browse(folder_ids)
+        folders.check_access_rights('read')
+        folders.check_access_rule('read')
+        self.env['ir.attachment'].browse(attachment_ids).exists().check('read')
+
+    def _check_readable(self):
+        """The sudo()'d actions below must still only touch documents the user sees."""
+        if not self.env.su:
+            self.check_access_rights('read')
+            self.check_access_rule('read')
 
     def _link_attachments(self):
         """Bind the files uploaded on the form to their document.
@@ -132,6 +187,7 @@ class Document(models.Model):
         # ir.model.access.csv, relying on the row-level ir.rule for what they
         # can see rather than the ACL for what they can write - same
         # already-flagged gap create() works around, applied consistently.
+        self._check_readable()
         if not self.env.su and any(document.state == 'lock' for document in self):
             raise UserError(_('You cannot delete a locked document. Unlock it first.'))
         res = super(Document, self.sudo()).action_archive()
@@ -139,6 +195,7 @@ class Document(models.Model):
         return res
 
     def action_unarchive(self):
+        self._check_readable()
         res = super(Document, self.sudo()).action_unarchive()
         self.env['document_hub.trash_log'].log_action(self, 'restored')
         return res
@@ -172,8 +229,13 @@ class Document(models.Model):
         # version's attachment_id, which becomes current again while what
         # was current gets snapshotted - same operation either way.
         self.ensure_one()
+        self._check_readable()
         if not self.env.su and self.state == 'lock':
             raise UserError(_('You cannot modify a locked document. Unlock it first.'))
+        # An old version of this very document may be restored even when its
+        # file stays bound to another record (e.g. synced from an offer).
+        if attachment_id not in self.sudo().version_ids.attachment_id.ids:
+            self._check_reachable(set(), {attachment_id})
         next_version = max(self.sudo().version_ids.mapped('version_number'), default=0) + 1
         version_vals = [{
             'document_id': self.id,

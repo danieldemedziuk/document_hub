@@ -4,19 +4,25 @@
     <t t-name="document_hub.FolderTreeNode">
         <div class="o_document_hub_tree_node">
             <div class="o_document_hub_tree_row d-flex align-items-center" t-att-title="props.folder.name"
-                 t-attf-class="{{ isSelected ? 'o_document_hub_tree_row_selected' : '' }}"
+                 t-attf-class="{{ isSelected ? 'o_document_hub_tree_row_selected' : '' }} {{ state.isDragOver ? 'o_document_hub_tree_row_dragover' : '' }}"
                  t-on-click="() => this.props.onSelect(props.folder.id)"
+                 t-att-draggable="props.canCreateFolders and !isRenaming ? 'true' : 'false'"
+                 t-on-dragstart.stop="(ev) => this.props.onFolderDragStart(ev, props.folder)"
+                 t-on-dragend="props.onFolderDragEnd"
                  t-on-dragover.prevent.stop=""
+                 t-on-dragenter="onDragEnter" t-on-dragleave="onDragLeave"
                  t-on-drop="onDrop">
                 <span t-if="children.length" class="o_document_hub_tree_caret" t-on-click="toggleExpand">
-                    <i t-attf-class="fa {{ state.expanded ? 'fa-caret-down' : 'fa-caret-right' }}"/>
+                    <i t-attf-class="fa {{ isExpanded ? 'fa-caret-down' : 'fa-caret-right' }}"/>
                 </span>
                 <span t-else="" class="o_document_hub_tree_caret_placeholder"/>
                 <i class="fa fa-folder-o o_document_hub_tree_icon"/>
                 <input t-if="isRenaming" type="text" t-att-value="props.folder.name"
                        class="o_document_hub_rename_input o_document_hub_tree_rename_input" t-on-click.stop=""
                        t-on-keydown="props.onRenameKeydown" t-on-blur="(ev) => this.props.onRenameCommit(ev, props.folder)"/>
-                <span t-else="" class="o_document_hub_tree_label text-truncate" t-esc="props.folder.name"/>
+                <span t-else="" class="o_document_hub_tree_label text-truncate"
+                      t-attf-class="{{ isMatch ? 'o_document_hub_tree_label_match' : '' }}" t-esc="props.folder.name"/>
+                <span t-if="documentCount and !isRenaming" class="o_document_hub_tree_count" t-esc="documentCount"/>
                 <span class="o_document_hub_tree_menu" t-on-click.stop="">
                     <Dropdown togglerClass="'btn btn-sm o_document_hub_tile_menu_btn'">
                         <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
@@ -27,11 +33,15 @@
                     </Dropdown>
                 </span>
             </div>
-            <div t-if="children.length and state.expanded" class="o_document_hub_tree_children">
+            <div t-if="children.length and isExpanded" class="o_document_hub_tree_children">
                 <DocumentHubFolderTreeNode t-foreach="children" t-as="child" t-key="child.id"
                     folder="child" childrenByParent="props.childrenByParent"
                     selectedFolderId="props.selectedFolderId" renamingId="props.renamingId"
                     canCreateFolders="props.canCreateFolders"
+                    collapsedIds="props.collapsedIds" onToggleExpand="props.onToggleExpand"
+                    matchIds="props.matchIds" documentCounts="props.documentCounts"
+                    onFolderDragStart="props.onFolderDragStart" onFolderDragEnd="props.onFolderDragEnd"
+                    onDropFolder="props.onDropFolder"
                     onSelect="props.onSelect" onRenameStart="props.onRenameStart"
                     onRenameKeydown="props.onRenameKeydown" onRenameCommit="props.onRenameCommit"
                     onDownload="props.onDownload" onCreateSubfolder="props.onCreateSubfolder"

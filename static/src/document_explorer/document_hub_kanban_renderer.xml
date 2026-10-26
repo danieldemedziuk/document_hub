@@ -4,16 +4,42 @@
     <t t-name="document_hub.DocumentHubKanbanRenderer">
         <div class="o_document_hub_explorer d-flex h-100">
             <div class="o_document_hub_tree_sidebar flex-shrink-0 overflow-auto">
-                <div t-if="state.isSystemAdmin" class="o_document_hub_trash_row d-flex align-items-center"
-                     t-attf-class="{{ state.isTrashView ? 'o_document_hub_trash_selected' : '' }}"
-                     t-on-click="selectTrash">
-                    <i class="fa fa-trash-o me-1"/>
-                    <span t-esc="trashLabel"/>
+                <div class="o_document_hub_tree_toolbar d-flex align-items-center gap-1">
+                    <div t-if="state.isSystemAdmin" class="o_document_hub_trash_row d-flex align-items-center flex-grow-1"
+                         t-attf-class="{{ state.isTrashView ? 'o_document_hub_trash_selected' : '' }}"
+                         t-on-click="selectTrash">
+                        <i class="fa fa-trash-o me-1"/>
+                        <span t-esc="trashLabel"/>
+                    </div>
+                    <div class="btn-group ms-auto">
+                        <button type="button" class="btn btn-outline-secondary btn-sm o_document_hub_tree_toolbar_btn"
+                                t-att-title="expandAllLabel" t-att-aria-label="expandAllLabel"
+                                t-att-disabled="!state.collapsedFolderIds.size" t-on-click="expandAllFolders">
+                            <i class="fa fa-plus-square-o"/>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm o_document_hub_tree_toolbar_btn"
+                                t-att-title="collapseAllLabel" t-att-aria-label="collapseAllLabel"
+                                t-on-click="collapseAllFolders">
+                            <i class="fa fa-minus-square-o"/>
+                        </button>
+                    </div>
                 </div>
-                <DocumentHubFolderTreeNode t-foreach="rootFolders" t-as="folder" t-key="folder.id"
-                    folder="folder" childrenByParent="childrenByParent"
+                <div class="o_document_hub_tree_search position-relative">
+                    <i class="fa fa-search o_document_hub_tree_search_icon"/>
+                    <input type="search" class="form-control form-control-sm" t-att-placeholder="searchFoldersLabel"
+                           t-att-aria-label="searchFoldersLabel" t-att-value="state.folderSearch"
+                           t-on-input="onFolderSearchInput" t-on-keydown="onFolderSearchKeydown"/>
+                </div>
+                <div t-if="state.folderSearch.trim() and !treeRootFolders.length" class="o_document_hub_tree_no_match text-muted"
+                     t-esc="noFolderFoundLabel"/>
+                <DocumentHubFolderTreeNode t-foreach="treeRootFolders" t-as="folder" t-key="folder.id"
+                    folder="folder" childrenByParent="treeChildrenByParent"
                     selectedFolderId="state.selectedFolderId" renamingId="renamingFolderId"
                     canCreateFolders="state.canCreateFolders"
+                    collapsedIds="treeCollapsedIds" onToggleExpand.bind="toggleFolderExpanded"
+                    matchIds="treeMatchIds" documentCounts="state.documentCountByFolder"
+                    onFolderDragStart.bind="onFolderDragStart" onFolderDragEnd.bind="onDocumentDragEnd"
+                    onDropFolder.bind="moveDraggedFolderTo"
                     onSelect.bind="selectFolder" onRenameStart.bind="startRenameFolder"
                     onRenameKeydown.bind="onRenameKeydown" onRenameCommit.bind="commitRenameFolder"
                     onDownload.bind="downloadFolder" onCreateSubfolder.bind="createSubfolder"
@@ -38,11 +64,11 @@
                         </t>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <button t-if="state.documents.length" type="button" class="btn btn-link btn-sm p-0" t-on-click="toggleSelectAll">
-                            <t t-esc="allSelected ? deselectAllLabel : selectAllLabel"/>
+                        <button t-if="state.documents.length" type="button" class="btn btn-outline-secondary btn-sm" t-on-click="toggleSelectAll">
+                            <i t-attf-class="fa {{ allSelected ? 'fa-square-o' : 'fa-check-square-o' }} me-1"/><t t-esc="allSelected ? deselectAllLabel : selectAllLabel"/>
                         </button>
-                        <button type="button" class="btn btn-link btn-sm p-0" t-on-click="createBlankDocument">
-                            <t t-esc="newDocumentBlankLabel"/>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="createBlankDocument">
+                            <i class="fa fa-file-o me-1"/><t t-esc="newDocumentBlankLabel"/>
                         </button>
                         <button t-if="state.canCreateFolders" type="button" class="btn btn-outline-secondary btn-sm" t-on-click="createSubfolderInCurrentFolder">
                             <i class="fa fa-folder-o me-1"/><t t-esc="addFolderLabel"/>
@@ -55,8 +81,8 @@
 
                 <div t-if="state.isTrashView" class="o_document_hub_breadcrumb d-flex align-items-center justify-content-between">
                     <span class="o_document_hub_breadcrumb_current" t-esc="trashLabel"/>
-                    <button t-if="state.documents.length" type="button" class="btn btn-link btn-sm p-0" t-on-click="toggleSelectAll">
-                        <t t-esc="allSelected ? deselectAllLabel : selectAllLabel"/>
+                    <button t-if="state.documents.length" type="button" class="btn btn-outline-secondary btn-sm" t-on-click="toggleSelectAll">
+                        <i t-attf-class="fa {{ allSelected ? 'fa-square-o' : 'fa-check-square-o' }} me-1"/><t t-esc="allSelected ? deselectAllLabel : selectAllLabel"/>
                     </button>
                 </div>
 
@@ -93,6 +119,9 @@
                          class="o_document_hub_folder_card" t-att-title="folder.name"
                          t-attf-class="{{ state.dragOverFolderId === folder.id ? 'o_document_hub_folder_card_dragover' : '' }}"
                          t-on-click="() => this.selectFolder(folder.id)"
+                         t-att-draggable="state.canCreateFolders ? 'true' : 'false'"
+                         t-on-dragstart="(ev) => this.onFolderDragStart(ev, folder)"
+                         t-on-dragend="onDocumentDragEnd"
                          t-on-dragover="onSubfolderDragOver"
                          t-on-dragenter="(ev) => this.onSubfolderDragEnter(ev, folder)"
                          t-on-dragleave="(ev) => this.onSubfolderDragLeave(ev, folder)"

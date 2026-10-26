@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 GROUP_PREFIX = 'document_hub.group_document_hub_document_'
 
@@ -58,6 +58,18 @@ class Folder(models.Model):
             if not any(field in vals for field in self._VISIBILITY_GROUPS):
                 vals.update(self._default_visibility_values(vals.get('parent_folder_id')))
         return super().create(vals_list)
+
+    def write(self, vals):
+        # Moving a folder (drag and drop in the explorer) must not hang it
+        # under a folder its mover cannot see.
+        if vals.get('parent_folder_id') and not self.env.su:
+            self.browse(vals['parent_folder_id']).check_access_rule('read')
+        return super().write(vals)
+
+    @api.constrains('parent_folder_id')
+    def _check_parent_folder_recursion(self):
+        if not self._check_recursion():
+            raise ValidationError(_('A folder cannot be moved into itself or one of its subfolders.'))
 
     @api.model
     def _default_visibility_values(self, parent_folder_id):
