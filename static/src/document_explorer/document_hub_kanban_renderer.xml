@@ -13,6 +13,14 @@
                     </div>
                     <div class="btn-group ms-auto">
                         <button type="button" class="btn btn-outline-secondary btn-sm o_document_hub_tree_toolbar_btn"
+                                t-attf-class="{{ state.showArchived ? 'active' : '' }}"
+                                t-att-title="state.showArchived ? hideArchivedLabel : showArchivedLabel"
+                                t-att-aria-label="state.showArchived ? hideArchivedLabel : showArchivedLabel"
+                                t-att-aria-pressed="state.showArchived ? 'true' : 'false'"
+                                t-on-click="toggleShowArchived">
+                            <i class="fa fa-archive"/>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm o_document_hub_tree_toolbar_btn"
                                 t-att-title="expandAllLabel" t-att-aria-label="expandAllLabel"
                                 t-att-disabled="!state.collapsedFolderIds.size" t-on-click="expandAllFolders">
                             <i class="fa fa-plus-square-o"/>
@@ -43,6 +51,8 @@
                     onSelect.bind="selectFolder" onRenameStart.bind="startRenameFolder"
                     onRenameKeydown.bind="onRenameKeydown" onRenameCommit.bind="commitRenameFolder"
                     onDownload.bind="downloadFolder" onCreateSubfolder.bind="createSubfolder"
+                    onMove.bind="moveFolderWithPicker" onDuplicate.bind="duplicateFolder"
+                    onArchive.bind="archiveFolder" onUnarchive.bind="unarchiveFolder"
                     onDelete.bind="deleteFolder"
                     onDropDocuments.bind="moveDocumentsToFolderById"/>
             </div>
@@ -134,9 +144,17 @@
                         <span class="o_document_hub_tile_menu" t-on-click.stop="">
                             <Dropdown togglerClass="'btn btn-sm o_document_hub_tile_menu_btn'">
                                 <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
-                                <DropdownItem onSelected="() => this.startRenameFolder(folder)"><t t-esc="renameLabel"/></DropdownItem>
-                                <DropdownItem t-if="state.canCreateFolders" onSelected="() => this.duplicateFolder(folder)"><t t-esc="duplicateLabel"/></DropdownItem>
-                                <DropdownItem onSelected="() => this.deleteFolder(folder)" class="'text-danger fw-bold'"><t t-esc="deleteLabel"/></DropdownItem>
+                                <DropdownItem onSelected="() => this.downloadFolder(folder)"><i class="fa fa-download o_document_hub_menu_icon"/><t t-esc="downloadLabel"/></DropdownItem>
+                                <div class="dropdown-divider"/>
+                                <DropdownItem onSelected="() => this.startRenameFolder(folder)"><i class="fa fa-pencil o_document_hub_menu_icon"/><t t-esc="renameLabel"/></DropdownItem>
+                                <t t-if="state.canCreateFolders">
+                                    <DropdownItem onSelected="() => this.moveFolderWithPicker(folder)"><i class="fa fa-arrows o_document_hub_menu_icon"/><t t-esc="moveToFolderLabel"/></DropdownItem>
+                                    <DropdownItem onSelected="() => this.duplicateFolder(folder)"><i class="fa fa-clone o_document_hub_menu_icon"/><t t-esc="duplicateLabel"/></DropdownItem>
+                                    <DropdownItem t-if="!folder.is_archived" onSelected="() => this.archiveFolder(folder)"><i class="fa fa-archive o_document_hub_menu_icon"/><t t-esc="archiveFolderLabel"/></DropdownItem>
+                                    <DropdownItem t-else="" onSelected="() => this.unarchiveFolder(folder)"><i class="fa fa-undo o_document_hub_menu_icon"/><t t-esc="unarchiveFolderLabel"/></DropdownItem>
+                                </t>
+                                <div class="dropdown-divider"/>
+                                <DropdownItem onSelected="() => this.deleteFolder(folder)" class="'text-danger'"><i class="fa fa-trash-o o_document_hub_menu_icon"/><t t-esc="deleteLabel"/></DropdownItem>
                             </Dropdown>
                         </span>
                     </div>

@@ -13,6 +13,7 @@
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show" />
                 <field name="children_folder_ids" optional="hide" />
                 <field name="document_ids" optional="hide" />
+                <field name="is_archived" optional="hide" />
             </tree>
         </field>
     </record>
@@ -35,6 +36,7 @@
                             <field name="children_folder_ids" invisible="1" />
                             <field name="is_project" />
                             <field name="project_id" invisible="not project_id" />
+                            <field name="is_archived" />
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
@@ -72,6 +74,7 @@
                 <field name="name" />
                 <field name="description" />
                 <field name="parent_folder_id" />
+                <filter name="filter_is_archived" string="Archived folders" domain="[('is_archived', '=', True)]" />
                 <group expand="1" string="Group By">
                     <filter name="group_parent_folder_id" string="Parent folder" context="{'group_by':'parent_folder_id'}" />
                 </group>

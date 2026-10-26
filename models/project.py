@@ -27,6 +27,16 @@ class Project(models.Model):
         projects._create_document_folder()
         return projects
 
+    def write(self, vals):
+        result = super().write(vals)
+        if 'active' in vals:
+            # Archiving a project tidies its folder away from the explorer tree
+            # (and restoring brings it back); sudo: whoever archives the project
+            # may have no write access on its folder.
+            folders = self.env['document_hub.folder'].sudo().search([('project_id', 'in', self.ids)])
+            folders.write({'is_archived': not vals['active']})
+        return result
+
     def _create_document_folder(self):
         """Create the folder of each project under the Project root folder, with the project template subfolders."""
         root_folder = self.env.ref('document_hub.folder_project')
