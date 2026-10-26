@@ -71,6 +71,7 @@ export class DocumentHubKanbanRenderer extends Component {
         this.emptyFolderLabel = _t("This folder is empty.");
         this.emptyTrashLabel = _t("Trash is empty.");
         this.renameLabel = _t("Rename");
+        this.downloadLabel = _t("Download");
         this.duplicateLabel = _t("Duplicate");
         this.lockLabel = _t("Lock");
         this.unlockLabel = _t("Unlock");
@@ -90,6 +91,11 @@ export class DocumentHubKanbanRenderer extends Component {
         this.expandAllLabel = _t("Expand all folders");
         this.collapseAllLabel = _t("Collapse all folders");
         this.searchFoldersLabel = _t("Search folders...");
+        this.archiveFolderLabel = _t("Archive");
+        this.unarchiveFolderLabel = _t("Restore from archive");
+        this.showArchivedLabel = _t("Show archived folders");
+        this.hideArchivedLabel = _t("Hide archived folders");
+        this.folderArchivedLabel = _t("Folder archived. Use \"Show archived folders\" to see it again.");
         this.noFolderFoundLabel = _t("No folder matches this search.");
         this.purgeKeyword = _t("DELETE");
         this.lockedMoveSkippedLabel = _t("Locked documents were skipped - unlock them first to move them.");
@@ -111,6 +117,7 @@ export class DocumentHubKanbanRenderer extends Component {
             dragOverFolderId: false,
             collapsedFolderIds: this._loadCollapsedFolderIds(),
             folderSearch: "",
+            showArchived: false,
             documentCountByFolder: {},
         });
         onWillStart(async () => {
@@ -120,6 +127,11 @@ export class DocumentHubKanbanRenderer extends Component {
             const defaultFolderId = this.env.searchModel.context.default_folder_id;
             if (this.state.folders.some((folder) => folder.id === defaultFolderId)) {
                 this.state.selectedFolderId = defaultFolderId;
+                // e.g. the documents button of an archived project: open its
+                // folder rather than leaving it invisible in the tree.
+                if (this.isInArchivedBranch(defaultFolderId)) {
+                    this.state.showArchived = true;
+                }
             }
             await this.reloadDocuments();
             // Mirrors the server-side check in document_hub.document._check_management_permission():
@@ -182,7 +194,7 @@ export class DocumentHubKanbanRenderer extends Component {
         this.state.folders = await this.orm.searchRead(
             "document_hub.folder",
             [],
-            ["name", "parent_folder_id"],
+            ["name", "parent_folder_id", "is_archived"],
             { order: "sequence, name" }
         );
     }
@@ -198,9 +210,51 @@ export class DocumentHubKanbanRenderer extends Component {
         this.state.documentCountByFolder = counts;
     }
 
+    /** An archived folder hides its whole branch, so only the folder itself carries the flag. */
+    isInArchivedBranch(folderId) {
+        let current = this.state.folders.find((folder) => folder.id === folderId);
+        while (current) {
+            if (current.is_archived) {
+                return true;
+            }
+            const parentId = current.parent_folder_id ? current.parent_folder_id[0] : false;
+            current = this.state.folders.find((folder) => folder.id === parentId);
+        }
+        return false;
+    }
+
+    /**
+     * Folders shown in the tree and as subfolder tiles. Hiding just the
+     * archived folder is enough: its subfolders lose their parent in the tree
+     * and are not rendered either.
+     */
+    get treeFolders() {
+        if (this.state.showArchived) {
+            return this.state.folders;
+        }
+        return this.state.folders.filter((folder) => !folder.is_archived);
+    }
+
+    toggleShowArchived() {
+        this.state.showArchived = !this.state.showArchived;
+    }
+
+    async archiveFolder(folder) {
+        await this.orm.call("document_hub.folder", "action_folder_archive", [folder.id]);
+        await this.loadFolders();
+        if (!this.state.showArchived) {
+            this.notification.add(this.folderArchivedLabel, { type: "info" });
+        }
+    }
+
+    async unarchiveFolder(folder) {
+        await this.orm.call("document_hub.folder", "action_folder_unarchive", [folder.id]);
+        await this.loadFolders();
+    }
+
     get childrenByParent() {
         const map = new Map();
-        for (const folder of this.state.folders) {
+        for (const folder of this.treeFolders) {
             const parentId = folder.parent_folder_id ? folder.parent_folder_id[0] : false;
             if (!map.has(parentId)) {
                 map.set(parentId, []);
@@ -227,7 +281,7 @@ export class DocumentHubKanbanRenderer extends Component {
         const byId = new Map(this.state.folders.map((folder) => [folder.id, folder]));
         const matchIds = new Set();
         const visibleIds = new Set();
-        for (const folder of this.state.folders) {
+        for (const folder of this.treeFolders) {
             if (!normalizeForSearch(folder.name).includes(query)) {
                 continue;
             }
@@ -725,9 +779,21 @@ export class DocumentHubKanbanRenderer extends Component {
     async moveDraggedFolderTo(targetId) {
         const folderId = this._draggedFolderId;
         this._draggedFolderId = null;
-        if (!folderId) {
-            return;
+        if (folderId) {
+            await this.moveFolder(folderId, targetId);
         }
+    }
+
+    /** Menu alternative to drag and drop - easier for long trees and without a mouse. */
+    moveFolderWithPicker(folder) {
+        this.dialog.add(DocumentHubFolderPickerDialog, {
+            folders: this.state.folders.filter((f) => !this._isSelfOrAncestor(folder.id, f.id)),
+            excludeFolderId: folder.parent_folder_id ? folder.parent_folder_id[0] : false,
+            onSelected: (targetId) => this.moveFolder(folder.id, targetId),
+        });
+    }
+
+    async moveFolder(folderId, targetId) {
         const folder = this.state.folders.find((f) => f.id === folderId);
         const currentParentId = folder && folder.parent_folder_id ? folder.parent_folder_id[0] : false;
         // Moving into itself/its own subtree is also refused server-side

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api, _
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 GROUP_PREFIX = 'document_hub.group_document_hub_document_'
 
@@ -15,6 +15,12 @@ class Folder(models.Model):
 
     name = fields.Char(string='Name', required=True, translate=True)
     active = fields.Boolean(string='Active', default=True)
+    # Separate from active: active=False is the trash (system administrators
+    # only), while an archived folder only drops out of the explorer tree -
+    # its documents stay readable, searchable and editable as before.
+    is_archived = fields.Boolean(string='Archived', default=False, copy=False, index=True,
+                                 help='Hidden from the folder tree together with its subfolders. '
+                                      'Its documents stay available.')
     description = fields.Html(string='Description', translate=True)
     sequence = fields.Integer('Sequence', default=10)
     company_id = fields.Many2one('res.company', string='Company', default=lambda lm: lm.env.company)
@@ -65,6 +71,17 @@ class Folder(models.Model):
         if vals.get('parent_folder_id') and not self.env.su:
             self.browse(vals['parent_folder_id']).check_access_rule('read')
         return super().write(vals)
+
+    def action_folder_archive(self):
+        self._set_archived(True)
+
+    def action_folder_unarchive(self):
+        self._set_archived(False)
+
+    def _set_archived(self, archived):
+        if not self.env.su and not self.env.user.has_group('document_hub.group_document_hub_folder_creator'):
+            raise AccessError(_('You do not have permission to archive folders.'))
+        self.write({'is_archived': archived})
 
     @api.constrains('parent_folder_id')
     def _check_parent_folder_recursion(self):

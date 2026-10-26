@@ -4,7 +4,7 @@
     <t t-name="document_hub.FolderTreeNode">
         <div class="o_document_hub_tree_node">
             <div class="o_document_hub_tree_row d-flex align-items-center" t-att-title="props.folder.name"
-                 t-attf-class="{{ isSelected ? 'o_document_hub_tree_row_selected' : '' }} {{ state.isDragOver ? 'o_document_hub_tree_row_dragover' : '' }}"
+                 t-attf-class="{{ isSelected ? 'o_document_hub_tree_row_selected' : '' }} {{ props.folder.is_archived ? 'o_document_hub_tree_row_archived' : '' }} {{ state.isDragOver ? 'o_document_hub_tree_row_dragover' : '' }}"
                  t-on-click="() => this.props.onSelect(props.folder.id)"
                  t-att-draggable="props.canCreateFolders and !isRenaming ? 'true' : 'false'"
                  t-on-dragstart.stop="(ev) => this.props.onFolderDragStart(ev, props.folder)"
@@ -16,7 +16,7 @@
                     <i t-attf-class="fa {{ isExpanded ? 'fa-caret-down' : 'fa-caret-right' }}"/>
                 </span>
                 <span t-else="" class="o_document_hub_tree_caret_placeholder"/>
-                <i class="fa fa-folder-o o_document_hub_tree_icon"/>
+                <i t-attf-class="fa {{ props.folder.is_archived ? 'fa-archive' : 'fa-folder-o' }} o_document_hub_tree_icon"/>
                 <input t-if="isRenaming" type="text" t-att-value="props.folder.name"
                        class="o_document_hub_rename_input o_document_hub_tree_rename_input" t-on-click.stop=""
                        t-on-keydown="props.onRenameKeydown" t-on-blur="(ev) => this.props.onRenameCommit(ev, props.folder)"/>
@@ -26,10 +26,21 @@
                 <span class="o_document_hub_tree_menu" t-on-click.stop="">
                     <Dropdown togglerClass="'btn btn-sm o_document_hub_tile_menu_btn'">
                         <t t-set-slot="toggler"><i class="fa fa-ellipsis-v"/></t>
-                        <DropdownItem onSelected="() => this.props.onDownload(props.folder)"><t t-esc="downloadLabel"/></DropdownItem>
-                        <DropdownItem onSelected="() => this.props.onRenameStart(props.folder)"><t t-esc="renameLabel"/></DropdownItem>
-                        <DropdownItem t-if="props.canCreateFolders" onSelected="() => this.props.onCreateSubfolder(props.folder)"><t t-esc="newFolderLabel"/></DropdownItem>
-                        <DropdownItem onSelected="() => this.props.onDelete(props.folder)" class="'text-danger fw-bold'"><t t-esc="deleteLabel"/></DropdownItem>
+                        <t t-if="props.canCreateFolders">
+                            <DropdownItem onSelected="() => this.props.onCreateSubfolder(props.folder)"><i class="fa fa-folder-o o_document_hub_menu_icon"/><t t-esc="newFolderLabel"/></DropdownItem>
+                            <div class="dropdown-divider"/>
+                        </t>
+                        <DropdownItem onSelected="() => this.props.onDownload(props.folder)"><i class="fa fa-download o_document_hub_menu_icon"/><t t-esc="downloadLabel"/></DropdownItem>
+                        <div class="dropdown-divider"/>
+                        <DropdownItem onSelected="() => this.props.onRenameStart(props.folder)"><i class="fa fa-pencil o_document_hub_menu_icon"/><t t-esc="renameLabel"/></DropdownItem>
+                        <t t-if="props.canCreateFolders">
+                            <DropdownItem onSelected="() => this.props.onMove(props.folder)"><i class="fa fa-arrows o_document_hub_menu_icon"/><t t-esc="moveLabel"/></DropdownItem>
+                            <DropdownItem onSelected="() => this.props.onDuplicate(props.folder)"><i class="fa fa-clone o_document_hub_menu_icon"/><t t-esc="duplicateLabel"/></DropdownItem>
+                            <DropdownItem t-if="!props.folder.is_archived" onSelected="() => this.props.onArchive(props.folder)"><i class="fa fa-archive o_document_hub_menu_icon"/><t t-esc="archiveLabel"/></DropdownItem>
+                            <DropdownItem t-else="" onSelected="() => this.props.onUnarchive(props.folder)"><i class="fa fa-undo o_document_hub_menu_icon"/><t t-esc="unarchiveLabel"/></DropdownItem>
+                        </t>
+                        <div class="dropdown-divider"/>
+                        <DropdownItem onSelected="() => this.props.onDelete(props.folder)" class="'text-danger'"><i class="fa fa-trash-o o_document_hub_menu_icon"/><t t-esc="deleteLabel"/></DropdownItem>
                     </Dropdown>
                 </span>
             </div>
@@ -45,6 +56,8 @@
                     onSelect="props.onSelect" onRenameStart="props.onRenameStart"
                     onRenameKeydown="props.onRenameKeydown" onRenameCommit="props.onRenameCommit"
                     onDownload="props.onDownload" onCreateSubfolder="props.onCreateSubfolder"
+                    onMove="props.onMove" onDuplicate="props.onDuplicate"
+                    onArchive="props.onArchive" onUnarchive="props.onUnarchive"
                     onDelete="props.onDelete"
                     onDropDocuments="props.onDropDocuments"/>
             </div>

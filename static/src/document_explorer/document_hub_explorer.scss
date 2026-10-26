@@ -95,6 +95,15 @@
     font-size: 12px;
 }
 
+.o_document_hub_tree_row_archived {
+    font-style: italic;
+    opacity: 0.6;
+
+    .o_document_hub_tree_icon {
+        color: var(--o-kanban-record-muted-color, #6c757d);
+    }
+}
+
 .o_document_hub_tree_label_match {
     font-weight: bold;
 }
@@ -287,4 +296,13 @@
     outline: 2px dashed var(--o-brand-primary, #714b67);
     outline-offset: -4px;
     background-color: var(--o-kanban-record-hover-bg, rgba(113, 75, 103, 0.06));
+}
+
+// --- Folder/document "..." menus -------------------------------------------
+
+.o_document_hub_menu_icon {
+    width: 1.25em;
+    margin-right: 6px;
+    text-align: center;
+    opacity: 0.75;
 }
