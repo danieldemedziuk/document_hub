@@ -11,6 +11,14 @@
                         <i class="fa fa-trash-o me-1"/>
                         <span t-esc="trashLabel"/>
                     </div>
+                    <div t-if="state.sharedCount or state.isSharedView" class="o_document_hub_trash_row d-flex align-items-center flex-grow-1"
+                         t-attf-class="{{ state.isSharedView ? 'o_document_hub_trash_selected' : '' }}"
+                         t-att-title="sharedHelpLabel"
+                         t-on-click="selectShared">
+                        <i class="fa fa-share-alt me-1"/>
+                        <span t-esc="sharedLabel"/>
+                        <span class="ms-1 text-muted" t-esc="state.sharedCount"/>
+                    </div>
                     <div class="btn-group ms-auto">
                         <button type="button" class="btn btn-outline-secondary btn-sm o_document_hub_tree_toolbar_btn"
                                 t-attf-class="{{ state.showArchived ? 'active' : '' }}"
@@ -89,8 +97,9 @@
                     </div>
                 </div>
 
-                <div t-if="state.isTrashView" class="o_document_hub_breadcrumb d-flex align-items-center justify-content-between">
-                    <span class="o_document_hub_breadcrumb_current" t-esc="trashLabel"/>
+                <div t-if="state.isTrashView or state.isSharedView" class="o_document_hub_breadcrumb d-flex align-items-center justify-content-between">
+                    <span class="o_document_hub_breadcrumb_current" t-att-title="state.isSharedView ? sharedHelpLabel : ''"
+                          t-esc="state.isSharedView ? sharedLabel : trashLabel"/>
                     <button t-if="state.documents.length" type="button" class="btn btn-outline-secondary btn-sm" t-on-click="toggleSelectAll">
                         <i t-attf-class="fa {{ allSelected ? 'fa-square-o' : 'fa-check-square-o' }} me-1"/><t t-esc="allSelected ? deselectAllLabel : selectAllLabel"/>
                     </button>
@@ -175,7 +184,7 @@
                     </div>
                 </div>
 
-                <div t-if="(state.selectedFolderId or state.isTrashView) and !state.documents.length and !subfolders.length and !state.trashedFolders.length"
+                <div t-if="(state.selectedFolderId or state.isTrashView or state.isSharedView) and !state.documents.length and !subfolders.length and !state.trashedFolders.length"
                      class="o_document_hub_empty text-muted text-center p-4" t-esc="emptyStateLabel"/>
 
                 <div t-if="state.documents.length" class="o_document_hub_kanban">
@@ -211,6 +220,12 @@
                                class="fa fa-file-text-o fa-3x text-muted"/>
                             <i t-else="" class="fa fa-file-o fa-3x text-muted"/>
                             <i t-if="doc.state == 'lock'" class="fa fa-lock o_document_hub_kanban_lock" title="Locked"/>
+                            <t t-set="confidentialityBadge" t-value="confidentialityBadges[doc.confidentiality]"/>
+                            <span t-if="confidentialityBadge"
+                                  t-attf-class="badge {{ confidentialityBadge.className }} o_document_hub_kanban_confidentiality"
+                                  t-att-title="confidentialityBadge.label">
+                                <i t-attf-class="fa {{ confidentialityBadge.icon }}"/>
+                            </span>
                         </div>
                         <input t-if="isRenaming('document', doc.id)" type="text" t-att-value="doc.topic"
                                class="o_document_hub_rename_input" t-on-click.stop=""
