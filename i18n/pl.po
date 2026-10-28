@@ -155,7 +155,7 @@ msgstr "Ikona typu aktywności"
 
 #. module: document_hub
 #. odoo-javascript
-#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_common.esm.js:0
 #, python-format
 msgid "Add document"
 msgstr "Dodaj dokument"
@@ -189,7 +189,7 @@ msgstr "Administracja: Inne"
 #. module: document_hub
 #: model:res.groups,name:document_hub.group_document_hub_document_administrator
 msgid "Administrator"
-msgstr ""
+msgstr "Administrator"
 
 #. module: document_hub
 #: model_terms:document_hub.folder,description:document_hub.folder_project
@@ -316,18 +316,14 @@ msgstr "Zamknij"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__company_id
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__company_id
-#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__privacy_doc__company
 msgid "Company"
 msgstr "Firma"
 
 #. module: document_hub
-#: model:ir.actions.act_window,name:document_hub.document_hub_company_document_act
-#: model:ir.ui.menu,name:document_hub.menu_document_hub_company_documents
-msgid "Company documents"
-msgstr "Dokumenty firmowe"
-
-#. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_confidential
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__confidentiality__confidential
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_folder__default_confidentiality__confidential
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
 msgid "Confidential"
 msgstr "Poufne"
 
@@ -375,15 +371,23 @@ msgstr "Utwórz pusty dokument"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__create_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__create_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__create_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__create_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__create_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__create_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__create_uid
 msgid "Created by"
 msgstr "Utworzone przez"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__create_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__create_date
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__create_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__create_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__create_date
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__create_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__create_date
 msgid "Created on"
 msgstr "Data utworzenia"
 
@@ -465,8 +469,12 @@ msgstr "Dyrektor"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__display_name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__display_name
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__display_name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__display_name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__display_name
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__display_name
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__display_name
 msgid "Display Name"
 msgstr "Wyświetlana nazwa"
 
@@ -527,8 +535,10 @@ msgstr ""
 "Dokumentacja i materiały dotyczące kampanii marketingowych i promocji."
 
 #. module: document_hub
+#: model:ir.actions.act_window,name:document_hub.document_hub_mail_document_act
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__document_ids
 #: model:ir.ui.menu,name:document_hub.menu_document_hub
+#: model:ir.ui.menu,name:document_hub.menu_document_hub_mail_documents
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_tree_view
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_project_form_inherit
 msgid "Documents"
@@ -574,6 +584,7 @@ msgstr "Dokumenty powiązane z zakupami."
 #. module: document_hub
 #. odoo-javascript
 #: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Download"
 msgstr "Pobierz"
@@ -585,6 +596,7 @@ msgstr "Szkic"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Duplicate"
@@ -677,7 +689,7 @@ msgstr "Raporty finansowe"
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Folder"
-msgstr ""
+msgstr "Folder"
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_folder__template_line_id
@@ -735,7 +747,7 @@ msgstr "Grupuj wg"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_hr
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_hr
 msgid "HR"
-msgstr ""
+msgstr "Kadry"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__has_message
@@ -745,7 +757,7 @@ msgstr "Ma wiadomość"
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_host
@@ -775,10 +787,14 @@ msgstr "Zasoby ludzkie"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__id
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__id
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__id
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
@@ -788,12 +804,12 @@ msgstr "IMAP Ustawienia host"
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_it
 msgid "IT"
-msgstr ""
+msgstr "IT"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Ikona"
 
 #. module: document_hub
 #: model:ir.model.fields,help:document_hub.field_document_hub_document__activity_exception_icon
@@ -881,17 +897,25 @@ msgstr ""
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__write_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__write_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__write_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__write_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__write_uid
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__write_uid
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ostatnio aktualizowane przez"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__write_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__write_date
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__write_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template__write_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder_template_line__write_date
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_tag__write_date
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Data ostatniej aktualizacji"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_legal
@@ -909,7 +933,6 @@ msgid "Let's create new tag!"
 msgstr "Utwórzmy nową etykiete!"
 
 #. module: document_hub
-#: model_terms:ir.actions.act_window,help:document_hub.document_hub_company_document_act
 #: model_terms:ir.actions.act_window,help:document_hub.document_hub_mail_document_act
 msgid "Let's get start. Upload new document!"
 msgstr "Zaczynajmy. Prześlij nowy dokument!"
@@ -923,7 +946,10 @@ msgid "Lock"
 msgstr "Zablokuj"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.xml:0
 #: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__state__lock
+#, python-format
 msgid "Locked"
 msgstr "Zablokowany"
 
@@ -933,13 +959,6 @@ msgstr "Zablokowany"
 #, python-format
 msgid "Locked documents were skipped - unlock them first to move them."
 msgstr "Zablokowane dokumenty zostały pominięte - najpierw je odblokuj, aby je przenieść."
-
-#. module: document_hub
-#: model:ir.actions.act_window,name:document_hub.document_hub_mail_document_act
-#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__privacy_doc__mail
-#: model:ir.ui.menu,name:document_hub.menu_document_hub_mail_documents
-msgid "Mail"
-msgstr "Korespondencja"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_management
@@ -967,6 +986,7 @@ msgstr "Przenieś do folderu"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Move to folder…"
@@ -994,7 +1014,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_marketing
 #: model:res.groups,name:document_hub.group_document_hub_document_marketing
 msgid "Marketing"
-msgstr ""
+msgstr "Marketing"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_marketing_marketing_strategy
@@ -1052,13 +1072,13 @@ msgstr "Różne dokumenty administracyjne niesklasyfikowane w innych folderach."
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Termin mojej czynności"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_project_nda
 #: model:document_hub.folder,name:document_hub.folder_purchases_nda
 msgid "NDA"
-msgstr ""
+msgstr "NDA"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__name
@@ -1109,26 +1129,26 @@ msgstr "Nazwy załączników separowane znakiem nowej linii."
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr ""
+msgstr "Następne wydarzenie w kalendarzu"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Termin następnej czynności"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Podsumowanie następnej czynności"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Typ następnej czynności"
 
 #. module: document_hub
 #. odoo-javascript
-#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_common.esm.js:0
 #, python-format
 msgid "No documents yet."
 msgstr "Brak dokumentów."
@@ -1218,7 +1238,10 @@ msgid "Other projects"
 msgstr "Inne projekty"
 
 #. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.xml:0
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__owner_id
+#, python-format
 msgid "Owner"
 msgstr "Właściciel"
 
@@ -1226,7 +1249,7 @@ msgstr "Właściciel"
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_pm
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_pm
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__parent_path
@@ -1270,7 +1293,7 @@ msgstr "Polityka"
 #. module: document_hub
 #: model_terms:ir.ui.view,arch_db:document_hub.res_config_settings_view_form_document_hub_settings
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_res_config_settings__imap_port
@@ -1281,11 +1304,6 @@ msgstr "Port IMAP"
 #: model:ir.model.fields.selection,name:document_hub.selection__document_hub_trash_log__action__purged
 msgid "Permanently deleted"
 msgstr "Trwale usunięto"
-
-#. module: document_hub
-#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__privacy_doc
-msgid "Privacy"
-msgstr "Prywatność"
 
 #. module: document_hub
 #: model:document_hub.folder,name:document_hub.folder_purchases_procedures
@@ -1389,12 +1407,12 @@ msgstr "Zakupy i logistyka"
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_qa
 msgid "QA"
-msgstr ""
+msgstr "Kontrola jakości"
 
 #. module: document_hub
 #: model:document_hub.tag,name:document_hub.tag_rnd
 msgid "R&D"
-msgstr ""
+msgstr "Badania i rozwój"
 
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rating_ids
@@ -1416,6 +1434,7 @@ msgstr ""
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_common.xml:0
 #: code:addons/document_hub/static/src/document_picker_field/document_picker_field.xml:0
 #, python-format
 msgid "Remove"
@@ -1442,6 +1461,7 @@ msgstr "Odpowiedzialny użytkownik"
 #. module: document_hub
 #. odoo-javascript
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
 #, python-format
 msgid "Restore"
 msgstr "Przywróć"
@@ -1454,7 +1474,7 @@ msgstr "Przywrócono z kosza"
 #. module: document_hub
 #: model:ir.model.fields,field_description:document_hub.field_document_hub_document__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Błąd doręczenia SMS"
 
 #. module: document_hub
 #: model:ir.model,name:document_hub.model_sale_offer
@@ -1471,7 +1491,7 @@ msgstr "Sprzedaż"
 
 #. module: document_hub
 #. odoo-javascript
-#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_common.esm.js:0
 #, python-format
 msgid "Search documents"
 msgstr "Szukaj dokumentów"
@@ -1485,7 +1505,7 @@ msgstr "Zaznacz wszystkie"
 
 #. module: document_hub
 #. odoo-javascript
-#: code:addons/document_hub/static/src/document_picker_field/document_picker_field.esm.js:0
+#: code:addons/document_hub/static/src/document_picker_field/document_picker_common.esm.js:0
 #, python-format
 msgid "Select documents"
 msgstr "Wybierz dokumenty"
@@ -1750,6 +1770,7 @@ msgstr "Wersja"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_version_dialog.esm.js:0
 #, python-format
 msgid "Version history"
@@ -1872,6 +1893,7 @@ msgstr "Nie można przenieść folderu do niego samego ani do jego podfolderu."
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Archive"
@@ -1879,6 +1901,7 @@ msgstr "Archiwizuj"
 
 #. module: document_hub
 #. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_folder_tree.esm.js:0
 #: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
 #, python-format
 msgid "Restore from archive"
@@ -1921,3 +1944,248 @@ msgstr "Ukryty w drzewie folderów razem z podfolderami. Jego dokumenty pozostaj
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_folder_view_search
 msgid "Archived folders"
 msgstr "Zarchiwizowane foldery"
+
+#. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__confidentiality__public
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_folder__default_confidentiality__public
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+msgid "Public"
+msgstr "Publiczne"
+
+#. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__confidentiality__internal
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_folder__default_confidentiality__internal
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+msgid "Internal"
+msgstr "Wewnętrzne"
+
+#. module: document_hub
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_document__confidentiality__strictly_confidential
+#: model:ir.model.fields.selection,name:document_hub.selection__document_hub_folder__default_confidentiality__strictly_confidential
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+msgid "Strictly confidential"
+msgstr "Ściśle poufne"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__confidentiality
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_view_search
+msgid "Confidentiality"
+msgstr "Poziom poufności"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__default_confidentiality
+msgid "Default confidentiality"
+msgstr "Domyślny poziom poufności"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__authorized_user_ids
+msgid "Authorized persons"
+msgstr "Osoby upoważnione"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__can_manage_confidentiality
+msgid "Can Manage Confidentiality"
+msgstr "Może zarządzać poufnością"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__is_document_readable
+msgid "Is Document Readable"
+msgstr "Dokument dostępny do odczytu"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Public document"
+msgstr "Dokument publiczny"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Confidential document"
+msgstr "Dokument poufny"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Strictly confidential document"
+msgstr "Dokument ściśle poufny"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_folder__default_confidentiality
+msgid "Confidentiality level given to documents uploaded into this folder. New subfolders take it over from their parent. It can still be changed on each document."
+msgstr "Poziom poufności nadawany dokumentom wgrywanym do tego folderu. Nowe podfoldery przejmują go od folderu nadrzędnego. Na każdym dokumencie można go zmienić."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "Only the owner of the document or a Document hub manager can change its owner and authorized persons."
+msgstr "Tylko właściciel dokumentu lub Menedżer Document hub może zmienić jego właściciela i osoby upoważnione."
+
+#. module: document_hub
+#. odoo-python
+#: code:addons/document_hub/models/document.py:0
+#, python-format
+msgid "Only the owner of the document or a Document hub manager can lower its confidentiality level."
+msgstr "Tylko właściciel dokumentu lub Menedżer Document hub może obniżyć jego poziom poufności."
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__confidentiality
+msgid ""
+"Public: every Document hub user, whatever the folder.\n"
+"Internal: the departments of the folder and the Director, Manager and Administrator.\n"
+"Confidential: the owner, the authorized persons and the Director, Manager and Administrator.\n"
+"Strictly confidential: the owner, the authorized persons and the Manager and Administrator."
+msgstr ""
+"Publiczne: każdy użytkownik Document hub, niezależnie od folderu.\n"
+"Wewnętrzne: działy przypisane do folderu oraz Dyrektor, Menedżer i Administrator.\n"
+"Poufne: właściciel, osoby upoważnione oraz Dyrektor, Menedżer i Administrator.\n"
+"Ściśle poufne: właściciel, osoby upoważnione oraz Menedżer i Administrator."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid ""
+"<b>Public</b> - may be shared outside the company without harm\n"
+"                                        (catalogues, presentations, certificates, published price lists).\n"
+"                                        Every Document hub user can open it, whatever the folder."
+msgstr ""
+"<b>Publiczne</b> - może bez szkody trafić poza firmę\n"
+"                                        (katalogi, prezentacje, certyfikaty, publikowane cenniki).\n"
+"                                        Otworzy go każdy użytkownik Document hub, niezależnie od folderu."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid ""
+"<b>Internal</b> - everyday working documents\n"
+"                                        (procedures, minutes, correspondence, project documentation).\n"
+"                                        Only the departments selected on the folder and the Director, Manager and Administrator can open it."
+msgstr ""
+"<b>Wewnętrzne</b> - codzienna dokumentacja robocza\n"
+"                                        (procedury, protokoły, korespondencja, dokumentacja projektów).\n"
+"                                        Otworzą go tylko działy wybrane w folderze oraz Dyrektor, Menedżer i Administrator."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid ""
+"<b>Confidential</b> - disclosure could harm the company or a customer\n"
+"                                        (contracts, NDAs, priced offers, project finances).\n"
+"                                        Only the owner, the authorized persons and the Director, Manager and Administrator can open it."
+msgstr ""
+"<b>Poufne</b> - ujawnienie mogłoby zaszkodzić firmie lub klientowi\n"
+"                                        (umowy, NDA, oferty z cenami, finanse projektów).\n"
+"                                        Otworzą go tylko właściciel, osoby upoważnione oraz Dyrektor, Menedżer i Administrator."
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid ""
+"<b>Strictly confidential</b> - the highest protection\n"
+"                                        (personal and payroll data, management board matters, legal cases).\n"
+"                                        Only the owner, the authorized persons and the Manager and Administrator can open it."
+msgstr ""
+"<b>Ściśle poufne</b> - najwyższa ochrona\n"
+"                                        (dane osobowe i płacowe, sprawy zarządu, sprawy prawne).\n"
+"                                        Otworzą go tylko właściciel, osoby upoważnione oraz Menedżer i Administrator."
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__authorized_user_ids
+msgid "People who may open (not edit) the document whatever its confidentiality level and folder. They still need a Document hub access group."
+msgstr "Osoby, które mogą otworzyć (ale nie edytować) dokument niezależnie od poziomu poufności i folderu. Muszą mieć jednak dowolną grupę dostępu do Document hub."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Shared with me"
+msgstr "Udostępnione mi"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "Documents you may open that are filed in folders you cannot see."
+msgstr "Dokumenty, które możesz otworzyć, a które leżą w folderach niewidocznych dla Ciebie."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.esm.js:0
+#, python-format
+msgid "No document is shared with you outside your folders."
+msgstr "Poza Twoimi folderami nie udostępniono Ci żadnego dokumentu."
+
+#. module: document_hub
+#: model:ir.model,name:document_hub.model_document_hub_document_version
+msgid "Document hub: Document version history"
+msgstr "Document hub: historia wersji dokumentu"
+
+#. module: document_hub
+#: model:ir.model,name:document_hub.model_document_hub_trash_log
+msgid "Document hub: Trash activity log"
+msgstr "Document hub: dziennik kosza"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document_version__file_size
+msgid "File size"
+msgstr "Rozmiar pliku"
+
+#. module: document_hub
+#: model:ir.model.fields,help:document_hub.field_document_hub_document__cover_attachment_id
+msgid "First attachment, used as the kanban card thumbnail."
+msgstr "Pierwszy załącznik, używany jako miniatura karty."
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_pdf_thumbnail.xml:0
+#, python-format
+msgid "PDF thumbnail"
+msgstr "Miniatura PDF"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__rel_visibility_production
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_folder__visibility_production
+#: model:res.groups,name:document_hub.group_document_hub_document_production
+msgid "Production"
+msgstr "Produkcja"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_trash_log__res_model
+msgid "Res Model"
+msgstr "Model rekordu"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_kanban_renderer.xml:0
+#, python-format
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#. module: document_hub
+#: model:ir.model.fields,field_description:document_hub.field_document_hub_document__version_ids
+msgid "Versions"
+msgstr "Wersje"
+
+#. module: document_hub
+#. odoo-javascript
+#: code:addons/document_hub/static/src/document_explorer/document_hub_video_thumbnail.xml:0
+#, python-format
+msgid "Video thumbnail"
+msgstr "Miniatura wideo"
+
+#. module: document_hub
+#: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
+msgid ""
+"Anyone who can edit the document may raise its level.\n"
+"                                        Lowering it and choosing the authorized persons is reserved for the owner and the Manager.\n"
+"                                        Authorized persons can open the document but not edit it."
+msgstr ""
+"Każdy, kto może edytować dokument, może podnieść jego poziom.\n"
+"                                        Obniżenie poziomu i wybór osób upoważnionych należy do właściciela i Menedżera.\n"
+"                                        Osoby upoważnione mogą otworzyć dokument, ale nie mogą go edytować."
+
+#. module: document_hub
+#: model:ir.model,name:document_hub.model_ir_attachment
+msgid "Attachment"
+msgstr "Załącznik"

@@ -4,6 +4,8 @@ import logging
 from odoo import Command, fields, models, api, _
 from odoo.exceptions import AccessError, UserError, ValidationError
 
+from .folder import CONFIDENTIALITY_LEVELS, CONFIDENTIALITY_RANK
+
 _logger = logging.getLogger(__name__)
 
 
@@ -30,7 +32,18 @@ class Document(models.Model):
     folder_id = fields.Many2one('document_hub.folder', string='Folder', ondelete='restrict', tracking=True, required=True, index=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda lm: lm.env.company)
     state = fields.Selection([('open', 'Open'), ('lock', 'Locked')], string='State', default='open', tracking=True, copy=False)
-    privacy_doc = fields.Selection([('company', 'Company'), ('mail', 'Mail')], string='Privacy', default='mail', copy=True)
+    confidentiality = fields.Selection(
+        CONFIDENTIALITY_LEVELS, string='Confidentiality', required=True, default='internal', tracking=True,
+        help='Public: every Document hub user, whatever the folder.\n'
+             'Internal: the departments of the folder and the Director, Manager and Administrator.\n'
+             'Confidential: the owner, the authorized persons and the Director, Manager and Administrator.\n'
+             'Strictly confidential: the owner, the authorized persons and the Manager and Administrator.')
+    authorized_user_ids = fields.Many2many(
+        'res.users', 'document_hub_document_authorized_user_rel', 'document_id', 'user_id',
+        string='Authorized persons', domain=[('share', '=', False)],
+        help='People who may open (not edit) the document whatever its confidentiality level and folder. '
+             'They still need a Document hub access group.')
+    can_manage_confidentiality = fields.Boolean(compute='_compute_can_manage_confidentiality')
     rel_is_project = fields.Boolean(related='folder_id.is_project')
     rel_is_parent_folder_project = fields.Boolean(related='folder_id.parent_folder_id.is_project', string='Is parent folder project')
     is_admin = fields.Boolean(compute='compute_admin_group')
@@ -60,14 +73,31 @@ class Document(models.Model):
     # (see document_hub_document_form_view). Enforced here too: readonly on
     # the form is a UI hint only, not a guarantee against a direct write().
     _LOCKED_PROTECTED_FIELDS = {
-        'topic', 'privacy_doc', 'folder_id', 'project_id', 'file_ids',
+        'topic', 'confidentiality', 'authorized_user_ids', 'folder_id', 'project_id', 'file_ids',
         'owner_id', 'partner_id', 'company_id', 'description',
     }
+
+    @api.depends_context('uid')
+    @api.depends('owner_id')
+    def _compute_can_manage_confidentiality(self):
+        is_manager = self.env.user.has_group('document_hub.group_document_hub_document_manager')
+        for document in self:
+            document.can_manage_confidentiality = is_manager or document.owner_id == self.env.user
+
+    @api.onchange('folder_id')
+    def _onchange_folder_id_confidentiality(self):
+        if not self._origin and self.folder_id:
+            self.confidentiality = self.folder_id.default_confidentiality
 
     @api.model_create_multi
     def create(self, vals_list):
         auto_tags = None
+        default_folder_id = self.env.context.get('default_folder_id')
         for vals in vals_list:
+            folder_id = vals.get('folder_id', default_folder_id)
+            if 'confidentiality' not in vals and 'default_confidentiality' not in self.env.context and folder_id:
+                vals['confidentiality'] = self.env['document_hub.folder'].sudo().browse(
+                    folder_id).default_confidentiality
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = (self.env['ir.sequence'].next_by_code('document_hub.document'))
             if not vals.get('tag_ids') and vals.get('topic'):
@@ -103,6 +133,7 @@ class Document(models.Model):
         if not self.env.su and self._LOCKED_PROTECTED_FIELDS.intersection(vals) \
                 and any(document.state == 'lock' for document in self):
             raise UserError(_('You cannot modify a locked document. Unlock it first.'))
+        self._check_confidentiality_change(vals)
         if not self.env.su and ('folder_id' in vals or 'file_ids' in vals):
             new_file_ids = self._linked_file_ids(vals.get('file_ids')) - set(self.sudo().file_ids.ids)
             self._check_reachable({vals['folder_id']} if vals.get('folder_id') else set(), new_file_ids)
@@ -110,6 +141,27 @@ class Document(models.Model):
         if 'file_ids' in vals:
             self._link_attachments()
         return result
+
+    def _check_confidentiality_change(self, vals):
+        """Who may widen the audience of a document.
+
+        Raising the level only narrows who reads the document, so anyone who
+        may edit it can do that. Lowering it, choosing the authorized persons
+        or handing the document over to another owner opens it to other
+        people: that is left to its owner and the Manager tier.
+        """
+        if self.env.su or self.env.user.has_group('document_hub.group_document_hub_document_manager'):
+            return
+        new_rank = CONFIDENTIALITY_RANK.get(vals.get('confidentiality'))
+        for document in self:
+            if document.owner_id == self.env.user:
+                continue
+            if 'authorized_user_ids' in vals or ('owner_id' in vals and vals['owner_id'] != document.owner_id.id):
+                raise UserError(_('Only the owner of the document or a Document hub manager can change '
+                                  'its owner and authorized persons.'))
+            if new_rank is not None and new_rank < CONFIDENTIALITY_RANK[document.confidentiality]:
+                raise UserError(_('Only the owner of the document or a Document hub manager can lower '
+                                  'its confidentiality level.'))
 
     @api.model
     def _linked_file_ids(self, commands, creating=False):

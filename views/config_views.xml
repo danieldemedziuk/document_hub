@@ -37,6 +37,7 @@
                             <field name="is_project" />
                             <field name="project_id" invisible="not project_id" />
                             <field name="is_archived" />
+                            <field name="default_confidentiality" />
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
