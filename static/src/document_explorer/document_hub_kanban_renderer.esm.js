@@ -80,6 +80,9 @@ export class DocumentHubKanbanRenderer extends Component {
         this.deletePermanentlyLabel = _t("Delete permanently");
         this.detailsLabel = _t("Details");
         this.trashLabel = _t("Trash");
+        this.sharedLabel = _t("Shared with me");
+        this.sharedHelpLabel = _t("Documents you may open that are filed in folders you cannot see.");
+        this.emptySharedLabel = _t("No document is shared with you outside your folders.");
         this.deleteFolderTitle = _t("Delete folder");
         this.deleteDocumentTitle = _t("Delete document");
         this.newFolderDefaultName = _t("New folder");
@@ -99,6 +102,16 @@ export class DocumentHubKanbanRenderer extends Component {
         this.noFolderFoundLabel = _t("No folder matches this search.");
         this.purgeKeyword = _t("DELETE");
         this.lockedMoveSkippedLabel = _t("Locked documents were skipped - unlock them first to move them.");
+        // Internal is the everyday level and gets no badge, so the others stand out.
+        this.confidentialityBadges = {
+            public: { label: _t("Public document"), icon: "fa-globe", className: "text-bg-success" },
+            confidential: { label: _t("Confidential document"), icon: "fa-eye-slash", className: "text-bg-warning" },
+            strictly_confidential: {
+                label: _t("Strictly confidential document"),
+                icon: "fa-user-secret",
+                className: "text-bg-danger",
+            },
+        };
 
         this.lastClickedId = null;
         this.state = useState({
@@ -106,6 +119,11 @@ export class DocumentHubKanbanRenderer extends Component {
             tagsById: {},
             selectedFolderId: false,
             isTrashView: false,
+            // Documents the user reads (public, own, authorized) whose folder is
+            // not in their tree: without this view they would only turn up in
+            // the list view.
+            isSharedView: false,
+            sharedCount: 0,
             documents: [],
             renaming: null,
             isDraggingOver: false,
@@ -208,6 +226,7 @@ export class DocumentHubKanbanRenderer extends Component {
             }
         }
         this.state.documentCountByFolder = counts;
+        this.state.sharedCount = await this.orm.searchCount("document_hub.document", this.sharedDomain);
     }
 
     /** An archived folder hides its whole branch, so only the folder itself carries the flag. */
@@ -341,13 +360,24 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     get subfolders() {
-        if (this.state.isTrashView) {
+        if (this.state.isTrashView || this.state.isSharedView) {
             return [];
         }
         return this.childrenByParent.get(this.state.selectedFolderId) || [];
     }
 
+    /** Readable documents outside the user's folder tree (folders in the trash do not count). */
+    get sharedDomain() {
+        return [
+            ["folder_id", "not in", this.state.folders.map((folder) => folder.id)],
+            ["folder_id.active", "=", true],
+        ];
+    }
+
     get emptyStateLabel() {
+        if (this.state.isSharedView) {
+            return this.emptySharedLabel;
+        }
         return this.state.isTrashView ? this.emptyTrashLabel : this.emptyFolderLabel;
     }
 
@@ -418,10 +448,11 @@ export class DocumentHubKanbanRenderer extends Component {
     }
 
     async selectFolder(folderId) {
-        if (!this.state.isTrashView && this.state.selectedFolderId === folderId) {
+        if (!this.state.isTrashView && !this.state.isSharedView && this.state.selectedFolderId === folderId) {
             return;
         }
         this.state.isTrashView = false;
+        this.state.isSharedView = false;
         this.state.selectedFolderId = folderId;
         this.revealFolder(folderId);
         this.clearSelection();
@@ -433,6 +464,18 @@ export class DocumentHubKanbanRenderer extends Component {
             return;
         }
         this.state.isTrashView = true;
+        this.state.isSharedView = false;
+        this.state.selectedFolderId = false;
+        this.clearSelection();
+        await this.reloadDocuments();
+    }
+
+    async selectShared() {
+        if (this.state.isSharedView) {
+            return;
+        }
+        this.state.isSharedView = true;
+        this.state.isTrashView = false;
         this.state.selectedFolderId = false;
         this.clearSelection();
         await this.reloadDocuments();
@@ -442,7 +485,7 @@ export class DocumentHubKanbanRenderer extends Component {
         // Any reload may follow an upload, move, delete or restore, so the
         // per-folder counts in the tree are refreshed alongside.
         const countsLoaded = this.loadDocumentCounts();
-        const fields = ["name", "topic", "state", "cover_attachment_id", "cover_mimetype", "tag_ids", "owner_id"];
+        const fields = ["name", "topic", "state", "confidentiality", "cover_attachment_id", "cover_mimetype", "tag_ids", "owner_id"];
         if (this.state.isTrashView) {
             // Only the "root" of what was deleted: a folder whose own parent is
             // still active (its whole subtree moved to trash together with it -
@@ -465,6 +508,12 @@ export class DocumentHubKanbanRenderer extends Component {
             return;
         }
         this.state.trashedFolders = [];
+        if (this.state.isSharedView) {
+            const sharedDomain = Domain.and([this.env.searchModel.domain, this.sharedDomain]).toList();
+            this.state.documents = await this.orm.searchRead("document_hub.document", sharedDomain, fields);
+            await Promise.all([this._syncTagCache(), countsLoaded]);
+            return;
+        }
         if (!this.state.selectedFolderId) {
             this.state.documents = [];
             await countsLoaded;
@@ -1007,7 +1056,6 @@ export class DocumentHubKanbanRenderer extends Component {
             "text"
         );
         const uploaded = JSON.parse(response);
-        const privacyDoc = this.env.searchModel.context.default_privacy_doc || "mail";
 
         const documents = [];
         for (const uploadedFile of uploaded) {
@@ -1018,7 +1066,6 @@ export class DocumentHubKanbanRenderer extends Component {
             documents.push({
                 topic: uploadedFile.filename,
                 folder_id: this.state.selectedFolderId,
-                privacy_doc: privacyDoc,
                 file_ids: [[6, 0, [uploadedFile.id]]],
             });
         }

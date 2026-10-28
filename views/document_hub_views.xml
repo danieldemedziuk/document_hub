@@ -12,6 +12,10 @@
                     <field name="folder_id" optional="show" />
                     <field name="description" optional="show" />
                     <field name="tag_ids" widget="many2many_tags" optional="show" />
+                    <field name="confidentiality" optional="show" widget="badge"
+                           decoration-success="confidentiality == 'public'"
+                           decoration-warning="confidentiality == 'confidential'"
+                           decoration-danger="confidentiality == 'strictly_confidential'" />
                     <field name="partner_id" optional="hide" />
                     <field name="project_id" optional="hide" />
                     <field name="create_date" optional="hide" />
@@ -64,11 +68,8 @@
                                 <field name="topic" placeholder="e.g. Project contract" readonly="state == 'lock'"/>
                             </h2>
                         </div>
-                        <div>
-                            <field name="is_admin" invisible="1"/>
-                            <label for="privacy_doc" class="oe_edit_only" invisible="is_admin != True"/>
-                            <field name="privacy_doc" readonly="state == 'lock'" invisible="is_admin != True"/>
-                        </div>
+                        <field name="is_admin" invisible="1"/>
+                        <field name="can_manage_confidentiality" invisible="1"/>
                         <group name="basic" col="4">
                             <field name="tag_ids" widget="many2many_tags" />
                             <field name="folder_id" readonly="state == 'lock'" options="{'no_create_edit': True, 'no_create': True,}"/>
@@ -84,6 +85,34 @@
                                 <field name="owner_id" options="{'no_create_edit': True, 'no_create': True,}" widget="many2one_avatar_user" readonly="state == 'lock'"/>
                                 <field name="partner_id" widget="res_partner_many2one" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}" readonly="state == 'lock'" />
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" readonly="state == 'lock'"/>
+                            </group>
+                        </group>
+
+                        <group name="confidentiality" string="Confidentiality">
+                            <group>
+                                <field name="confidentiality" widget="radio" readonly="state == 'lock'"/>
+                                <field name="authorized_user_ids" widget="many2many_tags_avatar"
+                                       readonly="state == 'lock' or not can_manage_confidentiality"
+                                       options="{'no_create': True}"/>
+                            </group>
+                            <group>
+                                <div class="alert alert-light mb-0" role="note" colspan="2">
+                                    <p class="mb-1"><b>Public</b> - may be shared outside the company without harm
+                                        (catalogues, presentations, certificates, published price lists).
+                                        Every Document hub user can open it, whatever the folder.</p>
+                                    <p class="mb-1"><b>Internal</b> - everyday working documents
+                                        (procedures, minutes, correspondence, project documentation).
+                                        Only the departments selected on the folder and the Director, Manager and Administrator can open it.</p>
+                                    <p class="mb-1"><b>Confidential</b> - disclosure could harm the company or a customer
+                                        (contracts, NDAs, priced offers, project finances).
+                                        Only the owner, the authorized persons and the Director, Manager and Administrator can open it.</p>
+                                    <p class="mb-1"><b>Strictly confidential</b> - the highest protection
+                                        (personal and payroll data, management board matters, legal cases).
+                                        Only the owner, the authorized persons and the Manager and Administrator can open it.</p>
+                                    <p class="mb-0 text-muted">Anyone who can edit the document may raise its level.
+                                        Lowering it and choosing the authorized persons is reserved for the owner and the Manager.
+                                        Authorized persons can open the document but not edit it.</p>
+                                </div>
                             </group>
                         </group>
 
@@ -113,38 +142,25 @@
                     <field name="project_id" />
                     <field name="partner_id" />
                     <field name="tag_ids" />
+                    <field name="authorized_user_ids" />
+                    <filter name="filter_public" string="Public" domain="[('confidentiality', '=', 'public')]" />
+                    <filter name="filter_internal" string="Internal" domain="[('confidentiality', '=', 'internal')]" />
+                    <filter name="filter_confidential" string="Confidential" domain="[('confidentiality', '=', 'confidential')]" />
+                    <filter name="filter_strictly_confidential" string="Strictly confidential" domain="[('confidentiality', '=', 'strictly_confidential')]" />
                     <group expand="1" string="Group By">
                         <filter name="group_by_folder_id" string="Folder" context="{'group_by':'folder_id'}" />
+                        <filter name="group_by_confidentiality" string="Confidentiality" context="{'group_by':'confidentiality'}" />
                     </group>
                 </search>
             </field>
         </record>
 
         <record id="document_hub_mail_document_act" model="ir.actions.act_window">
-            <field name="name">Mail</field>
+            <field name="name">Documents</field>
             <field name="res_model">document_hub.document</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="domain">[('privacy_doc', '=', 'mail')]</field>
-            <field name="context">{
-                    "default_privacy_doc": "mail",
-                }
-            </field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Let's get start. Upload new document!
-                </p>
-            </field>
-        </record>
-
-        <record id="document_hub_company_document_act" model="ir.actions.act_window">
-            <field name="name">Company documents</field>
-            <field name="res_model">document_hub.document</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="domain">[('privacy_doc', '=', 'company')]</field>
-            <field name="context">{
-                "default_privacy_doc": 'company',
-                }
-            </field>
+            <field name="domain" eval="False"/>
+            <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Let's get start. Upload new document!
@@ -156,8 +172,7 @@
 
     <menuitem name="Document hub" id="menu_root" web_icon="document_hub,static/description/icon.png" />
     <menuitem name="Documents" id="menu_document_hub" parent="menu_root" sequence="10">
-        <menuitem name="Mail" id="menu_document_hub_mail_documents" sequence="10" action="document_hub_mail_document_act" />
-        <menuitem name="Company documents" id="menu_document_hub_company_documents" sequence="20" action="document_hub_company_document_act" groups="document_hub.group_document_hub_document_manager"/>
+        <menuitem name="Documents" id="menu_document_hub_mail_documents" sequence="10" action="document_hub_mail_document_act" />
     </menuitem>
 
 </odoo>

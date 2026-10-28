@@ -97,62 +97,77 @@
             <field name="domain_force">[('document_id.company_id', 'in', company_ids + [False])]</field>
         </record>
 
+        <!-- Confidentiality levels (see CONFIDENTIALITY_LEVELS in models/folder.py):
+             public       - every Document hub user, whatever the folder;
+             internal     - the departments ticked on the folder (visibility_x);
+             confidential / strictly_confidential - nobody through a department.
+             On top of that the owner rule opens a document to its owner, the
+             authorized rule (read only) to its authorized persons, the
+             director rule adds everything but strictly confidential, and
+             manager/administrator see everything.
+             Rules of one user's groups are OR-ed, so each rule only adds. -->
         <record id="documents_hub_document_administration_rule" model="ir.rule">
             <field name="name">Document hub document: administration rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_administration'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_administration', '=' , True)]</field>
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_administration', '=', True)]</field>
         </record>
 
         <record id="documents_hub_document_purchasing_and_logistics_rule" model="ir.rule">
             <field name="name">Document hub document: purchasing and logistics rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_purchasing_and_logistics'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_purchasing_and_logistics', '=' , True)]</field>
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_purchasing_and_logistics', '=', True)]</field>
         </record>
 
         <record id="documents_hub_document_marketing_rule" model="ir.rule">
             <field name="name">Document hub document: marketing rule</field>
             <field name="model_id" ref="model_document_hub_document" />
-            <field name="groups"
-                eval="[(4, ref('document_hub.group_document_hub_document_marketing'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_marketing', '=' , True)]</field>
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_marketing'))]" />
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_marketing', '=', True)]</field>
         </record>
 
         <record id="documents_hub_document_production_rule" model="ir.rule">
             <field name="name">Document hub document: production rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_production'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_production', '=' , True)]</field>
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_production', '=', True)]</field>
         </record>
 
         <record id="documents_hub_document_sales_rule" model="ir.rule">
             <field name="name">Document hub document: sales rule</field>
             <field name="model_id" ref="model_document_hub_document" />
-            <field name="groups"
-                eval="[(4, ref('document_hub.group_document_hub_document_salesman'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_salesman', '=' , True)]</field>
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_salesman'))]" />
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_salesman', '=', True)]</field>
         </record>
 
         <record id="documents_hub_document_accounting_rule" model="ir.rule">
             <field name="name">Document hub document: accounting rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_accounting'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_accounting', '=' , True)]</field>
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_accounting', '=', True)]</field>
         </record>
 
         <record id="documents_hub_document_everyone_rule" model="ir.rule">
             <field name="name">Document hub document: everyone rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_everyone'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_everyone', '=' , True)]</field>
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_everyone', '=', True)]</field>
         </record>
 
         <record id="documents_hub_document_pm_rule" model="ir.rule">
             <field name="name">Document hub document: pm rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_pm'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_pm', '=' , True),
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', '&amp;', '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_pm', '=', True),
                 ('project_id.privacy_visibility', '=', 'followers'), '|',
                 ('project_id.message_partner_ids', 'in', [user.partner_id.id]),
                 ('project_id.user_id', '=', user.id)]</field>
@@ -162,16 +177,35 @@
             <field name="name">Document hub document: hr rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_hr'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail'), ('rel_visibility_hr', '=' , True)]</field>
+            <field name="domain_force">['|', ('confidentiality', '=', 'public'),
+                '&amp;', ('confidentiality', '=', 'internal'), ('rel_visibility_hr', '=', True)]</field>
         </record>
 
+        <record id="documents_hub_document_owner_rule" model="ir.rule">
+            <field name="name">Document hub document: owner rule</field>
+            <field name="model_id" ref="model_document_hub_document" />
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_administration')), (4, ref('document_hub.group_document_hub_document_purchasing_and_logistics')), (4, ref('document_hub.group_document_hub_document_marketing')), (4, ref('document_hub.group_document_hub_document_production')), (4, ref('document_hub.group_document_hub_document_salesman')), (4, ref('document_hub.group_document_hub_document_accounting')), (4, ref('document_hub.group_document_hub_document_everyone')), (4, ref('document_hub.group_document_hub_document_pm')), (4, ref('document_hub.group_document_hub_document_hr')), (4, ref('document_hub.group_document_hub_document_director'))]" />
+            <field name="domain_force">[('owner_id', '=', user.id)]</field>
+        </record>
+
+        <!-- Read only: an authorized person opens the document, editing it
+             still takes a department (or director) rule. -->
+        <record id="documents_hub_document_authorized_rule" model="ir.rule">
+            <field name="name">Document hub document: authorized persons rule</field>
+            <field name="model_id" ref="model_document_hub_document" />
+            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_administration')), (4, ref('document_hub.group_document_hub_document_purchasing_and_logistics')), (4, ref('document_hub.group_document_hub_document_marketing')), (4, ref('document_hub.group_document_hub_document_production')), (4, ref('document_hub.group_document_hub_document_salesman')), (4, ref('document_hub.group_document_hub_document_accounting')), (4, ref('document_hub.group_document_hub_document_everyone')), (4, ref('document_hub.group_document_hub_document_pm')), (4, ref('document_hub.group_document_hub_document_hr')), (4, ref('document_hub.group_document_hub_document_director'))]" />
+            <field name="domain_force">[('authorized_user_ids', 'in', [user.id])]</field>
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
+        </record>
 
         <record id="documents_hub_document_director_rule" model="ir.rule">
             <field name="name">Document hub document: director rule</field>
             <field name="model_id" ref="model_document_hub_document" />
             <field name="groups"
                 eval="[(4, ref('document_hub.group_document_hub_document_director'))]" />
-            <field name="domain_force">[('privacy_doc', '=', 'mail')]</field>
+            <field name="domain_force">[('confidentiality', '!=', 'strictly_confidential')]</field>
         </record>
 
         <record id="documents_hub_document_manager_rule" model="ir.rule">
@@ -189,6 +223,7 @@
                 eval="[(4, ref('document_hub.group_document_hub_document_administrator'))]" />
             <field name="domain_force">[(1,'=',1)]</field>
         </record>
+
 
         <!-- These 9 department rules are read-visibility filters only (that's
              what the visibility_x fields are for) - explicitly scoped to
@@ -322,78 +357,13 @@
             <field name="domain_force">[(1,'=',1)]</field>
         </record>
 
-        <record id="documents_hub_document_version_administration_rule" model="ir.rule">
-            <field name="name">Document hub document version: administration rule</field>
+        <!-- A version is readable exactly when its document is: global rule,
+             so it applies to every group (managers included) on top of the
+             document's own rules. -->
+        <record id="documents_hub_document_version_readable_rule" model="ir.rule">
+            <field name="name">Document hub document version: readable document</field>
             <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_administration'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_administration', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_purchasing_and_logistics_rule" model="ir.rule">
-            <field name="name">Document hub document version: purchasing and logistics rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_purchasing_and_logistics'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_purchasing_and_logistics', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_marketing_rule" model="ir.rule">
-            <field name="name">Document hub document version: marketing rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_marketing'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_marketing', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_production_rule" model="ir.rule">
-            <field name="name">Document hub document version: production rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_production'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_production', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_sales_rule" model="ir.rule">
-            <field name="name">Document hub document version: sales rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_salesman'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_salesman', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_accounting_rule" model="ir.rule">
-            <field name="name">Document hub document version: accounting rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_accounting'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_accounting', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_everyone_rule" model="ir.rule">
-            <field name="name">Document hub document version: everyone rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_everyone'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_everyone', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_pm_rule" model="ir.rule">
-            <field name="name">Document hub document version: pm rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_pm'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_pm', '=' , True),
-                ('document_id.project_id.privacy_visibility', '=', 'followers'), '|',
-                ('document_id.project_id.message_partner_ids', 'in', [user.partner_id.id]),
-                ('document_id.project_id.user_id', '=', user.id)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_hr_rule" model="ir.rule">
-            <field name="name">Document hub document version: hr rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups" eval="[(4, ref('document_hub.group_document_hub_document_hr'))]" />
-            <field name="domain_force">[('document_id.rel_visibility_hr', '=' , True)]</field>
-        </record>
-
-        <record id="documents_hub_document_version_director_rule" model="ir.rule">
-            <field name="name">Document hub document version: director rule</field>
-            <field name="model_id" ref="model_document_hub_document_version" />
-            <field name="groups"
-                eval="[(4, ref('document_hub.group_document_hub_document_director'))]" />
-            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="domain_force">[('is_document_readable', '=', True)]</field>
         </record>
 
     </data>

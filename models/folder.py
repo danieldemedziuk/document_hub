@@ -5,6 +5,16 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 
 GROUP_PREFIX = 'document_hub.group_document_hub_document_'
 
+# Ordered from the least to the most restricted: the position is what tells
+# raising a document's level from lowering it (see Document.write()).
+CONFIDENTIALITY_LEVELS = [
+    ('public', 'Public'),
+    ('internal', 'Internal'),
+    ('confidential', 'Confidential'),
+    ('strictly_confidential', 'Strictly confidential'),
+]
+CONFIDENTIALITY_RANK = {level: rank for rank, (level, _label) in enumerate(CONFIDENTIALITY_LEVELS)}
+
 
 class Folder(models.Model):
     _name = 'document_hub.folder'
@@ -28,6 +38,11 @@ class Folder(models.Model):
     children_folder_ids = fields.One2many('document_hub.folder', 'parent_folder_id', string='Sub folder')
     document_ids = fields.One2many('document_hub.document', 'folder_id', string='Documents')
     parent_path = fields.Char(index=True, unaccent=False, compute='_compute_parent_path', store=True, translate=True)
+
+    default_confidentiality = fields.Selection(
+        CONFIDENTIALITY_LEVELS, string='Default confidentiality', required=True, default='internal',
+        help='Confidentiality level given to documents uploaded into this folder. '
+             'New subfolders take it over from their parent. It can still be changed on each document.')
 
     visibility_administration = fields.Boolean(string='Administration', default=False)
     visibility_purchasing_and_logistics = fields.Boolean(string='Purchasing and logistics', default=False)
@@ -63,6 +78,9 @@ class Folder(models.Model):
         for vals in vals_list:
             if not any(field in vals for field in self._VISIBILITY_GROUPS):
                 vals.update(self._default_visibility_values(vals.get('parent_folder_id')))
+            if 'default_confidentiality' not in vals and vals.get('parent_folder_id'):
+                vals['default_confidentiality'] = self.sudo().browse(
+                    vals['parent_folder_id']).default_confidentiality
         return super().create(vals_list)
 
     def write(self, vals):
@@ -186,6 +204,7 @@ class Folder(models.Model):
         # New folders only
         if self._origin or not self.parent_folder_id:
             return
+        self.default_confidentiality = self.parent_folder_id.default_confidentiality
         values = self._default_visibility_values(self.parent_folder_id._origin.id)
         if values:
             for field in self._VISIBILITY_GROUPS:

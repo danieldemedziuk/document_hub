@@ -81,6 +81,13 @@
     color: var(--o-kanban-record-muted-color, #6c757d);
 }
 
+.o_document_hub_kanban_confidentiality {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 11px;
+}
+
 .o_document_hub_kanban_title {
     max-width: 100%;
     font-weight: 500;
