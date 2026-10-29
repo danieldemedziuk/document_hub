@@ -84,6 +84,15 @@ class Document(models.Model):
         for document in self:
             document.can_manage_confidentiality = is_manager or document.owner_id == self.env.user
 
+    @api.model
+    def default_get(self, fields_list):
+        """A document added from a project goes to the folder of the project."""
+        values = super().default_get(fields_list)
+        if 'folder_id' in fields_list and not values.get('folder_id') and values.get('project_id'):
+            values['folder_id'] = self.env['document_hub.folder'].search(
+                [('project_id', '=', values['project_id'])], limit=1).id
+        return values
+
     @api.onchange('folder_id')
     def _onchange_folder_id_confidentiality(self):
         if not self._origin and self.folder_id:
