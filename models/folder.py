@@ -132,6 +132,13 @@ class Folder(models.Model):
         parent_name = self.parent_folder_id.name
         return f"{parent_name}: {self.name}" if parent_name else self.name
 
+    def _get_project(self):
+        """Project of the nearest main folder of a project: this folder or any folder above it."""
+        folder = self
+        while folder and not folder.project_id:
+            folder = folder.parent_folder_id
+        return folder.project_id
+
     @api.depends('parent_folder_id.name', 'name')
     def _compute_parent_path(self):
         for rec in self:
