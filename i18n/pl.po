@@ -2083,11 +2083,15 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:document_hub.document_hub_document_form_view
 msgid ""
 "<b>Strictly confidential</b> - the highest protection\n"
-"                                        (personal and payroll data, management board matters, legal cases).\n"
+"                                        (personal and payroll data, management board and legal matters, and the company's technical know-how:\n"
+"                                        electrical diagram designs of cabinets and switchgear, PLC and PCS7 controller programs, robot programs,\n"
+"                                        as well as administrator account credentials).\n"
 "                                        Only the owner, the authorized persons and the Manager and Administrator can open it."
 msgstr ""
 "<b>Ściśle poufne</b> - najwyższa ochrona\n"
-"                                        (dane osobowe i płacowe, sprawy zarządu, sprawy prawne).\n"
+"                                        (dane osobowe i płacowe, sprawy zarządu i sprawy prawne, a także techniczne know-how firmy:\n"
+"                                        projekty schematów elektrycznych szaf i rozdzielnic, programy sterowników PLC i PCS7, programy robotów,\n"
+"                                        oraz dane kont administracyjnych).\n"
 "                                        Otworzą go tylko właściciel, osoby upoważnione oraz Menedżer i Administrator."
 
 #. module: document_hub
