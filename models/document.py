@@ -224,13 +224,19 @@ class Document(models.Model):
                 orphans.write({'res_model': self._name, 'res_id': record.id, 'public': False})
 
     def unlink(self):
+        to_purge = self
         if not self.env.su:
             if any(document.state == 'lock' for document in self):
                 raise UserError(_('You cannot delete a locked document. Unlock it first.'))
-            if not self.env.user.has_group('base.group_system'):
+            # Deleting moves a document to the trash, only one already there is deleted permanently.
+            to_trash = self.filtered('active')
+            if to_trash:
+                to_trash.action_archive()
+            to_purge -= to_trash
+            if to_purge and not self.env.user.has_group('base.group_system'):
                 raise UserError(_('Only a system administrator can permanently delete documents from the trash.'))
-        self.env['document_hub.trash_log'].log_action(self, 'purged')
-        return super(Document, self.sudo()).unlink()
+        self.env['document_hub.trash_log'].log_action(to_purge, 'purged')
+        return super(Document, to_purge.sudo()).unlink()
 
     def action_archive(self):
         # "Delete" in the explorer moves a document to the trash (active=False)
