@@ -67,3 +67,14 @@ class TestProjectFolder(TransactionCase):
 
         document.folder_id = self.env.ref('document_hub.folder_project')
         self.assertEqual(document.project_id, depot)
+
+    def test_documents_of_a_moved_folder_take_its_new_project(self):
+        arena = self.env['project.project'].create({'name': 'Arena'})
+        folder = self.env['document_hub.folder'].create({'name': 'Drawings'})
+        subfolder = self.env['document_hub.folder'].create({'name': 'Details', 'parent_folder_id': folder.id})
+        documents = self._create_document(folder) | self._create_document(subfolder)
+        documents[1].action_archive()
+
+        folder.parent_folder_id = self._project_folder(arena)
+
+        self.assertRecordValues(documents, [{'project_id': arena.id}, {'project_id': arena.id}])

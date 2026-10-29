@@ -88,7 +88,19 @@ class Folder(models.Model):
         # under a folder its mover cannot see.
         if vals.get('parent_folder_id') and not self.env.su:
             self.browse(vals['parent_folder_id']).check_access_rule('read')
-        return super().write(vals)
+        result = super().write(vals)
+        if vals.get('parent_folder_id'):
+            self._update_documents_project()
+        return result
+
+    def _update_documents_project(self):
+        """Documents in the folders and their subfolders take the project of their nearest project folder, if any."""
+        documents = self.env['document_hub.document'].sudo().with_context(active_test=False).search(
+            [('folder_id', 'child_of', self.ids)])
+        for document in documents:
+            project = document.folder_id._get_project()
+            if project and document.project_id != project:
+                document.project_id = project
 
     def action_folder_archive(self):
         self._set_archived(True)
