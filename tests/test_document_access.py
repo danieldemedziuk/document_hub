@@ -1,7 +1,7 @@
 import base64
 
 from odoo import Command
-from odoo.exceptions import AccessError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -147,6 +147,20 @@ class TestDocumentAccess(TransactionCase):
         with self.assertRaises(AccessError):
             self.hr_document.with_user(self.producer).action_unarchive()
         self.assertFalse(self.hr_document.active)
+
+    def test_deleting_moves_to_the_trash_and_only_an_administrator_empties_it(self):
+        administrator = mail_new_test_user(
+            self.env, 'dh_system_administrator',
+            groups='base.group_system,document_hub.group_document_hub_document_administrator')
+
+        self.production_document.with_user(self.producer).unlink()
+        self.assertFalse(self.production_document.active)
+
+        with self.assertRaises(UserError):
+            self.production_document.with_user(self.producer).unlink()
+        self.production_document.with_user(administrator).unlink()
+
+        self.assertFalse(self.production_document.exists())
 
     def test_cannot_replace_files_of_a_hidden_document(self):
         upload = self._make_attachment(self.env(user=self.producer), 'planted.pdf')
