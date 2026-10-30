@@ -84,6 +84,15 @@ class Document(models.Model):
         for document in self:
             document.can_manage_confidentiality = is_manager or document.owner_id == self.env.user
 
+    @api.model
+    def default_get(self, fields_list):
+        """A document added from a project goes to the folder of the project."""
+        values = super().default_get(fields_list)
+        if 'folder_id' in fields_list and not values.get('folder_id') and values.get('project_id'):
+            values['folder_id'] = self.env['document_hub.folder'].search(
+                [('project_id', '=', values['project_id'])], limit=1).id
+        return values
+
     @api.onchange('folder_id')
     def _onchange_folder_id_confidentiality(self):
         if not self._origin and self.folder_id:
@@ -94,10 +103,11 @@ class Document(models.Model):
         auto_tags = None
         default_folder_id = self.env.context.get('default_folder_id')
         for vals in vals_list:
-            folder_id = vals.get('folder_id', default_folder_id)
-            if 'confidentiality' not in vals and 'default_confidentiality' not in self.env.context and folder_id:
-                vals['confidentiality'] = self.env['document_hub.folder'].sudo().browse(
-                    folder_id).default_confidentiality
+            folder = self.env['document_hub.folder'].sudo().browse(vals.get('folder_id', default_folder_id))
+            if 'confidentiality' not in vals and 'default_confidentiality' not in self.env.context and folder:
+                vals['confidentiality'] = folder.default_confidentiality
+            if project := folder._get_project():
+                vals['project_id'] = project.id
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = (self.env['ir.sequence'].next_by_code('document_hub.document'))
             if not vals.get('tag_ids') and vals.get('topic'):
@@ -133,6 +143,9 @@ class Document(models.Model):
         if not self.env.su and self._LOCKED_PROTECTED_FIELDS.intersection(vals) \
                 and any(document.state == 'lock' for document in self):
             raise UserError(_('You cannot modify a locked document. Unlock it first.'))
+        if vals.get('folder_id'):
+            if project := self.env['document_hub.folder'].sudo().browse(vals['folder_id'])._get_project():
+                vals = {**vals, 'project_id': project.id}
         self._check_confidentiality_change(vals)
         if not self.env.su and ('folder_id' in vals or 'file_ids' in vals):
             new_file_ids = self._linked_file_ids(vals.get('file_ids')) - set(self.sudo().file_ids.ids)

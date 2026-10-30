@@ -16,6 +16,16 @@ class TestProjectFolder(TransactionCase):
         cls.manager = mail_new_test_user(
             cls.env, 'document_hub_manager', groups='base.group_user,document_hub.group_document_hub_document_manager')
 
+    def _project_folder(self, project):
+        return self.env['document_hub.folder'].search([('project_id', '=', project.id)])
+
+    def _create_document(self, folder, **vals):
+        return self.env['document_hub.document'].create(dict({
+            'topic': 'Drawing',
+            'folder_id': folder.id,
+            'file_ids': [Command.create({'name': 'drawing.pdf', 'raw': b'drawing'})],
+        }, **vals))
+
     def test_new_project_gets_folder_structure_from_template(self):
         project = self.env['project.project'].create({'name': 'Control cabinet'})
         folder = self.env['document_hub.folder'].search([('project_id', '=', project.id)])
@@ -44,3 +54,27 @@ class TestProjectFolder(TransactionCase):
 
         self.assertTrue(module_line.exists())
         self.assertFalse(manual_line.exists())
+
+    def test_document_takes_the_project_of_its_project_folder(self):
+        arena = self.env['project.project'].create({'name': 'Arena'})
+        depot = self.env['project.project'].create({'name': 'Depot'})
+
+        document = self._create_document(self._project_folder(arena).children_folder_ids[:1], project_id=depot.id)
+        self.assertEqual(document.project_id, arena)
+
+        document.folder_id = self._project_folder(depot)
+        self.assertEqual(document.project_id, depot)
+
+        document.folder_id = self.env.ref('document_hub.folder_project')
+        self.assertEqual(document.project_id, depot)
+
+    def test_documents_of_a_moved_folder_take_its_new_project(self):
+        arena = self.env['project.project'].create({'name': 'Arena'})
+        folder = self.env['document_hub.folder'].create({'name': 'Drawings'})
+        subfolder = self.env['document_hub.folder'].create({'name': 'Details', 'parent_folder_id': folder.id})
+        documents = self._create_document(folder) | self._create_document(subfolder)
+        documents[1].action_archive()
+
+        folder.parent_folder_id = self._project_folder(arena)
+
+        self.assertRecordValues(documents, [{'project_id': arena.id}, {'project_id': arena.id}])
