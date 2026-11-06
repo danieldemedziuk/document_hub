@@ -96,7 +96,7 @@
                                        options="{'no_create': True}"/>
                             </group>
                             <group>
-                                <div class="alert alert-light mb-0" role="note" colspan="2">
+                                <div class="alert alert-light mb-0" role="status" colspan="2">
                                     <p class="mb-1"><b>Public</b> - may be shared outside the company without harm
                                         (catalogues, presentations, certificates, published price lists).
                                         Every Document hub user can open it, whatever the folder.</p>
